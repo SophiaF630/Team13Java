@@ -30,7 +30,7 @@ public class EmailServiceImpl {
 
 	public void createEmailMessage() throws AddressException,
 			MessagingException {
-		String[] toEmails = { "feng.yuxi@u.nus.edu" };
+		String[] toEmails = { "feng.yuxi@u.nus.edu", "e0338082@u.nus.edu" };
 		String emailSubject = "Java Email";
 		String emailBody = "This is an email sent by JavaMail api.";
 
