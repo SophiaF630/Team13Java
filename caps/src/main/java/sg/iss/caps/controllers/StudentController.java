@@ -45,6 +45,7 @@ public class StudentController {
 //		binder.addValidators(sValidator);
 //	}
 
+	//Student Info Part
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView listAll() {
 		ModelAndView mav = new ModelAndView("StudentCRUD");
@@ -102,5 +103,14 @@ public class StudentController {
 		redirectAttributes.addFlashAttribute("message", message);
 		return mav;
 	}
+	
+//	//Course Info Part
+//	@RequestMapping(value = "/list", method = RequestMethod.GET)
+//	public ModelAndView listAllCourse() {
+//		ModelAndView mav = new ModelAndView("StudentCRUD");
+//		ArrayList<Student> students = sService.findAllStudents();
+//		mav.addObject("students", students);
+//		return mav;
+//	}
 
 }
