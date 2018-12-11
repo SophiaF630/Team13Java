@@ -2,6 +2,10 @@ package sg.iss.caps.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.util.Date;
 
 
@@ -11,6 +15,8 @@ import java.util.Date;
  */
 @Entity
 @NamedQuery(name="Studentcourse.findAll", query="SELECT s FROM Studentcourse s")
+@Data
+@AllArgsConstructor
 public class Studentcourse implements Serializable {
 	private static final long serialVersionUID = 1L;
 

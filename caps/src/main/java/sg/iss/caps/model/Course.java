@@ -2,8 +2,14 @@ package sg.iss.caps.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -12,6 +18,8 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Course.findAll", query="SELECT c FROM Course c")
+@Data
+@AllArgsConstructor
 public class Course implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -45,11 +53,11 @@ public class Course implements Serializable {
 
 	//bi-directional many-to-one association to Lecturercourse
 	@OneToMany(mappedBy="course")
-	private List<Lecturercourse> lecturercourses;
+	private Set<Lecturercourse> lecturercourses = new HashSet<Lecturercourse>();
 
 	//bi-directional many-to-one association to Studentcourse
 	@OneToMany(mappedBy="course")
-	private List<Studentcourse> studentcourses;
+	private Set<Studentcourse> studentcourses = new HashSet<Studentcourse>();
 
 	public Course() {
 	}
@@ -142,11 +150,11 @@ public class Course implements Serializable {
 		this.lecturers = lecturers;
 	}
 
-	public List<Lecturercourse> getLecturercourses() {
+	public Set<Lecturercourse> getLecturercourses() {
 		return this.lecturercourses;
 	}
 
-	public void setLecturercourses(List<Lecturercourse> lecturercourses) {
+	public void setLecturercourses(Set<Lecturercourse> lecturercourses) {
 		this.lecturercourses = lecturercourses;
 	}
 
@@ -164,11 +172,11 @@ public class Course implements Serializable {
 		return lecturercours;
 	}
 
-	public List<Studentcourse> getStudentcourses() {
+	public Set<Studentcourse> getStudentcourses() {
 		return this.studentcourses;
 	}
 
-	public void setStudentcourses(List<Studentcourse> studentcourses) {
+	public void setStudentcourses(Set<Studentcourse> studentcourses) {
 		this.studentcourses = studentcourses;
 	}
 

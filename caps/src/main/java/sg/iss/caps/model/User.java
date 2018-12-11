@@ -3,6 +3,9 @@ package sg.iss.caps.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 
 /**
  * The persistent class for the user database table.
@@ -10,6 +13,8 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+@Data
+@AllArgsConstructor
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 

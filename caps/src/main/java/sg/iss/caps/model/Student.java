@@ -2,8 +2,16 @@ package sg.iss.caps.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -12,6 +20,8 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Student.findAll", query="SELECT s FROM Student s")
+@Data
+@AllArgsConstructor
 public class Student implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -28,7 +38,7 @@ public class Student implements Serializable {
 
 	//bi-directional many-to-one association to Studentcourse
 	@OneToMany(mappedBy="student")
-	private List<Studentcourse> studentcourses;
+	private Set<Studentcourse> studentcourses = new HashSet<Studentcourse>();
 
 	public Student() {
 	}
@@ -57,11 +67,11 @@ public class Student implements Serializable {
 		this.user = user;
 	}
 
-	public List<Studentcourse> getStudentcourses() {
+	public Set<Studentcourse> getStudentcourses() {
 		return this.studentcourses;
 	}
 
-	public void setStudentcourses(List<Studentcourse> studentcourses) {
+	public void setStudentcourses(Set<Studentcourse> studentcourses) {
 		this.studentcourses = studentcourses;
 	}
 
