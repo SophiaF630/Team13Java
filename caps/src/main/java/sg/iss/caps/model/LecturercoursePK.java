@@ -13,7 +13,7 @@ public class LecturercoursePK implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Column(insertable=false, updatable=false)
-	private String lecturerID;
+	private String lecturer_LecturerID;
 
 	@Column(insertable=false, updatable=false)
 	private String courseIndex;
@@ -21,10 +21,10 @@ public class LecturercoursePK implements Serializable {
 	public LecturercoursePK() {
 	}
 	public String getLecturerID() {
-		return this.lecturerID;
+		return this.lecturer_LecturerID;
 	}
 	public void setLecturerID(String lecturerID) {
-		this.lecturerID = lecturerID;
+		this.lecturer_LecturerID = lecturerID;
 	}
 	public String getCourseIndex() {
 		return this.courseIndex;
@@ -42,14 +42,14 @@ public class LecturercoursePK implements Serializable {
 		}
 		LecturercoursePK castOther = (LecturercoursePK)other;
 		return 
-			this.lecturerID.equals(castOther.lecturerID)
+			this.lecturer_LecturerID.equals(castOther.lecturer_LecturerID)
 			&& this.courseIndex.equals(castOther.courseIndex);
 	}
 
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + this.lecturerID.hashCode();
+		hash = hash * prime + this.lecturer_LecturerID.hashCode();
 		hash = hash * prime + this.courseIndex.hashCode();
 		
 		return hash;
