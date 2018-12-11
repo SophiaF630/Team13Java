@@ -4,9 +4,12 @@ import java.util.ArrayList;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Service;
+
 import sg.iss.caps.model.Student;
 import sg.iss.caps.repo.StudentRepository;
 
+@Service
 public class StudentServicesImpl implements StudentService {
 
 	@Resource
@@ -14,32 +17,31 @@ public class StudentServicesImpl implements StudentService {
 	
 	@Override
 	public ArrayList<Student> findAllStudents() {
-		// TODO Auto-generated method stub
-		return null;
+		return (ArrayList<Student>) srepo.findAll();
 	}
 
 	@Override
-	public Student findStudent(String nric) {
-		// TODO Auto-generated method stub
-		return null;
+	public Student findStudent(String sid) {
+		System.out.println("StudentID"+sid);
+		
+		Student student = srepo.findById(sid).get();
+		System.out.println(student.toString());
+		return student;
 	}
 
 	@Override
 	public Student createStudent(Student s) {
-		// TODO Auto-generated method stub
-		return null;
+		return srepo.saveAndFlush(s);
 	}
 
 	@Override
 	public Student updateStudent(Student s) {
-		// TODO Auto-generated method stub
-		return null;
+		return srepo.saveAndFlush(s);
 	}
 
 	@Override
 	public void removeStudent(Student s) {
-		// TODO Auto-generated method stub
-
+		srepo.delete(s);
 	}
 
 	@Override
