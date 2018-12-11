@@ -21,7 +21,7 @@
 						<th><s:message code="label.course.courseID" /></th>
 						<th><s:message code="label.course.courseName" /></th>
 						<th><s:message code="label.course.faculty" /></th>
-						<th><s:message code="label.course.credits" /></th>
+						<th align="center"><s:message code="label.course.credits"/></th>
 						<th><s:message code="label.course.select" /></th>
 					</tr>
 					</thead>
@@ -32,13 +32,12 @@
 							<td class="nowrap">${course.courseID}</td>
 							<td class="nowrap">${course.courseName}</td>
 							<td class="nowrap">${course.faculty}</td>
-							<td class="nowrap">${course.credits}</td>
-							<td align="center"><a
+							<td class="nowrap" align="center">${course.credits}</td>
+							<td><a
 								href="${pageContext.request.contextPath}/selectedcourse/edit/${student.studentID}.html">
 									<s:message code="label.course.select" />
 							</a></td>
-							
-			
+								
 						</tr>
 					</c:forEach>
 					</tbody>

@@ -6,6 +6,7 @@ import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -21,6 +22,8 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 public class Course implements Serializable {
+	
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -156,7 +159,7 @@ public class Course implements Serializable {
 
 	public void setLecturercourses(Set<Lecturercourse> lecturercourses) {
 		this.lecturercourses = lecturercourses;
-	}
+	}	
 
 	public Lecturercourse addLecturercours(Lecturercourse lecturercours) {
 		getLecturercourses().add(lecturercours);

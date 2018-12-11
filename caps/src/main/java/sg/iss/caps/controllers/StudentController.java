@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -49,10 +50,7 @@ public class StudentController {
 	
 	@Autowired
 	StudentService sService;
-//	@Autowired
-//	CoursePageRepository coursePageRepository;
-	@Autowired
-	CourseRepository crepo;
+
 
 //	@Autowired
 //	private StudentValidator sValidator;
@@ -122,7 +120,7 @@ public class StudentController {
 	}
 	
 	//Course Info Part
-	//List course details
+	//List all course details
 	@RequestMapping(value = "/coursedetails", method = RequestMethod.GET)
 	public ModelAndView listAllStudentsCourseDetails() {
 		ModelAndView mav = new ModelAndView("StudentCourseDetails");
@@ -131,6 +129,7 @@ public class StudentController {
 		return mav;
 	}
 	
+	//List selected course
 	@RequestMapping(value = "/selectedcourse", method = RequestMethod.GET)
 	public ModelAndView listAllSelectedCourse() {
 		ModelAndView mav = new ModelAndView("SelectCourse");
@@ -139,30 +138,27 @@ public class StudentController {
 		return mav;
 	}
 	
-//	@RequestMapping(value = "", method=RequestMethod.GET)
-//    public Page<Course> getEntryByPageable(@PageableDefault(value = 15, sort = { "CourseIndex" }, direction = Sort.Direction) 
-//        Pageable pageable, @RequestParam(value = "faculty", defaultValue = "") String faculty) {
-//        if("".equals(faculty)){
-//            return coursePageRepository.findAll(pageable);
-//        }
-//        return coursePageRepository.findByFaculty(faculty, pageable);
-//    }
-	
-//	//Faculty dropdown list
 
+//	//Select course
+//	@RequestMapping(value = "/selectedcourse", method = RequestMethod.POST)
+//	public String selectCourse(Course course, ModelMap model) {
+//		
+//		for (Course c: course.getSelectedCourse())
+//		
+//		ModelAndView mav = new ModelAndView("SelectCourse");
+//		ArrayList<Course> courses = sService.findAllSelectedCourse("ISS");		
+//		mav.addObject("courses", courses);
+//		return "selectCourse";
+//	}
 	
-//	@ModelAttribute("facultyList")
-//	   public List<String> getFaultyList() {
-//	      List<String> facultyList = new ArrayList<String>();
-//	      facultyList.add("Business");
-//	      facultyList.add("Computing");
-//	      facultyList.add("Economics");
-//	      facultyList.add("Engineering");
-//	      facultyList.add("ISS");
-//	      facultyList.add("Mathematics");
-//	      facultyList.add("Physics");
-//	      facultyList.add("Social Science");
-//	      return facultyList;
+//	@ModelAttribute("selectedCourseCheckedList")
+//	   public List<Course> getSelectedCourseCheckedList() {
+//	      List<Course> selectedCourseCheckedList = new ArrayList<Course>();
+//	      ArrayList<Course> courses = sService.findAllStudentsCourseDetails();
+//	      for(Course c: courses) {
+//	      selectedCourseCheckedList.add(c);
+//	      }
+//	      return selectedCourseCheckedList;
 //	   }
 
 }
