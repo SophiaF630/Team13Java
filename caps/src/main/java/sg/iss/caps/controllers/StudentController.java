@@ -24,7 +24,7 @@ import sg.iss.caps.model.Student;
 
 
 
-@RequestMapping(value="/home")
+@RequestMapping(value="/student")
 @RestController
 @Controller
 public class StudentController {
@@ -35,8 +35,8 @@ public class StudentController {
 		return "Hello World!";
 	}
 	
-//	@Autowired
-//	StudentService sService;
+	@Autowired
+	StudentService sService;
 //	@Autowired
 //	private StudentValidator sValidator;
 
@@ -45,62 +45,62 @@ public class StudentController {
 //		binder.addValidators(sValidator);
 //	}
 
-//	@RequestMapping(value = "/list", method = RequestMethod.GET)
-//	public ModelAndView listAll() {
-//		ModelAndView mav = new ModelAndView("StudentCRUD");
-//		ArrayList<Student> students = sService.findAllStudents();
-//		mav.addObject("students", students);
-//		return mav;
-//	}
-//
-//	@RequestMapping(value = "/create", method = RequestMethod.GET)
-//	public ModelAndView newStudentPage() {
-//		ModelAndView mav = new ModelAndView("StudentFormNew", "student", new Student());
-//		return mav;
-//	}
-//
-//	@RequestMapping(value = "/create", method = RequestMethod.POST)
-//	public ModelAndView createNewStudent(@ModelAttribute @Valid Student student, BindingResult result,
-//			final RedirectAttributes redirectAttributes) {
-//		if (result.hasErrors())
-//			return new ModelAndView("StudentFormNew");
-//		ModelAndView mav = new ModelAndView();
-//
-//		sService.createStudent(student);
-//		//String message = "New student " + student.getNric() + " was successfully created.";
-//		mav.setViewName("redirect:/student/list");
-//		return mav;
-//	}
-//
-//	@RequestMapping(value = "/edit/{nric}", method = RequestMethod.GET)
-//	public ModelAndView editStudentPage(@PathVariable String nric) {
-//		ModelAndView mav = new ModelAndView("StudentFormEdit");
-//		mav.addObject("student", sService.findStudent(nric));
-//		return mav;
-//	}
-//
-//	@RequestMapping(value = "/edit/{nric}", method = RequestMethod.POST)
-//	public ModelAndView editStudent(@ModelAttribute @Valid Student student, @PathVariable String nric,
-//			BindingResult result, final RedirectAttributes redirectAttributes) throws StudentNotFound {
-//		System.out.println("student"+student.toString());
-//		if (result.hasErrors())
-//			return new ModelAndView("StudentFormEdit");
-//		sService.updateStudent(student);
-//		ModelAndView mav = new ModelAndView("redirect:/student/list");
-//		String message = "Student" + student.getStudentID() + " was successfully updated.";
-//		redirectAttributes.addFlashAttribute("message", message);
-//		return mav;
-//	}
-//
-//	@RequestMapping(value = "/delete/{nric}", method = RequestMethod.GET)
-//	public ModelAndView deleteStudent(@PathVariable String nric, final RedirectAttributes redirectAttributes)
-//			throws StudentNotFound {
-//		Student student = sService.findStudent(nric);
-//		sService.removeStudent(student);
-//		ModelAndView mav = new ModelAndView("redirect:/student/list");
-//		String message = "The student " + student.getStudentID() + " was successfully deleted.";
-//		redirectAttributes.addFlashAttribute("message", message);
-//		return mav;
-//	}
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView listAll() {
+		ModelAndView mav = new ModelAndView("StudentCRUD");
+		ArrayList<Student> students = sService.findAllStudents();
+		mav.addObject("students", students);
+		return mav;
+	}
+
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView newStudentPage() {
+		ModelAndView mav = new ModelAndView("StudentFormNew", "student", new Student());
+		return mav;
+	}
+
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	public ModelAndView createNewStudent(@ModelAttribute @Valid Student student, BindingResult result,
+			final RedirectAttributes redirectAttributes) {
+		if (result.hasErrors())
+			return new ModelAndView("StudentFormNew");
+		ModelAndView mav = new ModelAndView();
+
+		sService.createStudent(student);
+		//String message = "New student " + student.getNric() + " was successfully created.";
+		mav.setViewName("redirect:/student/list");
+		return mav;
+	}
+
+	@RequestMapping(value = "/edit/{sid}", method = RequestMethod.GET)
+	public ModelAndView editStudentPage(@PathVariable String sid) {
+		ModelAndView mav = new ModelAndView("StudentFormEdit");
+		mav.addObject("student", sService.findStudent(sid));
+		return mav;
+	}
+
+	@RequestMapping(value = "/edit/{sid}", method = RequestMethod.POST)
+	public ModelAndView editStudent(@ModelAttribute @Valid Student student, @PathVariable String sid,
+			BindingResult result, final RedirectAttributes redirectAttributes) throws StudentNotFound {
+		System.out.println("student"+student.toString());
+		if (result.hasErrors())
+			return new ModelAndView("StudentFormEdit");
+		sService.updateStudent(student);
+		ModelAndView mav = new ModelAndView("redirect:/student/list");
+		String message = "Student" + student.getStudentID() + " was successfully updated.";
+		redirectAttributes.addFlashAttribute("message", message);
+		return mav;
+	}
+
+	@RequestMapping(value = "/delete/{sid}", method = RequestMethod.GET)
+	public ModelAndView deleteStudent(@PathVariable String sid, final RedirectAttributes redirectAttributes)
+			throws StudentNotFound {
+		Student student = sService.findStudent(sid);
+		sService.removeStudent(student);
+		ModelAndView mav = new ModelAndView("redirect:/student/list");
+		String message = "The student " + student.getStudentID() + " was successfully deleted.";
+		redirectAttributes.addFlashAttribute("message", message);
+		return mav;
+	}
 
 }
