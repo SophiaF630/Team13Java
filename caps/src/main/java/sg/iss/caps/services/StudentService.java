@@ -2,6 +2,7 @@ package sg.iss.caps.services;
 
 import java.util.ArrayList;
 
+import sg.iss.caps.model.Course;
 import sg.iss.caps.model.Student;
 
 public interface StudentService {
@@ -17,5 +18,7 @@ public interface StudentService {
 	void removeStudent(Student s);
 
 	ArrayList<Student> findStudentsByCriteria(Student student);
+	
+	ArrayList<Course> findAllStudentsCourseDetails();
 
 }

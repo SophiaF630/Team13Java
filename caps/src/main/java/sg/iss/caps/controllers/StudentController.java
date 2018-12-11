@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import sg.iss.caps.services.StudentService;
 import sg.iss.caps.validator.StudentValidator;
 import sg.iss.caps.exception.StudentNotFound;
+import sg.iss.caps.model.Course;
 import sg.iss.caps.model.Student;
 
 
@@ -37,6 +38,7 @@ public class StudentController {
 	
 	@Autowired
 	StudentService sService;
+
 //	@Autowired
 //	private StudentValidator sValidator;
 
@@ -104,13 +106,14 @@ public class StudentController {
 		return mav;
 	}
 	
-//	//Course Info Part
-//	@RequestMapping(value = "/list", method = RequestMethod.GET)
-//	public ModelAndView listAllCourse() {
-//		ModelAndView mav = new ModelAndView("StudentCRUD");
-//		ArrayList<Student> students = sService.findAllStudents();
-//		mav.addObject("students", students);
-//		return mav;
-//	}
+	//Course Info Part
+	//List course details
+	@RequestMapping(value = "/coursedetails", method = RequestMethod.GET)
+	public ModelAndView listAllStudentsCourseDetails() {
+		ModelAndView mav = new ModelAndView("StudentCourseDetails");
+		ArrayList<Course> courses = sService.findAllStudentsCourseDetails();
+		mav.addObject("courses", courses);
+		return mav;
+	}
 
 }

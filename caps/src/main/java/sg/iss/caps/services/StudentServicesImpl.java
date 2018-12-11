@@ -6,7 +6,9 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import sg.iss.caps.model.Course;
 import sg.iss.caps.model.Student;
+import sg.iss.caps.repo.CourseRepository;
 import sg.iss.caps.repo.StudentRepository;
 
 @Service
@@ -14,6 +16,8 @@ public class StudentServicesImpl implements StudentService {
 
 	@Resource
 	StudentRepository srepo;
+	@Resource
+	CourseRepository crepo;
 	
 	@Override
 	public ArrayList<Student> findAllStudents() {
@@ -48,6 +52,11 @@ public class StudentServicesImpl implements StudentService {
 	public ArrayList<Student> findStudentsByCriteria(Student student) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public ArrayList<Course> findAllStudentsCourseDetails() {
+		return (ArrayList<Course>) crepo.findAll();
 	}
 
 }
