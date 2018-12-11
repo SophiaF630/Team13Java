@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import sg.iss.caps.model.Course;
@@ -57,6 +58,11 @@ public class StudentServicesImpl implements StudentService {
 	@Override
 	public ArrayList<Course> findAllStudentsCourseDetails() {
 		return (ArrayList<Course>) crepo.findAll();
+	}
+	
+	@Override	
+	public ArrayList<Course> findAllSelectedCourse(String faculty) {
+		return (ArrayList<Course>) crepo.findAllSelectedCourse(faculty);
 	}
 
 }
