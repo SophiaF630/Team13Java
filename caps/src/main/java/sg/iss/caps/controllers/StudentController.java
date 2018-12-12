@@ -1,9 +1,6 @@
 package sg.iss.caps.controllers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -18,12 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import sg.iss.caps.services.StudentService;
-import sg.iss.caps.validator.StudentValidator;
 import sg.iss.caps.exception.StudentNotFound;
 import sg.iss.caps.model.Course;
 import sg.iss.caps.model.Student;
 import sg.iss.caps.model.Studentcourse;
+import sg.iss.caps.services.StudentService;
 
 @RequestMapping(value = "/student")
 @RestController
@@ -39,13 +35,13 @@ public class StudentController {
 	@Autowired
 	StudentService sService;
 
-//	@Autowired
-//	private StudentValidator sValidator;
+	// @Autowired
+	// private StudentValidator sValidator;
 
-//	@InitBinder("student")
-//	private void initDepartmentBinder(WebDataBinder binder) {
-//		binder.addValidators(sValidator);
-//	}
+	// @InitBinder("student")
+	// private void initDepartmentBinder(WebDataBinder binder) {
+	// binder.addValidators(sValidator);
+	// }
 
 	// Student Info Part
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -125,6 +121,7 @@ public class StudentController {
 		mav.addObject("courses", courses);
 		return mav;
 	}
+
 	@RequestMapping(value = "/course/{sid}", method = RequestMethod.GET)
 	public ModelAndView listStudentsCourses(@PathVariable String sid) {
 		ModelAndView mav = new ModelAndView("StudentCourseDetails");
@@ -133,18 +130,19 @@ public class StudentController {
 		return mav;
 	}
 
-//	//Select course
-//	@RequestMapping(value = "/coursedetails", method = RequestMethod.POST)
-//	public ModelAndView selectCourse(Model model, Course course, BindingResult result, final RedirectAttributes redirectAttributes, HttpSession session) {		
-//		if (result.hasErrors())
-//			return new ModelAndView("StudentCourseDetails");
-//		
-//		ModelAndView mav = new ModelAndView("selectCourse");
-//		//UserSession us = (UserSession) session.getAttribute("USERSESSION");
-//		mav.setViewName("SelectCourse");
-//		model.addAttribute("course", course);
-//		return mav;
-//	}
+	// //Select course
+	// @RequestMapping(value = "/coursedetails", method = RequestMethod.POST)
+	// public ModelAndView selectCourse(Model model, Course course, BindingResult
+	// result, final RedirectAttributes redirectAttributes, HttpSession session) {
+	// if (result.hasErrors())
+	// return new ModelAndView("StudentCourseDetails");
+	//
+	// ModelAndView mav = new ModelAndView("selectCourse");
+	// //UserSession us = (UserSession) session.getAttribute("USERSESSION");
+	// mav.setViewName("SelectCourse");
+	// model.addAttribute("course", course);
+	// return mav;
+	// }
 
 	// View Grade
 	@RequestMapping(value = "/grade", method = RequestMethod.GET)

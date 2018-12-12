@@ -14,7 +14,7 @@
 			<div class="col-xs-12">
 				<c:if test="${fn:length(courses) gt 0}">
 					<%-- <form:form method="POST" commandName="course"> --%>
-						<table class="cell-border" style="width: 100%" id="courseDetails">
+						<table class="table table-striped table-bordered" style="width: 100%" id="courseDetails">
 							<thead>
 								<tr>
 									<th><s:message code="label.course.courseIndex" /></th>
@@ -58,6 +58,5 @@
 	$(document).ready(function() {
 		$('#courseDetails').DataTable();
 	});
-
 	
 </script>
