@@ -2,6 +2,8 @@ package sg.iss.caps.controllers;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import antlr.collections.List;
 import sg.iss.caps.services.StudentService;
 import sg.iss.caps.services.StudentcourseService;
 import sg.iss.caps.exception.StudentNotFound;
@@ -191,8 +194,41 @@ public class StudentController {
 	public ModelAndView selectedCoursePreview() {
 		ModelAndView mav = new ModelAndView("SelectedCoursePreview");
 		ArrayList<Studentcourse> studentcourse = sService.findAllStudentCourseByStatus("OnPlan", "S1800001");
+		Map<String, Boolean> collisions = findCourseCollisions(studentcourse);
 		mav.addObject("studentcourse", studentcourse);
+		mav.addObject("collisions", collisions);
 		return mav;
+	}
+	
+	private Map<String, Boolean> findCourseCollisions(ArrayList<Studentcourse> studentCourses) {
+		Map<String, Integer> courseSchedule = new HashMap<String, Integer>();
+		Map<String, Boolean> collisions = new HashMap<String, Boolean>();
+		if(studentCourses != null) {
+			for(Studentcourse st: studentCourses) {
+				String[] courseTimeSlots = st.getCourse().getLectureSchedule().split(",");
+				for (String slot: courseTimeSlots) {
+					if(!courseSchedule.containsKey(slot)) {
+						courseSchedule.put(slot, 1);
+						
+					}else {
+						int totalCourseAtSameSlot = courseSchedule.get(slot)+1;
+						courseSchedule.put(slot, totalCourseAtSameSlot);
+					}
+				}
+			}
+			
+			String[] allSlots = (String[]) courseSchedule.keySet().toArray();
+			for(String slot: allSlots) {
+				if(courseSchedule.get(slot) > 1) {
+					collisions.put(slot, true);
+					System.out.print("Collission: "+slot);
+				}else {
+					collisions.put(slot, false);
+					System.out.print("Not Collission: "+slot);
+				}
+			}
+		}
+		return collisions;
 	}
 	
 	// View Grade
