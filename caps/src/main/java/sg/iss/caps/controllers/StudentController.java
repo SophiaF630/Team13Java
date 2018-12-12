@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,6 +122,13 @@ public class StudentController {
 	public ModelAndView listAllSelectedCourse() {
 		ModelAndView mav = new ModelAndView("SelectCourse");
 		ArrayList<Course> courses = sService.findAllSelectedCourse("ISS");
+		mav.addObject("courses", courses);
+		return mav;
+	}
+	@RequestMapping(value = "/course/{sid}", method = RequestMethod.GET)
+	public ModelAndView listStudentsCourses(@PathVariable String sid) {
+		ModelAndView mav = new ModelAndView("StudentCourseDetails");
+		ArrayList<Course> courses = sService.findCurrentCoursesByStudentID(sid);
 		mav.addObject("courses", courses);
 		return mav;
 	}
