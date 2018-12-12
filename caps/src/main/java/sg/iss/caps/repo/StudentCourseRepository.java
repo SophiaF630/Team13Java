@@ -15,5 +15,4 @@ public interface StudentCourseRepository extends JpaRepository<Studentcourse, St
 	@Query(value = "select * from studentcourse sc where Student_StudentID = ?1", nativeQuery = true)
 	public ArrayList<Studentcourse> studentViewGrade(String studentID);
 	
-	//Student_StudentID, CourseIndex, CAGrade, ExamGrade 
 }
