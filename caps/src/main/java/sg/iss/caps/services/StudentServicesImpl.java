@@ -3,17 +3,20 @@ package sg.iss.caps.services;
 import java.util.ArrayList;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import sg.iss.caps.model.Course;
 import sg.iss.caps.model.Student;
+import sg.iss.caps.model.Studentcourse;
 import sg.iss.caps.repo.CourseRepository;
 import sg.iss.caps.repo.StudentCourseRepository;
 import sg.iss.caps.repo.StudentRepository;
 
 @Service
+@Transactional
 public class StudentServicesImpl implements StudentService {
 
 	@Resource
@@ -62,8 +65,12 @@ public class StudentServicesImpl implements StudentService {
 	
 	@Override
 	public ArrayList<Course> findCurrentCoursesByStudentID(String studentID) {
-		ArrayList<Course> total = screpo.findByStudentID(studentID);
-		return (ArrayList<Course>) cserve.selectCurrentCourse(total);
+		ArrayList<Studentcourse> temp = screpo.findByStudentID(studentID);
+		ArrayList<Course> result = new ArrayList<Course>();
+		for (Studentcourse c : temp) {
+			result.add(c.getCourse());
+		}
+		return (ArrayList<Course>) cserve.selectCurrentCourse(result);
 	}
 	
 	@Override
@@ -78,7 +85,27 @@ public class StudentServicesImpl implements StudentService {
 
 	@Override
 	public ArrayList<Course> findHistoryCoursesByStudentID(String studentID) {
-		return (ArrayList<Course>) screpo.findByStudentID(studentID);
+		ArrayList<Studentcourse> temp = screpo.findByStudentID(studentID);
+		ArrayList<Course> result = new ArrayList<Course>();
+		for (Studentcourse c : temp) {
+			result.add(c.getCourse());
+		}
+		return result;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
