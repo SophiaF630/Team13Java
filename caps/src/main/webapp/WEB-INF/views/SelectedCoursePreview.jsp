@@ -55,23 +55,27 @@
 						<c:forEach begin="9" end="18" step="1" var="time">
 							<tr>
 								<td align="center" valign="middle" width="120">
-											<c:out value="${time}:00 - ${time+1}:00" />
-								</td> 
+									<c:out value="${time}:00 - ${time+1}:00" />
+								</td>
 								<c:forEach begin="1" end="6" step="1" var="day">
-									<td align="center" valign="middle" width="100">
+									<c:set var="j" value="${String.valueOf(day)}${String.valueOf(time-9)}" />
+									<c:if test="${collisions[j]}">
+										<td align="center" class="has-collision" valign="middle" width="100">
+									</c:if>
+									<c:if test="${not collisions[j]}">
+										<td align="center" valign="middle" width="100">
+									</c:if>
 										<c:forEach items="${studentcourse}" var="studentcourse">
-											<c:set var="lectureschedule" value="${studentcourse.course.lectureSchedule}"/>
-											<c:set var="splitlectureschedule" value="${fn:split(lectureschedule, ',')}"/>
+											<c:set var="lectureschedule" value="${studentcourse.course.lectureSchedule}" />
+											<c:set var="splitlectureschedule" value="${fn:split(lectureschedule, ',')}" />
 											<c:forEach var="i" items="${splitlectureschedule}">
-											<%-- <c:out value="${i}" />
-											<c:out value="${String.valueOf(day)}${String.valueOf(time-9)}" /> --%>
-											<c:set var = "k" value="${i}"/>
-											<c:set var = "j" value="${String.valueOf(day)}${String.valueOf(time-9)}"/>
+												<c:set var="k" value="${i}" />
 												<c:if test="${k.equals(j)}">
 													<c:out value="${studentcourse.course.courseID} ${studentcourse.course.courseName}" />
 												</c:if>
 											</c:forEach>
-										</c:forEach></td>
+										</c:forEach>
+									</td>
 								</c:forEach>
 							</tr>
 						</c:forEach>
