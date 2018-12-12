@@ -25,6 +25,8 @@ public class StudentServicesImpl implements StudentService {
 	CourseRepository crepo;
 	@Resource
 	StudentCourseRepository screpo;
+	@Resource
+	CourseService cserve;
 	
 	@Override
 	public ArrayList<Student> findAllStudents() {
@@ -81,6 +83,16 @@ public class StudentServicesImpl implements StudentService {
 		return (ArrayList<Course>) crepo.findAllSelectedCourse(faculty);
 	}
 
+	@Override
+	public ArrayList<Course> findHistoryCoursesByStudentID(String studentID) {
+		ArrayList<Studentcourse> temp = screpo.findByStudentID(studentID);
+		ArrayList<Course> result = new ArrayList<Course>();
+		for (Studentcourse c : temp) {
+			result.add(c.getCourse());
+		}
+		return result;
+	}
+	
 	
 	@Override	
 	public ArrayList<Studentcourse> studentViewGrade(String studentID) {		
