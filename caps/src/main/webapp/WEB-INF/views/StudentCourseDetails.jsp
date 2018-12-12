@@ -49,15 +49,13 @@
 						</c:forEach>
 					</tbody>
 				</table>
-				<input class="btn button-primary pull-right" type="submit" value="Submit">
+				<input class="btn button-primary pull-right" type="submit" value="Preview">
 				</form>
 			</c:if>
 		</div>
 	</div>
 </div>
-<script
-	src="<c:url value='/js/DataTables/jQuery-3.3.1/jquery-3.3.1.min.js'/>"
-	type="text/javascript"></script>
+
 <script src="<c:url value='/js/DataTables/datatables.min.js'/>"
 	type="text/javascript"></script>
 

@@ -32,7 +32,7 @@ public interface StudentService {
 
 	ArrayList<Course> findAllSelectedCourse(String faculty);
 	
-	ArrayList<Studentcourse> studentViewGrade(String studentID);
+	ArrayList<Studentcourse> studentViewGrade(String studentID, String status);
 	
 	ArrayList<Studentcourse> findAllStudentCourseByStatus(String status, String sid);
 

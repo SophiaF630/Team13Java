@@ -19,8 +19,8 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<c:if test="${fn:length(studentcourse) gt 0}">
-				<table class="table table-striped table-bordered"
-					style="width: 100%" id="selectedCoursePreview">
+			<form method="POST" action="/caps/student/preview">
+				<table class="table table-striped table-bordered" style="width: 100%" id="selectedCoursePreview">
 					<thead>
 						<tr>
 							<th><s:message code="label.course.courseIndex" /></th>
@@ -86,6 +86,8 @@
 						</c:forEach>
 					</tbody>
 				</table>
+				<input class="btn button-primary pull-right" type="submit" value="Submit">
+				</form>
 			</c:if>
 		</div>
 	</div>

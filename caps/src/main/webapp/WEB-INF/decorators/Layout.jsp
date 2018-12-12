@@ -11,30 +11,26 @@
 	rel="stylesheet" type="text/css" />
 <link href="<c:url value='/js/DataTables/datatables.min.css'/>"
 	rel="stylesheet" type="text/css" />
-<link href="<c:url value='/css/style.css'/>"
-	rel="stylesheet" type="text/css" />
+	
+<script
+	src="<c:url value='/js/DataTables/jQuery-3.3.1/jquery-3.3.1.min.js'/>"
+	type="text/javascript"></script>
+<script
+	src="<c:url value='/js/DataTables/Bootstrap-3.3.7/js/bootstrap.min.js'/>"
+	type="text/javascript"></script>
 </head>
+
 <body>
-	<div id="wrapper">
 		<%@include file="Menu.jsp"%>
-		<div id="page-content-wrapper">
-			<div class="row">
-                <div class="col-xs-2 text-left">
-                	<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
-              	</div>
-              	<div class="col-xs-10 text-right">
-              		<p>Username</p>
-              	</div>
-            </div>
-			<div class="container-fluid">
+			<div>
 				<dec:body />
 			</div>
-		</div>
+	
 		<!-- ======== Footer ======== -->
 		<div id="footer" align="center">
 			<hr>
 			<small> &copy; ISS NUS SA47 TEAM13 2018 </small>
 		</div>
-	</div>
+
 </body>
 </html>

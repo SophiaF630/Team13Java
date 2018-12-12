@@ -106,13 +106,8 @@ public class StudentServicesImpl implements StudentService {
 	
 	
 	@Override	
-	public ArrayList<Studentcourse> studentViewGrade(String studentID) {		
-		return (ArrayList<Studentcourse>) screpo.studentViewGrade(studentID);
+	public ArrayList<Studentcourse> studentViewGrade(String studentID, String status) {		
+		return (ArrayList<Studentcourse>) screpo.studentViewGrade(studentID, status);
 	}
 	
-//	@Override	
-//	public ArrayList<Course> addToPlan(String faculty) {
-//		return (ArrayList<Course>) crepo.findAllSelectedCourse(faculty);
-//	}
-
 }

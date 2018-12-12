@@ -12,4 +12,10 @@ public interface StudentcourseService {
 	
 	double calculateStudentGPA(String sid);
 
+	Studentcourse updateStudentCourse(Studentcourse sc);
+
+	int getStudentCount(String courseIndex);
+
+	double calculateStudentCGPA(String sid);
+
 }

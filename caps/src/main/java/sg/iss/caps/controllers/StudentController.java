@@ -154,15 +154,45 @@ public class StudentController {
 			scService.createStudentCourse(sc);
 		}
 		mav.setViewName("redirect:/student/preview");
+		return mav;		
+	}
+	
+	//Submit selection
+	@RequestMapping(value = "/preview", method = RequestMethod.POST)
+	public ModelAndView submitSelection(@ModelAttribute Studentcourse studentcourse) {
+		
+		ArrayList<Studentcourse> sc_OnPlan = sService.findAllStudentCourseByStatus("OnPlan", "S1800001");
+		for (Studentcourse sc: sc_OnPlan)
+		{
+			if (scService.getStudentCount(sc.getCourse().getCourseIndex()) >= sc.getCourse().getClassSize()) {
+			sc.setId(sc.getId());
+			sc.setStatus("Pending");
+			sc.setEnrollTime(Calendar.getInstance().getTime());
+			}
+			else {
+				sc.setId(sc.getId());
+				sc.setStatus("Enrolled");
+				sc.setEnrollTime(Calendar.getInstance().getTime());
+			}
+			scService.updateStudentCourse(sc);
+		}
+		
+		ModelAndView mav = new ModelAndView("redirect:/student/selectedcourse");
 		return mav;
 		
 	}
 
 	// List selected course
 	@RequestMapping(value = "/selectedcourse", method = RequestMethod.GET)
-	public ModelAndView listAllSelectedCourse(String status, String sid) {
+	public ModelAndView listAllSelectedCourse() {
 		ModelAndView mav = new ModelAndView("SelectedCourseView");
-		ArrayList<Studentcourse> studentcourse = sService.findAllStudentCourseByStatus("Enrolled", "S1800001");
+		ArrayList<Studentcourse> studentcourse_enrolled = sService.findAllStudentCourseByStatus("Enrolled", "S1800001");
+		ArrayList<Studentcourse> studentcourse_pending = sService.findAllStudentCourseByStatus("Pending", "S1800001");
+		ArrayList<Studentcourse> studentcourse_cancelled = sService.findAllStudentCourseByStatus("Cancelled", "S1800001");
+		ArrayList<Studentcourse> studentcourse = new ArrayList<Studentcourse>();
+		studentcourse.addAll(studentcourse_enrolled);
+		studentcourse.addAll(studentcourse_pending);
+		studentcourse.addAll(studentcourse_cancelled);		
 		mav.addObject("studentcourse", studentcourse);
 		return mav;
 	}
@@ -222,13 +252,16 @@ public class StudentController {
 	@RequestMapping(value = "/grade", method = RequestMethod.GET)
 	public ModelAndView studentViewGrade() {
 		ModelAndView mav = new ModelAndView("StudentViewGrade");
-		ArrayList<Studentcourse> studentcourse = sService.studentViewGrade("S1800001");
+		ArrayList<Studentcourse> studentcourse = sService.studentViewGrade("S1800001", "Finished");
 		StudentGrade sg = new StudentGrade();
-		sg.setCGPA(scService.calculateStudentGPA("S1800001"));
-		ArrayList<StudentGrade> studentgrade = new ArrayList<StudentGrade>();
-		studentgrade.add(sg);
+		sg.setGPA(scService.calculateStudentGPA("S1800001"));
+		sg.setCGPA(scService.calculateStudentCGPA("S1800001"));
+		
+		String gpa = Double.toString(sg.getGPA());
+		String cgpa = Double.toString(sg.getCGPA());
 		mav.addObject("studentcourse", studentcourse);
-		mav.addObject("studentgrade", studentgrade);
+		mav.addObject("gpa", gpa);
+		mav.addObject("cgpa", cgpa);
 		return mav;
 	}
 
