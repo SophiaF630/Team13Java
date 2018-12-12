@@ -45,10 +45,10 @@
 							</c:choose>									
 							</td>							
 						</tr>
+						<tr><td>${studentgrade.GPA}</td></tr>
 					</c:forEach>
 					</tbody>
-				</table>
-				
+				</table>	
 			</c:if>
 		</div>
 	</div>

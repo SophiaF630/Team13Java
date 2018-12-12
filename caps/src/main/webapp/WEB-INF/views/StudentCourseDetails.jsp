@@ -38,7 +38,7 @@
 								</c:forEach>
 							</tbody>
 						</table>
-						<input type="submit" value="Timetable Preview">
+						<input type="submit" value="Timetable Preview" onclick = "window">
 					<%-- </form:form> --%>
 				</c:if>
 			</div>

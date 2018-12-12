@@ -27,6 +27,7 @@ import sg.iss.caps.validator.StudentValidator;
 import sg.iss.caps.exception.StudentNotFound;
 import sg.iss.caps.model.Course;
 import sg.iss.caps.model.Student;
+import sg.iss.caps.model.StudentGrade;
 import sg.iss.caps.model.Studentcourse;
 import sg.iss.caps.model.StudentcoursePK;
 
@@ -185,8 +186,12 @@ public class StudentController {
 	public ModelAndView studentViewGrade() {
 		ModelAndView mav = new ModelAndView("StudentViewGrade");
 		ArrayList<Studentcourse> studentcourse = sService.studentViewGrade("S1800001");
-		
+		StudentGrade sg = new StudentGrade();
+		sg.setCGPA(scService.calculateStudentGPA("S1800001"));
+		ArrayList<StudentGrade> studentgrade = new ArrayList<StudentGrade>();
+		studentgrade.add(sg);
 		mav.addObject("studentcourse", studentcourse);
+		mav.addObject("studentgrade", studentgrade);
 		return mav;
 	}
 

@@ -16,7 +16,7 @@ public interface StudentCourseRepository extends JpaRepository<Studentcourse, St
 	public ArrayList<Studentcourse> studentViewGrade(String studentID);
 	@Query(value = "select * from studentcourse where Status = ?1 and Student_StudentID = ?2", nativeQuery = true)
 	public ArrayList<Studentcourse> findAllStudentCourseByStatus(String status, String sid);
-	
+
 	
 	
 	
