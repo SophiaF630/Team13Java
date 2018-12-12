@@ -36,12 +36,12 @@
 								<td class="nowrap">${course.credits}</td>
 								<td>
 									<c:choose>
-										<c:when test="true">
-											<input name="selectedCourseId" class="course-selection-checkbox" disabled type="checkbox"
+										<c:when test="false">
+											<input name="courseIndexes" class="course-selection-checkbox" disabled type="checkbox"
 												value="${course.courseID}">
 										</c:when> 
 										<c:otherwise>
-										<input name="selectedCourseId" class="course-selection-checkbox" type="checkbox"
+										<input name="courseIndexes" class="course-selection-checkbox" type="checkbox"
 												value="${course.courseIndex}">
 										</c:otherwise>
 									</c:choose>

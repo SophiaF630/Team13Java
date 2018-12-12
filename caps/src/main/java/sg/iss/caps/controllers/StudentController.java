@@ -127,24 +127,30 @@ public class StudentController {
 	@RequestMapping(value = "/coursedetails", method = RequestMethod.POST)
 	public ModelAndView selectCourse(@ModelAttribute StudentCourseRegisterDto studentCourseRegisterDto, Model model) {		
 		ModelAndView mav = new ModelAndView();
+		//get form data
+		System.out.println(studentCourseRegisterDto.getStudentId());
+		System.out.println(String.join(", ", studentCourseRegisterDto.getCourseIndexes()));
+		
+		//prepare new page model data
 		//UserSession us = (UserSession) session.getAttribute("USERSESSION");
 		Studentcourse sc = new Studentcourse();
-		Student student = sService.findStudent(studentCourseRegisterDto.getStudentId());
-		String[] selectedCourses = studentCourseRegisterDto.getCourseIndexes();
-		for (String courseIndex : selectedCourses) {
-			StudentcoursePK spk = scService.findStudentcoursePK("S1800001", courseIndex);
-			Course course = null;
-			sc.setCourse(course);		
-			sc.setStudent(student);
-			sc.setId(spk);
-			sc.setCAGrade(-1);		
-			sc.setExamGrade(-1);
-			sc.setEnrollTime(Calendar.getInstance().getTime());
-			sc.setStatus("OnPlan");
+//		Student student = sService.findStudent(studentCourseRegisterDto.getStudentId());
+//		String[] selectedCourses = studentCourseRegisterDto.getCourseIndexes();
 
-			scService.createStudentCourse(sc);
-		}
-		mav.setViewName("redirect:/student/preview");
+//		for (String courseIndex : selectedCourses) {
+//			StudentcoursePK spk = scService.findStudentcoursePK("S1800001", courseIndex);
+//			Course course = null;
+//			sc.setCourse(course);		
+//			sc.setStudent(student);
+//			sc.setId(spk);
+//			sc.setCAGrade(-1);		
+//			sc.setExamGrade(-1);
+//			sc.setEnrollTime(Calendar.getInstance().getTime());
+//			sc.setStatus("OnPlan");
+//
+//			scService.createStudentCourse(sc);
+//		}
+//		mav.setViewName("redirect:/student/preview");
 		return mav;
 		
 	}
