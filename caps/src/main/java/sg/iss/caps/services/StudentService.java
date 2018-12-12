@@ -32,6 +32,6 @@ public interface StudentService {
 	
 	ArrayList<Studentcourse> studentViewGrade(String studentID);
 	
-	
+	ArrayList<Studentcourse> findAllStudentCourseByStatus(String status, String sid);
 
 }

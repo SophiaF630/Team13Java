@@ -8,13 +8,13 @@
 <div class="container">
 	<div class="row" style="color:black;">
 		<div class="col-xs-12">
-			<h1>Selected Courses</h1>
+			<h1>Selected Courses Preview</h1>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-xs-12">
-			<c:if test="${fn:length(courses) gt 0}">
-				<table class="table table-striped table-bordered" style="width: 100%" id="selectedCourse">
+			<c:if test="${fn:length(studentcourse) gt 0}">
+				<table class="table table-striped table-bordered" style="width: 100%" id="selectedCoursePreview">
 					<thead>
 					<tr>
 						<th><s:message code="label.course.courseIndex" /></th>
@@ -25,13 +25,13 @@
 					</tr>
 					</thead>
 					<tbody>
-					<c:forEach var="course" items="${courses}" varStatus="status">
+					<c:forEach var="studentcourse" items="${studentcourse}" varStatus="status">
 						<tr class="${status.index%2==0?'even':'odd'}">
-							<td class="nowrap">${course.courseIndex}</td>
-							<td class="nowrap">${course.courseID}</td>
-							<td class="nowrap">${course.courseName}</td>
-							<td class="nowrap">${course.faculty}</td>
-							<td class="nowrap" align="center">${course.credits}</td>								
+							<td class="nowrap">${studentcourse.course.courseIndex}</td>
+							<td class="nowrap">${studentcourse.course.courseID}</td>
+							<td class="nowrap">${studentcourse.course.courseName}</td>
+							<td class="nowrap">${studentcourse.course.faculty}</td>
+							<td class="nowrap">${studentcourse.course.credits}</td>								
 						</tr>
 					</c:forEach>
 					</tbody>
@@ -49,6 +49,6 @@
 	
 	<script>
 	$(document).ready( function () {
-	    $('#selectedCourse').DataTable();
+	    $('#selectedCoursePreview').DataTable();
 	} );
 	</script>

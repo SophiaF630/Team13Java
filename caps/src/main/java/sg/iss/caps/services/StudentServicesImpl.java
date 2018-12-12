@@ -40,7 +40,7 @@ public class StudentServicesImpl implements StudentService {
 		Student student = srepo.findById(sid).get();
 		System.out.println(student.toString());
 		return student;
-	}
+	}	
 
 	@Override
 	public Student createStudent(Student s) {
@@ -82,6 +82,11 @@ public class StudentServicesImpl implements StudentService {
 	public ArrayList<Course> findAllSelectedCourse(String faculty) {
 		return (ArrayList<Course>) crepo.findAllSelectedCourse(faculty);
 	}
+	
+	@Override	
+	public ArrayList<Studentcourse> findAllStudentCourseByStatus(String status, String sid) {
+		return (ArrayList<Studentcourse>) screpo.findAllStudentCourseByStatus(status, sid);
+	}
 
 	@Override
 	public ArrayList<Course> findHistoryCoursesByStudentID(String studentID) {
@@ -98,5 +103,10 @@ public class StudentServicesImpl implements StudentService {
 	public ArrayList<Studentcourse> studentViewGrade(String studentID) {		
 		return (ArrayList<Studentcourse>) screpo.studentViewGrade(studentID);
 	}
+	
+//	@Override	
+//	public ArrayList<Course> addToPlan(String faculty) {
+//		return (ArrayList<Course>) crepo.findAllSelectedCourse(faculty);
+//	}
 
 }

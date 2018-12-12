@@ -14,7 +14,7 @@
 			<div class="col-xs-12">
 				<c:if test="${fn:length(courses) gt 0}">
 					<%-- <form:form method="POST" commandName="course"> --%>
-						<table class="cell-border" style="width: 100%" id="courseDetails">
+						<table class="table table-striped table-bordered" style="width: 100%" id="courseDetails">
 							<thead>
 								<tr>
 									<th><s:message code="label.course.courseIndex" /></th>
@@ -33,13 +33,13 @@
 										<td class="nowrap">${course.courseName}</td>
 										<td class="nowrap">${course.faculty}</td>
 										<td class="nowrap">${course.credits}</td>
-										<td><input type = "checkbox"></td>
-										<%-- <td><form:checkboxes path="courses" items="${courses}" /></td> --%>
+										<td align="center"><input type="submit" value="Select" ></td>
+										<!-- <td><input type = "checkbox"></td> -->
 									</tr>
 								</c:forEach>
 							</tbody>
 						</table>
-						<input type="submit" value="Submit">
+						<input type="submit" value="Timetable Preview">
 					<%-- </form:form> --%>
 				</c:if>
 			</div>
