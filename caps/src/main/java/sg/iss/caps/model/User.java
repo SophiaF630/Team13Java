@@ -1,7 +1,10 @@
 package sg.iss.caps.model;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.*;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,6 +45,7 @@ public class User implements Serializable {
 	//bi-directional one-to-one association to Student
 	@OneToOne(mappedBy="user")
 	private Student student;
+
 
 	public User() {
 	}

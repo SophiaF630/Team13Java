@@ -2,10 +2,9 @@ package sg.iss.caps.services;
 
 import java.util.ArrayList;
 
-import org.springframework.data.jpa.repository.Query;
-
 import sg.iss.caps.model.Course;
 import sg.iss.caps.model.Student;
+import sg.iss.caps.model.Studentcourse;
 
 public interface StudentService {
 
@@ -24,5 +23,9 @@ public interface StudentService {
 	ArrayList<Course> findAllStudentsCourseDetails();
 
 	ArrayList<Course> findAllSelectedCourse(String faculty);
+	
+	ArrayList<Studentcourse> studentViewGrade(String studentID);
+	
+	
 
 }

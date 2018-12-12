@@ -5,52 +5,40 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.data.domain.Pageable;
 
 import sg.iss.caps.services.StudentService;
 import sg.iss.caps.validator.StudentValidator;
 import sg.iss.caps.exception.StudentNotFound;
 import sg.iss.caps.model.Course;
 import sg.iss.caps.model.Student;
-//import sg.iss.caps.repo.CoursePageRepository;
-import sg.iss.caps.repo.CourseRepository;
+import sg.iss.caps.model.Studentcourse;
 
-
-
-@RequestMapping(value="/student")
+@RequestMapping(value = "/student")
 @RestController
 @Controller
 public class StudentController {
-	
-	@RequestMapping(value="/index")
+
+	@RequestMapping(value = "/index")
 	public String index() {
-		
+
 		return "Hello World!";
 	}
-	
+
 	@Autowired
 	StudentService sService;
-
 
 //	@Autowired
 //	private StudentValidator sValidator;
@@ -60,7 +48,7 @@ public class StudentController {
 //		binder.addValidators(sValidator);
 //	}
 
-	//Student Info Part
+	// Student Info Part
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView listAll() {
 		ModelAndView mav = new ModelAndView("StudentCRUD");
@@ -83,7 +71,8 @@ public class StudentController {
 		ModelAndView mav = new ModelAndView();
 
 		sService.createStudent(student);
-		//String message = "New student " + student.getNric() + " was successfully created.";
+		// String message = "New student " + student.getNric() + " was successfully
+		// created.";
 		mav.setViewName("redirect:/student/list");
 		return mav;
 	}
@@ -98,7 +87,7 @@ public class StudentController {
 	@RequestMapping(value = "/edit/{sid}", method = RequestMethod.POST)
 	public ModelAndView editStudent(@ModelAttribute @Valid Student student, @PathVariable String sid,
 			BindingResult result, final RedirectAttributes redirectAttributes) throws StudentNotFound {
-		System.out.println("student"+student.toString());
+		System.out.println("student" + student.toString());
 		if (result.hasErrors())
 			return new ModelAndView("StudentFormEdit");
 		sService.updateStudent(student);
@@ -118,9 +107,9 @@ public class StudentController {
 		redirectAttributes.addFlashAttribute("message", message);
 		return mav;
 	}
-	
-	//Course Info Part
-	//List all course details
+
+	// Course Info Part
+	// List all course details
 	@RequestMapping(value = "/coursedetails", method = RequestMethod.GET)
 	public ModelAndView listAllStudentsCourseDetails() {
 		ModelAndView mav = new ModelAndView("StudentCourseDetails");
@@ -128,37 +117,36 @@ public class StudentController {
 		mav.addObject("courses", courses);
 		return mav;
 	}
-	
-	//List selected course
+
+	// List selected course
 	@RequestMapping(value = "/selectedcourse", method = RequestMethod.GET)
 	public ModelAndView listAllSelectedCourse() {
 		ModelAndView mav = new ModelAndView("SelectCourse");
-		ArrayList<Course> courses = sService.findAllSelectedCourse("ISS");		
+		ArrayList<Course> courses = sService.findAllSelectedCourse("ISS");
 		mav.addObject("courses", courses);
 		return mav;
 	}
-	
 
 //	//Select course
-//	@RequestMapping(value = "/selectedcourse", method = RequestMethod.POST)
-//	public String selectCourse(Course course, ModelMap model) {
+//	@RequestMapping(value = "/coursedetails", method = RequestMethod.POST)
+//	public ModelAndView selectCourse(Model model, Course course, BindingResult result, final RedirectAttributes redirectAttributes, HttpSession session) {		
+//		if (result.hasErrors())
+//			return new ModelAndView("StudentCourseDetails");
 //		
-//		for (Course c: course.getSelectedCourse())
-//		
-//		ModelAndView mav = new ModelAndView("SelectCourse");
-//		ArrayList<Course> courses = sService.findAllSelectedCourse("ISS");		
-//		mav.addObject("courses", courses);
-//		return "selectCourse";
+//		ModelAndView mav = new ModelAndView("selectCourse");
+//		//UserSession us = (UserSession) session.getAttribute("USERSESSION");
+//		mav.setViewName("SelectCourse");
+//		model.addAttribute("course", course);
+//		return mav;
 //	}
-	
-//	@ModelAttribute("selectedCourseCheckedList")
-//	   public List<Course> getSelectedCourseCheckedList() {
-//	      List<Course> selectedCourseCheckedList = new ArrayList<Course>();
-//	      ArrayList<Course> courses = sService.findAllStudentsCourseDetails();
-//	      for(Course c: courses) {
-//	      selectedCourseCheckedList.add(c);
-//	      }
-//	      return selectedCourseCheckedList;
-//	   }
+
+	// View Grade
+	@RequestMapping(value = "/grade", method = RequestMethod.GET)
+	public ModelAndView studentViewGrade() {
+		ModelAndView mav = new ModelAndView("StudentViewGrade");
+		ArrayList<Studentcourse> studentcourse = sService.studentViewGrade("S1800001");
+		mav.addObject("studentcourse", studentcourse);
+		return mav;
+	}
 
 }
