@@ -42,10 +42,11 @@ public class StudentServicesImpl implements StudentService {
 		return student;
 	}	
 	
-//	@Override
-//	public Student findByStudentID(String sid) {
-//		
-//	}
+	@Override
+	public Student findByStudentID(String sid) {
+		Student student = srepo.findByStudentID(sid);
+		return student;
+	}
 
 	@Override
 	public Student createStudent(Student s) {

@@ -7,8 +7,8 @@ import sg.iss.caps.model.Student;
 
 
 public interface StudentRepository extends JpaRepository<Student, String> {
-	@Query(value="select * from Student where Student_StudentID = ?1",nativeQuery = true)
-	Student findByStudentID(String sid);
+	@Query(value="select * from Student where StudentID = ?1", nativeQuery = true)
+	public Student findByStudentID(String sid);
 	
 
 }

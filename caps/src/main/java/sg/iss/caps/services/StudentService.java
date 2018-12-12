@@ -12,7 +12,7 @@ public interface StudentService {
 
 	Student findStudent(String sid);
 	
-//	Student findByStudentID(String sid);
+	Student findByStudentID(String sid);
 
 	Student createStudent(Student s);
 

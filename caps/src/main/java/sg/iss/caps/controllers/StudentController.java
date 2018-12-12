@@ -133,14 +133,14 @@ public class StudentController {
 		//prepare new page model data
 		//UserSession us = (UserSession) session.getAttribute("USERSESSION");
 		Studentcourse sc = new Studentcourse();
-		Student student = sService.findStudent(studentCourseRegisterDto.getStudentId());
+		Student student = sService.findByStudentID(studentCourseRegisterDto.getStudentId());
 		String[] selectedCourses = studentCourseRegisterDto.getCourseIndexes();
 
 		for (String courseIndex : selectedCourses) {
 			StudentcoursePK spk = scService.findStudentcoursePK("S1800001", courseIndex);
 			Course course = null;
-			sc.setCourse(course);		
-			sc.setStudent(student);
+			//sc.setCourse(course);		
+			//sc.setStudent(student);
 			sc.setId(spk);
 			sc.setCAGrade(-1);		
 			sc.setExamGrade(-1);
