@@ -2,6 +2,8 @@ package sg.iss.caps.controllers;
 
 import java.util.ArrayList;
 
+import java.util.Calendar;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import sg.iss.caps.services.StudentService;
+import sg.iss.caps.services.StudentcourseService;
 import sg.iss.caps.exception.StudentNotFound;
 import sg.iss.caps.model.Course;
 import sg.iss.caps.model.Student;
 import sg.iss.caps.model.Studentcourse;
-import sg.iss.caps.services.StudentService;
+
+import sg.iss.caps.model.StudentcoursePK;
+
 
 @RequestMapping(value = "/student")
 @RestController
@@ -34,6 +40,8 @@ public class StudentController {
 
 	@Autowired
 	StudentService sService;
+	@Autowired
+	StudentcourseService scService;
 
 	// @Autowired
 	// private StudentValidator sValidator;
@@ -112,6 +120,32 @@ public class StudentController {
 		mav.addObject("courses", courses);
 		return mav;
 	}
+	
+	//Select course
+	@RequestMapping(value = "/coursedetails", method = RequestMethod.POST)
+	public ModelAndView selectCourse(@ModelAttribute Course course, String sid, BindingResult result, final RedirectAttributes redirectAttributes, HttpSession session) {		
+		if (result.hasErrors())
+			return new ModelAndView("StudentCourseDetails");
+		
+		ModelAndView mav = new ModelAndView();
+		//UserSession us = (UserSession) session.getAttribute("USERSESSION");
+		Studentcourse sc = new Studentcourse();
+		Student student = sService.findStudent("S1800001");
+		StudentcoursePK spk = scService.findStudentcoursePK("S1800001", course.getCourseIndex());
+		
+		mav.setViewName("redirect:/student/preview");
+		sc.setCourse(course);		
+		sc.setStudent(student);
+		sc.setId(spk);
+		sc.setCAGrade(-1);		
+		sc.setExamGrade(-1);
+		sc.setEnrollTime(Calendar.getInstance().getTime());
+		sc.setStatus("OnPlan");
+
+		scService.createStudentCourse(sc);
+		return mav;
+		
+	}
 
 	// List selected course
 	@RequestMapping(value = "/selectedcourse", method = RequestMethod.GET)
@@ -144,11 +178,22 @@ public class StudentController {
 	// return mav;
 	// }
 
+	
+	//Selected Course Preview
+	@RequestMapping(value = "/preview", method = RequestMethod.GET)
+	public ModelAndView selectedCoursePreview() {
+		ModelAndView mav = new ModelAndView("SelectedCoursePreview");
+		ArrayList<Studentcourse> studentcourse = sService.findAllStudentCourseByStatus("OnPlan", "S1800001");
+		mav.addObject("studentcourse", studentcourse);
+		return mav;
+	}
+	
 	// View Grade
 	@RequestMapping(value = "/grade", method = RequestMethod.GET)
 	public ModelAndView studentViewGrade() {
 		ModelAndView mav = new ModelAndView("StudentViewGrade");
 		ArrayList<Studentcourse> studentcourse = sService.studentViewGrade("S1800001");
+		
 		mav.addObject("studentcourse", studentcourse);
 		return mav;
 	}

@@ -14,8 +14,7 @@
 		<div class="col-xs-12">
 			<c:if test="${fn:length(courses) gt 0}">
 				<%-- <form:form method="POST" commandName="course"> --%>
-				<table class="table table-striped table-bordered"
-					style="width: 100%" id="courseDetails">
+				<table class="table table-striped table-bordered" style="width: 100%" id="courseDetails">
 					<thead>
 						<tr>
 							<th><s:message code="label.course.courseIndex" /></th>
@@ -34,14 +33,17 @@
 								<td class="nowrap">${course.courseName}</td>
 								<td class="nowrap">${course.faculty}</td>
 								<td class="nowrap">${course.credits}</td>
-								<td><c:when test="${course.status!='Finished'}">
-										<input class="course-selection-checkbox" checked type="checkbox"
+								<td>
+								<c:choose>
+									<c:when test="true">
+										<input class="course-selection-checkbox" disabled type="checkbox"
 											value="${course.courseID}">
 									</c:when> 
 									<c:otherwise>
 									<input class="course-selection-checkbox" type="checkbox"
 											value="${course.courseID}">
 									</c:otherwise>
+								</c:choose>
 								</td>
 								<%-- <td><form:checkboxes path="courses" items="${courses}" /></td> --%>
 							</tr>
@@ -83,9 +85,4 @@
 		var selectedCourses = selectCourses();
 		$.post('/caps/student/courseplan', {'selectedCourses':selectedCourses}, function)
 	}
-	
-	
-	
-	
-	
 </script>
