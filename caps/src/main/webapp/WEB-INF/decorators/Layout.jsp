@@ -11,16 +11,30 @@
 	rel="stylesheet" type="text/css" />
 <link href="<c:url value='/js/DataTables/datatables.min.css'/>"
 	rel="stylesheet" type="text/css" />
+<link href="<c:url value='/css/style.css'/>"
+	rel="stylesheet" type="text/css" />
 </head>
 <body>
-	<%@include file="Menu.jsp"%>
-	<div>
-		<dec:body />
-	</div>
-	<!-- ======== Footer ======== -->
-	<div id="footer" align="center">
-		<hr>
-		<small> &copy; ISS NUS SA47 TEAM13 2018 </small>
+	<div id="wrapper">
+		<%@include file="Menu.jsp"%>
+		<div id="page-content-wrapper">
+			<div class="row">
+                <div class="col-xs-2 text-left">
+                	<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+              	</div>
+              	<div class="col-xs-10 text-right">
+              		<p>Username</p>
+              	</div>
+            </div>
+			<div class="container-fluid">
+				<dec:body />
+			</div>
+		</div>
+		<!-- ======== Footer ======== -->
+		<div id="footer" align="center">
+			<hr>
+			<small> &copy; ISS NUS SA47 TEAM13 2018 </small>
+		</div>
 	</div>
 </body>
 </html>
