@@ -1,12 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
 
 <div class="container">
-	<div class="row" style="color:black;">
+	<div class="row" style="color: black;">
 		<div class="col-xs-12">
 			<h1>Selected Courses</h1>
 		</div>
@@ -16,39 +16,42 @@
 			<c:if test="${fn:length(courses) gt 0}">
 				<table class="table table-striped table-bordered" style="width: 100%" id="selectedCourse">
 					<thead>
-					<tr>
-						<th><s:message code="label.course.courseIndex" /></th>
-						<th><s:message code="label.course.courseID" /></th>
-						<th><s:message code="label.course.courseName" /></th>
-						<th><s:message code="label.course.faculty" /></th>
-						<th align="center"><s:message code="label.course.credits"/></th>
-					</tr>
+						<tr>
+							<th><s:message code="label.course.courseIndex" /></th>
+							<th><s:message code="label.course.courseID" /></th>
+							<th><s:message code="label.course.courseName" /></th>
+							<th><s:message code="label.course.faculty" /></th>
+							<th align="center"><s:message code="label.course.credits" /></th>
+						</tr>
 					</thead>
 					<tbody>
-					<c:forEach var="course" items="${courses}" varStatus="status">
-						<tr class="${status.index%2==0?'even':'odd'}">
-							<td class="nowrap">${course.courseIndex}</td>
-							<td class="nowrap">${course.courseID}</td>
-							<td class="nowrap">${course.courseName}</td>
-							<td class="nowrap">${course.faculty}</td>
-							<td class="nowrap" align="center">${course.credits}</td>								
-						</tr>
-					</c:forEach>
+						<c:forEach var="course" items="${courses}" varStatus="status">
+							<tr class="${status.index%2==0?'even':'odd'}">
+								<td class="nowrap">${course.courseIndex}</td>
+								<td class="nowrap">${course.courseID}</td>
+								<td class="nowrap">${course.courseName}</td>
+								<td class="nowrap">${course.faculty}</td>
+								<td class="nowrap" align="center">${course.credits}</td>
+							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
-				
+
 			</c:if>
 		</div>
 	</div>
 </div>
 
-<script src="<c:url value='/js/DataTables/jQuery-3.3.1/jquery-3.3.1.min.js'/>" 
-	type="text/javascript" ></script>
-<script src="<c:url value='/js/DataTables/datatables.min.js'/>" 
-	type="text/javascript" ></script>
+<script
+	src="<c:url value='/js/DataTables/jQuery-3.3.1/jquery-3.3.1.min.js'/>"
+	type="text/javascript"></script>
+<script src="<c:url value='/js/DataTables/datatables.min.js'/>"
+	type="text/javascript"></script>
+
+<script>
+	$(document).ready(function() {
+		$('#selectedCourse').DataTable();
+	});
+
 	
-	<script>
-	$(document).ready( function () {
-	    $('#selectedCourse').DataTable();
-	} );
-	</script>
+</script>

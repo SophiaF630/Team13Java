@@ -16,10 +16,10 @@ public class SelectedCourse {
 		// TODO Auto-generated constructor stub
 	}
 
-	public SelectedCourse(ArrayList<Course> selectedCourse) {
-		super();
-		this.selectedCourse = selectedCourse;
-	}
+//	public SelectedCourse(ArrayList<Course> selectedCourse) {
+//		super();
+//		this.selectedCourse = selectedCourse;
+//	}
 
 	public ArrayList<Course> getSelectedCourse() {
 		return selectedCourse;
