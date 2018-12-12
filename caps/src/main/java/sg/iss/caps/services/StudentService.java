@@ -2,6 +2,8 @@ package sg.iss.caps.services;
 
 import java.util.ArrayList;
 
+import org.springframework.data.jpa.repository.Query;
+
 import sg.iss.caps.model.Course;
 import sg.iss.caps.model.Student;
 
@@ -18,7 +20,7 @@ public interface StudentService {
 	void removeStudent(Student s);
 
 	ArrayList<Student> findStudentsByCriteria(Student student);
-	
+
 	ArrayList<Course> findAllStudentsCourseDetails();
 	
 	ArrayList<Course> findCurrentCoursesByStudentID(String studentID);
@@ -26,5 +28,7 @@ public interface StudentService {
 	
 	ArrayList<Course> findHistoryCoursesByStudentID(String studentID);
 	//this part is to query the history class for student
+
+	ArrayList<Course> findAllSelectedCourse(String faculty);
 
 }

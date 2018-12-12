@@ -84,10 +84,10 @@ DROP TABLE IF EXISTS `lecturer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `lecturer` (
-  `LecturerID` varchar(45) NOT NULL,
+  `Lecturer_LecturerID` varchar(45) NOT NULL,
   `Faculty` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`LecturerID`),
-  CONSTRAINT `fk_Lecturer_User1` FOREIGN KEY (`LecturerID`) REFERENCES `user` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`Lecturer_LecturerID`),
+  CONSTRAINT `fk_Lecturer_User1` FOREIGN KEY (`Lecturer_LecturerID`) REFERENCES `user` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -109,12 +109,12 @@ DROP TABLE IF EXISTS `lecturercourse`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `lecturercourse` (
-  `LecturerID` varchar(45) NOT NULL,
+  `Lecturer_LecturerID` varchar(45) NOT NULL,
   `CourseIndex` varchar(45) NOT NULL,
-  PRIMARY KEY (`LecturerID`,`CourseIndex`),
+  PRIMARY KEY (`Lecturer_LecturerID`,`CourseIndex`),
   KEY `fk_LecturerCourse_Course1` (`CourseIndex`),
   CONSTRAINT `fk_LecturerCourse_Course1` FOREIGN KEY (`CourseIndex`) REFERENCES `course` (`courseindex`),
-  CONSTRAINT `fk_LecturerCourse_Lecturer1` FOREIGN KEY (`LecturerID`) REFERENCES `lecturer` (`lecturerid`)
+  CONSTRAINT `fk_LecturerCourse_Lecturer1` FOREIGN KEY (`Lecturer_LecturerID`) REFERENCES `lecturer` (`lecturer_lecturerid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -227,4 +227,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-07 23:55:58
+-- Dump completed on 2018-12-11 21:04:31

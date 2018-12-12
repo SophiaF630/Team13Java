@@ -8,20 +8,20 @@
 <div class="container">
 	<div class="row" style="color:black;">
 		<div class="col-xs-12">
-			<h1>Course Details</h1>
+			<h1>Selected Courses</h1>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-xs-12">
 			<c:if test="${fn:length(courses) gt 0}">
-				<table class="cell-border" style="width:100%" id="courseDetails">
+				<table class="cell-border" style="width:100%" id="selectedCourse">
 					<thead>
 					<tr>
 						<th><s:message code="label.course.courseIndex" /></th>
 						<th><s:message code="label.course.courseID" /></th>
 						<th><s:message code="label.course.courseName" /></th>
 						<th><s:message code="label.course.faculty" /></th>
-						<th><s:message code="label.course.credits" /></th>
+						<th align="center"><s:message code="label.course.credits"/></th>
 						<th><s:message code="label.course.select" /></th>
 					</tr>
 					</thead>
@@ -32,18 +32,21 @@
 							<td class="nowrap">${course.courseID}</td>
 							<td class="nowrap">${course.courseName}</td>
 							<td class="nowrap">${course.faculty}</td>
-							<td class="nowrap">${course.credits}</td>
-							<td><input type = "checkbox"></td>
-									
+							<td class="nowrap" align="center">${course.credits}</td>
+							<td><a
+								href="${pageContext.request.contextPath}/selectedcourse/edit/${student.studentID}.html">
+									<s:message code="label.course.select" />
+							</a></td>
+								
 						</tr>
 					</c:forEach>
 					</tbody>
 				</table>
+				
 			</c:if>
 		</div>
 	</div>
 </div>
-
 
 <script src="<c:url value='/js/DataTables/jQuery-3.3.1/jquery-3.3.1.min.js'/>" 
 	type="text/javascript" ></script>
@@ -52,6 +55,6 @@
 	
 	<script>
 	$(document).ready( function () {
-	    $('#courseDetails').DataTable();
+	    $('#selectedCourse').DataTable();
 	} );
 	</script>

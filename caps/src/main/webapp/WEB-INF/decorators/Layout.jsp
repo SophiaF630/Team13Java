@@ -4,27 +4,23 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 <head>
-<c:url value="/css/style.css" var="ss"/>
-<link rel="STYLESHEET" type="text/css"
-	href="${ss}" />
+<link
+	href="<c:url value='/js/DataTables/Bootstrap-3.3.7/css/bootstrap.min.css'/>"
+	rel="stylesheet" type="text/css" />
+<link href="<c:url value='/js/DataTables/Bootstrap-3.3.7/css/bootstrap-theme.min.css'/>"
+	rel="stylesheet" type="text/css" />
+<link href="<c:url value='/js/DataTables/datatables.min.css'/>"
+	rel="stylesheet" type="text/css" />
 </head>
 <body>
-<h1> Student CRUD Demo</h1>
-<%@include file="Menu.jsp"%>
-	<table style="width: 100%">
-		<tr>
-			<td>
-				<div>
-					<dec:body />
-				</div>
-			</td>
-		</tr>
-	</table>
-	
+	<%@include file="Menu.jsp"%>
+	<div>
+		<dec:body />
+	</div>
 	<!-- ======== Footer ======== -->
-				<div id="footer" align="center">
-				  <hr>
-					<small> &copy; ISS NUS SA47 TEAM13 2018 </small>
-				</div>
+	<div id="footer" align="center">
+		<hr>
+		<small> &copy; ISS NUS SA47 TEAM13 2018 </small>
+	</div>
 </body>
 </html>
