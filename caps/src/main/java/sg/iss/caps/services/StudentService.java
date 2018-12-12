@@ -10,7 +10,9 @@ public interface StudentService {
 
 	ArrayList<Student> findAllStudents();
 
-	Student findStudent(String nric);
+	Student findStudent(String sid);
+	
+//	Student findByStudentID(String sid);
 
 	Student createStudent(Student s);
 

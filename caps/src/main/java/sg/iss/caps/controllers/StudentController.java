@@ -1,9 +1,8 @@
 package sg.iss.caps.controllers;
 
 import java.util.ArrayList;
-
 import java.util.Calendar;
-import javax.servlet.http.HttpSession;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +22,9 @@ import sg.iss.caps.services.StudentcourseService;
 import sg.iss.caps.exception.StudentNotFound;
 import sg.iss.caps.model.Course;
 import sg.iss.caps.model.Student;
-import sg.iss.caps.model.StudentGrade;
 import sg.iss.caps.model.StudentCourseRegisterDto;
+import sg.iss.caps.model.StudentGrade;
 import sg.iss.caps.model.Studentcourse;
-
 import sg.iss.caps.model.StudentcoursePK;
 
 
@@ -126,7 +124,7 @@ public class StudentController {
 	
 	//Select course
 	@RequestMapping(value = "/coursedetails", method = RequestMethod.POST)
-	public ModelAndView selectCourse(@ModelAttribute StudentCourseRegisterDto studentCourseRegisterDto, Model model) {		
+	public ModelAndView selectCourse(@ModelAttribute StudentCourseRegisterDto studentCourseRegisterDto) {		
 		ModelAndView mav = new ModelAndView();
 		//get form data
 		System.out.println(studentCourseRegisterDto.getStudentId());
@@ -135,23 +133,23 @@ public class StudentController {
 		//prepare new page model data
 		//UserSession us = (UserSession) session.getAttribute("USERSESSION");
 		Studentcourse sc = new Studentcourse();
-//		Student student = sService.findStudent(studentCourseRegisterDto.getStudentId());
-//		String[] selectedCourses = studentCourseRegisterDto.getCourseIndexes();
+		Student student = sService.findStudent(studentCourseRegisterDto.getStudentId());
+		String[] selectedCourses = studentCourseRegisterDto.getCourseIndexes();
 
-//		for (String courseIndex : selectedCourses) {
-//			StudentcoursePK spk = scService.findStudentcoursePK("S1800001", courseIndex);
-//			Course course = null;
-//			sc.setCourse(course);		
-//			sc.setStudent(student);
-//			sc.setId(spk);
-//			sc.setCAGrade(-1);		
-//			sc.setExamGrade(-1);
-//			sc.setEnrollTime(Calendar.getInstance().getTime());
-//			sc.setStatus("OnPlan");
-//
-//			scService.createStudentCourse(sc);
-//		}
-//		mav.setViewName("redirect:/student/preview");
+		for (String courseIndex : selectedCourses) {
+			StudentcoursePK spk = scService.findStudentcoursePK("S1800001", courseIndex);
+			Course course = null;
+			sc.setCourse(course);		
+			sc.setStudent(student);
+			sc.setId(spk);
+			sc.setCAGrade(-1);		
+			sc.setExamGrade(-1);
+			sc.setEnrollTime(Calendar.getInstance().getTime());
+			sc.setStatus("OnPlan");
+
+			scService.createStudentCourse(sc);
+		}
+		mav.setViewName("redirect:/student/preview");
 		return mav;
 		
 	}

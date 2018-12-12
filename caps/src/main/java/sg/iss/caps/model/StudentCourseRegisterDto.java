@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class StudentCourseRegisterDto {
-	private String studentId;
-	private String[] courseIndexes;
+	private String studentId = "";
+	private String[] courseIndexes = {};
 
 	public String[] getCourseIndexes() {
 		return courseIndexes;

@@ -53,23 +53,27 @@
 					</thead>
 					<tbody>
 						<c:forEach begin="9" end="18" step="1" var="time">
-							<TR>
-								<TD align="center" valign="middle" width="120">
+							<tr>
+								<td align="center" valign="middle" width="120">
 											<c:out value="${time}:00 - ${time+1}:00" />
-								</TD> 
+								</td> 
 								<c:forEach begin="1" end="6" step="1" var="day">
-									<TD align="center" valign="middle" width="100">
+									<td align="center" valign="middle" width="100">
 										<c:forEach items="${studentcourse}" var="studentcourse">
 											<c:set var="lectureschedule" value="${studentcourse.course.lectureSchedule}"/>
 											<c:set var="splitlectureschedule" value="${fn:split(lectureschedule, ',')}"/>
-											<c:forEach var="i" items="splitlectureschedule">
-												<c:if test="${i}.equals(${String.valueOf(day)}${String.valueOf(time-9)})">
-													<c:out value="${studentcourse.course.courseName}" />
+											<c:forEach var="i" items="${splitlectureschedule}">
+											<%-- <c:out value="${i}" />
+											<c:out value="${String.valueOf(day)}${String.valueOf(time-9)}" /> --%>
+											<c:set var = "k" value="${i}"/>
+											<c:set var = "j" value="${String.valueOf(day)}${String.valueOf(time-9)}"/>
+												<c:if test="${k.equals(j)}">
+													<c:out value="${studentcourse.course.courseID} ${studentcourse.course.courseName}" />
 												</c:if>
 											</c:forEach>
-										</c:forEach></TD>
+										</c:forEach></td>
 								</c:forEach>
-							</TR>
+							</tr>
 						</c:forEach>
 					</tbody>
 				</table>

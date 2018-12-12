@@ -28,19 +28,19 @@
 					<tbody>
 						<c:forEach var="course" items="${courses}" varStatus="status">
 							<tr class="${status.index%2==0?'even':'odd'}">
-								<td class="nowrap course-index">${course.courseIndex}</td>
-								<td class="nowrap course-id">${course.courseID}</td>
+								<td class="nowrap">${course.courseIndex}</td>
+								<td class="nowrap">${course.courseID}</td>
 								<td class="nowrap">${course.courseName}</td>
 								<td class="nowrap">${course.faculty}</td>
 								<td class="nowrap">${course.credits}</td>
 								<td>
 									<c:choose>
 										<c:when test="false">
-											<input name="courseIndexes" class="course-selection-checkbox" disabled type="checkbox"
+											<input name="courseIndexes" disabled type="checkbox"
 												value="${course.courseID}">
 										</c:when> 
 										<c:otherwise>
-										<input name="courseIndexes" class="course-selection-checkbox" type="checkbox"
+										<input name="courseIndexes" type="checkbox"
 												value="${course.courseIndex}">
 										</c:otherwise>
 									</c:choose>
@@ -49,7 +49,7 @@
 						</c:forEach>
 					</tbody>
 				</table>
-				<input class="btn button-primary" type="submit" value="Submit">
+				<input class="btn button-primary pull-right" type="submit" value="Submit">
 				</form>
 			</c:if>
 		</div>
