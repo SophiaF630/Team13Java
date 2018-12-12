@@ -6,5 +6,5 @@ import sg.iss.caps.model.Student;
 
 
 public interface StudentRepository extends JpaRepository<Student, String> {
- 
+
 }

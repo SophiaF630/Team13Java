@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import sg.iss.caps.model.Course;
 import sg.iss.caps.model.Student;
 import sg.iss.caps.repo.CourseRepository;
+import sg.iss.caps.repo.StudentCourseRepository;
 import sg.iss.caps.repo.StudentRepository;
 
 @Service
@@ -18,6 +19,10 @@ public class StudentServicesImpl implements StudentService {
 	StudentRepository srepo;
 	@Resource
 	CourseRepository crepo;
+	@Resource
+	StudentCourseRepository screpo;
+	@Resource
+	CourseService cserve;
 	
 	@Override
 	public ArrayList<Student> findAllStudents() {
@@ -55,8 +60,19 @@ public class StudentServicesImpl implements StudentService {
 	}
 	
 	@Override
+	public ArrayList<Course> findCurrentCoursesByStudentID(String studentID) {
+		ArrayList<Course> total = screpo.findByStudentID(studentID);
+		return (ArrayList<Course>) cserve.selectCurrentCourse(total);
+	}
+	
+	@Override
 	public ArrayList<Course> findAllStudentsCourseDetails() {
 		return (ArrayList<Course>) crepo.findAll();
+	}
+
+	@Override
+	public ArrayList<Course> findHistoryCoursesByStudentID(String studentID) {
+		return (ArrayList<Course>) screpo.findByStudentID(studentID);
 	}
 
 }

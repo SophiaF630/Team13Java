@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <link href="<c:url value='/css/style.css'/>" rel="stylesheet"
 	type="text/css" />
 
@@ -28,8 +28,12 @@
 				</a></td>
 				<td><a
 					href="${pageContext.request.contextPath}/student/delete/${student.studentID}.html">
-					<s:message
-							code="label.student.delete" /></a></td>
+						<s:message code="label.student.delete" />
+				</a></td>
+				<td><a
+					href="${pageContext.request.contextPath}/student/courses/${student.studentID}.html">
+						<s:message code="label.student.courses" />
+				</a></td>
 
 			</tr>
 		</c:forEach>

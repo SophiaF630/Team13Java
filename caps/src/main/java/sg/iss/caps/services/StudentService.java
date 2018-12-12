@@ -20,5 +20,11 @@ public interface StudentService {
 	ArrayList<Student> findStudentsByCriteria(Student student);
 	
 	ArrayList<Course> findAllStudentsCourseDetails();
+	
+	ArrayList<Course> findCurrentCoursesByStudentID(String studentID);
+	//this part is to query the current class for student
+	
+	ArrayList<Course> findHistoryCoursesByStudentID(String studentID);
+	//this part is to query the history class for student
 
 }

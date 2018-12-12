@@ -115,5 +115,13 @@ public class StudentController {
 		mav.addObject("courses", courses);
 		return mav;
 	}
+	
+	@RequestMapping(value = "/course/{sid}", method = RequestMethod.GET)
+	public ModelAndView listStudentsCourses(@PathVariable String sid) {
+		ModelAndView mav = new ModelAndView("StudentCourseDetails");
+		ArrayList<Course> courses = sService.findCurrentCoursesByStudentID(sid);
+		mav.addObject("courses", courses);
+		return mav;
+	}
 
 }
