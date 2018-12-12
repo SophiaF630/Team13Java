@@ -34,7 +34,6 @@
 										<td class="nowrap">${course.faculty}</td>
 										<td class="nowrap">${course.credits}</td>
 										<td align="center"><input type="submit" value="Select" ></td>
-										<!-- <td><input type = "checkbox"></td> -->
 									</tr>
 								</c:forEach>
 							</tbody>
