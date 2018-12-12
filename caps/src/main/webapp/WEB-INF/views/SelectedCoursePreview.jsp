@@ -2,7 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<style>
+.has-collision{
+	background-color: #f0ad4e;
+    border-color: #eea236;
+}
+</style>
 
 
 <div class="container">

@@ -14,7 +14,7 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<c:if test="${fn:length(courses) gt 0}">
-				<table class="table table-striped table-bordered" style="width: 100%" id="selectedCourse">
+				<table class="table table-striped table-bordered" style="width: 100%" id="selectedCourseView">
 					<thead>
 						<tr>
 							<th><s:message code="label.course.courseIndex" /></th>
@@ -22,16 +22,18 @@
 							<th><s:message code="label.course.courseName" /></th>
 							<th><s:message code="label.course.faculty" /></th>
 							<th align="center"><s:message code="label.course.credits" /></th>
+							<th><s:message code="label.course.studentcourse.status" /></th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="course" items="${courses}" varStatus="status">
 							<tr class="${status.index%2==0?'even':'odd'}">
-								<td class="nowrap">${course.courseIndex}</td>
-								<td class="nowrap">${course.courseID}</td>
-								<td class="nowrap">${course.courseName}</td>
-								<td class="nowrap">${course.faculty}</td>
-								<td class="nowrap" align="center">${course.credits}</td>
+								<td class="nowrap">${studentcourse.courseIndex}</td>
+								<td class="nowrap">${studentcourse.course.courseID}</td>
+								<td class="nowrap">${studentcourse.course.courseName}</td>
+								<td class="nowrap">${studentcourse.course.faculty}</td>
+								<td class="nowrap" align="center">${studentcourse.course.credits}</td>
+								<td class="nowrap">${studentcourse.status}</td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -50,7 +52,7 @@
 
 <script>
 	$(document).ready(function() {
-		$('#selectedCourse').DataTable();
+		$('#selectedCourseView').DataTable();
 	});
 
 	

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -159,10 +160,10 @@ public class StudentController {
 
 	// List selected course
 	@RequestMapping(value = "/selectedcourse", method = RequestMethod.GET)
-	public ModelAndView listAllSelectedCourse() {
-		ModelAndView mav = new ModelAndView("SelectCourse");
-		ArrayList<Course> courses = sService.findAllSelectedCourse("ISS");
-		mav.addObject("courses", courses);
+	public ModelAndView listAllSelectedCourse(String status, String sid) {
+		ModelAndView mav = new ModelAndView("SelectedCourseView");
+		ArrayList<Studentcourse> studentcourse = sService.findAllStudentCourseByStatus("Enrolled", "S1800001");
+		mav.addObject("studentcourse", studentcourse);
 		return mav;
 	}
 
@@ -173,20 +174,6 @@ public class StudentController {
 		mav.addObject("courses", courses);
 		return mav;
 	}
-
-	// //Select course
-	// @RequestMapping(value = "/coursedetails", method = RequestMethod.POST)
-	// public ModelAndView selectCourse(Model model, Course course, BindingResult
-	// result, final RedirectAttributes redirectAttributes, HttpSession session) {
-	// if (result.hasErrors())
-	// return new ModelAndView("StudentCourseDetails");
-	//
-	// ModelAndView mav = new ModelAndView("selectCourse");
-	// //UserSession us = (UserSession) session.getAttribute("USERSESSION");
-	// mav.setViewName("SelectCourse");
-	// model.addAttribute("course", course);
-	// return mav;
-	// }
 
 	
 	//Selected Course Preview
@@ -216,8 +203,8 @@ public class StudentController {
 					}
 				}
 			}
-			
-			String[] allSlots = (String[]) courseSchedule.keySet().toArray();
+			Set<String> keys = courseSchedule.keySet();
+			String[] allSlots = keys.toArray(new String[keys.size()]);
 			for(String slot: allSlots) {
 				if(courseSchedule.get(slot) > 1) {
 					collisions.put(slot, true);

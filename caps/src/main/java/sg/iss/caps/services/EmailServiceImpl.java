@@ -28,11 +28,11 @@ public class EmailServiceImpl {
 
 	}
 
-	public void createEmailMessage() throws AddressException,
+	public void createEmailMessage(String[] to, String subject, String body) throws AddressException,
 			MessagingException {
-		String[] toEmails = { "feng.yuxi@u.nus.edu", "e0338082@u.nus.edu" };
-		String emailSubject = "Java Email";
-		String emailBody = "This is an email sent by JavaMail api.";
+		String[] toEmails = to;
+		String emailSubject = subject;
+		String emailBody = body;
 
 		mailSession = Session.getDefaultInstance(emailProperties, null);
 		emailMessage = new MimeMessage(mailSession);

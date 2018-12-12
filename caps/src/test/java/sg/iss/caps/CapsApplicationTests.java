@@ -16,8 +16,11 @@ public class CapsApplicationTests {
 
 		EmailServiceImpl javaEmail = new EmailServiceImpl();
 
+		String[] to = {"feng.yuxi@u.nus.edu", "e0338082@u.nus.edu"};
+		String subject = "Enrollment Confirmation";
+		String body = "Hi Applicant Name! Congratulations! Your registration is confirmed! You have successfully completed registration. Below is a list of the details of the course you have registered : If you have further queries or need clarification, you may reach us at our official email at SA47Team13@gmail.com or call us at 62314231. Thank you";
 		javaEmail.setMailServerProperties();
-		javaEmail.createEmailMessage();
+		javaEmail.createEmailMessage(to, subject, body);
 		javaEmail.sendEmail();
 	}
 
