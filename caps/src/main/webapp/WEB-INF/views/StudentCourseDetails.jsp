@@ -13,7 +13,8 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<c:if test="${fn:length(courses) gt 0}">
-				<%-- <form:form method="POST" commandName="course"> --%>
+			<form method="POST" action="/caps/student/coursedetails">
+				<input type="hidden" value="student-id-01" name="studentId">
 				<table class="table table-striped table-bordered" style="width: 100%" id="courseDetails">
 					<thead>
 						<tr>
@@ -34,31 +35,27 @@
 								<td class="nowrap">${course.faculty}</td>
 								<td class="nowrap">${course.credits}</td>
 								<td>
-								<c:choose>
-									<c:when test="true">
-										<input class="course-selection-checkbox" disabled type="checkbox"
-											value="${course.courseID}">
-									</c:when> 
-									<c:otherwise>
-									<input class="course-selection-checkbox" type="checkbox"
-											value="${course.courseID}">
-									</c:otherwise>
-								</c:choose>
+									<c:choose>
+										<c:when test="true">
+											<input name="selectedCourseId" class="course-selection-checkbox" disabled type="checkbox"
+												value="${course.courseID}">
+										</c:when> 
+										<c:otherwise>
+										<input name="selectedCourseId" class="course-selection-checkbox" type="checkbox"
+												value="${course.courseIndex}">
+										</c:otherwise>
+									</c:choose>
 								</td>
-								<%-- <td><form:checkboxes path="courses" items="${courses}" /></td> --%>
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
 				<input class="btn button-primary" type="submit" value="Submit">
-				<%-- </form:form> --%>
+				</form>
 			</c:if>
 		</div>
 	</div>
 </div>
-
-
-
 <script
 	src="<c:url value='/js/DataTables/jQuery-3.3.1/jquery-3.3.1.min.js'/>"
 	type="text/javascript"></script>
@@ -69,20 +66,4 @@
 	$(document).ready(function() {
 		$('#courseDetails').DataTable();
 	});
-	
-	
-	function selectCourses(){
-		var selectedRows = $('input:checked').parents('tr');
-		var selectedCourseIds = [];
-		selectedRows.forEach(function(row){
-			var course_id = $(row).find('.course-id').text();
-			selectedCourseIds.push(course_id);
-		})
-		return selectedCourseIds;
-	}
-	
-	function submitSelectedCourses(){
-		var selectedCourses = selectCourses();
-		$.post('/caps/student/courseplan', {'selectedCourses':selectedCourses}, function)
-	}
 </script>
