@@ -4,47 +4,56 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
-	<div class="container">
-		<div class="row" style="color: black;">
-			<div class="col-xs-12">
-				<h1>Course Details</h1>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-12">
-				<c:if test="${fn:length(courses) gt 0}">
-					<%-- <form:form method="POST" commandName="course"> --%>
-						<table class="table table-striped table-bordered" style="width: 100%" id="courseDetails">
-							<thead>
-								<tr>
-									<th><s:message code="label.course.courseIndex" /></th>
-									<th><s:message code="label.course.courseID" /></th>
-									<th><s:message code="label.course.courseName" /></th>
-									<th><s:message code="label.course.faculty" /></th>
-									<th><s:message code="label.course.credits" /></th>
-									<th><s:message code="label.course.select" /></th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach var="course" items="${courses}" varStatus="status">
-									<tr class="${status.index%2==0?'even':'odd'}">
-										<td class="nowrap">${course.courseIndex}</td>
-										<td class="nowrap">${course.courseID}</td>
-										<td class="nowrap">${course.courseName}</td>
-										<td class="nowrap">${course.faculty}</td>
-										<td class="nowrap">${course.credits}</td>
-										<td><input type = "checkbox"></td>
-										<%-- <td><form:checkboxes path="courses" items="${courses}" /></td> --%>
-									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
-						<input type="submit" value="Submit">
-					<%-- </form:form> --%>
-				</c:if>
-			</div>
+<div class="container">
+	<div class="row" style="color: black;">
+		<div class="col-xs-12">
+			<h1>Course Details</h1>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			<c:if test="${fn:length(courses) gt 0}">
+				<%-- <form:form method="POST" commandName="course"> --%>
+				<table class="table table-striped table-bordered"
+					style="width: 100%" id="courseDetails">
+					<thead>
+						<tr>
+							<th><s:message code="label.course.courseIndex" /></th>
+							<th><s:message code="label.course.courseID" /></th>
+							<th><s:message code="label.course.courseName" /></th>
+							<th><s:message code="label.course.faculty" /></th>
+							<th><s:message code="label.course.credits" /></th>
+							<th><s:message code="label.course.select" /></th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="course" items="${courses}" varStatus="status">
+							<tr class="${status.index%2==0?'even':'odd'}">
+								<td class="nowrap course-index">${course.courseIndex}</td>
+								<td class="nowrap course-id">${course.courseID}</td>
+								<td class="nowrap">${course.courseName}</td>
+								<td class="nowrap">${course.faculty}</td>
+								<td class="nowrap">${course.credits}</td>
+								<td><c:when test="${course.status!='Finished'}">
+										<input class="course-selection-checkbox" checked type="checkbox"
+											value="${course.courseID}">
+									</c:when> 
+									<c:otherwise>
+									<input class="course-selection-checkbox" type="checkbox"
+											value="${course.courseID}">
+									</c:otherwise>
+								</td>
+								<%-- <td><form:checkboxes path="courses" items="${courses}" /></td> --%>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+				<input class="btn button-primary" type="submit" value="Submit">
+				<%-- </form:form> --%>
+			</c:if>
+		</div>
+	</div>
+</div>
 
 
 
@@ -58,5 +67,25 @@
 	$(document).ready(function() {
 		$('#courseDetails').DataTable();
 	});
+	
+	
+	function selectCourses(){
+		var selectedRows = $('input:checked').parents('tr');
+		var selectedCourseIds = [];
+		selectedRows.forEach(function(row){
+			var course_id = $(row).find('.course-id').text();
+			selectedCourseIds.push(course_id);
+		})
+		return selectedCourseIds;
+	}
+	
+	function submitSelectedCourses(){
+		var selectedCourses = selectCourses();
+		$.post('/caps/student/courseplan', {'selectedCourses':selectedCourses}, function)
+	}
+	
+	
+	
+	
 	
 </script>
