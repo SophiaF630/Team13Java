@@ -43,7 +43,7 @@
                     <a href="/caps/student/grade">My Grades</a>
                 </li>
                 <li>
-                    <a href="#">Otheres</a>
+                    <a href="#">Others</a>
                 </li>
             </ul>
         </nav>
