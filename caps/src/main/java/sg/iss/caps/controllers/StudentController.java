@@ -138,11 +138,13 @@ public class StudentController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/course/{sid}", method = RequestMethod.GET)
+	@RequestMapping(value = "/courses/{sid}", method = RequestMethod.GET)
 	public ModelAndView listStudentsCourses(@PathVariable String sid) {
-		ModelAndView mav = new ModelAndView("StudentCourseDetails");
+		ModelAndView mav = new ModelAndView("StudentCourseList");
 		ArrayList<Course> courses = sService.findCurrentCoursesByStudentID(sid);
 		mav.addObject("courses", courses);
+		String names = "Current Class";
+		mav.addObject("name" ,names);
 		return mav;
 	}
 

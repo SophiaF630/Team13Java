@@ -3,6 +3,8 @@ package sg.iss.caps.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -29,6 +31,7 @@ public class Student implements Serializable {
 	private String studentID;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern="mm/dd/yyyy")
 	private Date enrollmentDate;
 
 	//bi-directional one-to-one association to User

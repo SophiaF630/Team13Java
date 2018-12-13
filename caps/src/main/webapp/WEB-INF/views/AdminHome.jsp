@@ -8,9 +8,9 @@
 </head>
 <body>
 <div>
-<a href="${pageContext.request.contextPath}/student/list.html">student</a>
-<a href="${pageContext.request.contextPath}/lecturer/list.html">manage lecturer</a>
-<a href="${pageContext.request.contextPath}/course/list.html">course</a>
+<a href="${pageContext.request.contextPath}/admin/student/list.html">student</a>
+<a href="${pageContext.request.contextPath}/admin/lecturer/list.html">manage lecturer</a>
+<a href="${pageContext.request.contextPath}/admin/course/list.html">course</a>
 <a href="${pageContext.request.contextPath}/admin/academictime.html">academictime</a>
 </div>
 <div></div>

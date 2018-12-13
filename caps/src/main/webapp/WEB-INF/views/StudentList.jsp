@@ -5,13 +5,14 @@
 <link href="<c:url value='/css/style.css'/>" rel="stylesheet"
 	type="text/css" />
 
-<a href="${pageContext.request.contextPath}/student/create">Add
+<a href="${pageContext.request.contextPath}/admin/student/create">Add
 	Student</a>
 <c:if test="${fn:length(students) gt 0}">
 	<br />
 	<br />
 	<table class="borderAll">
 		<tr>
+			<th><s:message code="label.student.userName" /></th>
 			<th><s:message code="label.student.studnetID" /></th>
 			<th><s:message code="label.student.enrollmentDate" /></th>
 			<th><s:message code="label.student.edit" /></th>
@@ -20,20 +21,23 @@
 		<c:forEach var="student" items="${students}" varStatus="status">
 			<tr class="${status.index%2==0?'even':'odd'}">
 				<td class="nowrap">${status.index}</td>
+				<td class= "nowrap">${Users[status.index].firstMidName} </td>
 				<td class="nowrap">${student.studentID}</td>
-				<td class="nowrap">${student.enrollmentDate}</td>
+				<td class="nowrap"><input type = "date" value = "${student.enrollmentDate}" readonly = "readonly"></td>
 				<td align="center"><a
-					href="${pageContext.request.contextPath}/student/edit/${student.studentID}.html">
+					href="${pageContext.request.contextPath}/admin/student/edit/${student.studentID}.html">
 						<s:message code="label.student.edit" />
 				</a></td>
 				<td><a
-					href="${pageContext.request.contextPath}/student/delete/${student.studentID}.html">
+					href="${pageContext.request.contextPath}/admin/student/delete/${student.studentID}.html">
 						<s:message code="label.student.delete" />
 				</a></td>
-				<td><a
-					href="${pageContext.request.contextPath}/student/courses/${student.studentID}.html">
-						<s:message code="label.student.courses" />
-				</a></td>
+				<td><%-- <a
+					href="${pageContext.request.contextPath}/admin/student/courses/${student.studentID}.html">
+						view course
+				</a> --%>
+				<button onclick = "window.location = '${pageContext.request.contextPath}/admin/student/courses/${student.studentID}.html'">view course</button>
+				</td>
 
 			</tr>
 		</c:forEach>
