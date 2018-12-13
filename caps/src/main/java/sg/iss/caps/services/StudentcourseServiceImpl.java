@@ -42,6 +42,15 @@ public class StudentcourseServiceImpl implements StudentcourseService {
 		scpk.setCourseIndex(ci);
 		return scpk;
 	}
+	
+	@Override
+	public void deleteStudentCourse(Studentcourse sc) {
+		screpo.delete(sc);
+	}
+	@Override
+	public ArrayList<Studentcourse> findStudentCourseByStudentId(String sid){
+		return screpo.findByStudentID(sid);
+	}
 
 	@Override
 	public double calculateStudentGPA(String sid) {
