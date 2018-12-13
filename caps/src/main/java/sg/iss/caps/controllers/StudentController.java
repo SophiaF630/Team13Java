@@ -3,6 +3,7 @@ package sg.iss.caps.controllers;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,7 +31,6 @@ import sg.iss.caps.model.StudentCourseRegisterDto;
 import sg.iss.caps.model.StudentGrade;
 import sg.iss.caps.model.Studentcourse;
 import sg.iss.caps.model.StudentcoursePK;
-
 
 @RequestMapping(value = "/student")
 @RestController
@@ -122,20 +122,40 @@ public class StudentController {
 	public ModelAndView listAllStudentsCourseDetails() {
 		ModelAndView mav = new ModelAndView("StudentCourseDetails");
 		ArrayList<Course> courses = sService.findAllCurrentSemesterCourse(Calendar.getInstance().getTime());
+		ArrayList<Course> selectedcourse_history = sService.findHistoryCoursesByStudentID("S1800001");
+		ArrayList<Course> unavaCourses = new ArrayList<Course>();
+		//ArrayList<Course> avaCourses = sService.findAllCurrentSemesterCourse(Calendar.getInstance().getTime());
+		ArrayList<Course> avaCourses = new ArrayList<Course>();
+		for (Course c : courses) {
+			for (Course sch : selectedcourse_history) {
+				if (c.getCourseID().equals(sch.getCourseID())) {
+					unavaCourses.add(c);
+				}
+			}
+		}
+		for (Course c : courses) {
+			if (!unavaCourses.contains(c))
+				avaCourses.add(c);
+		}
+		unavaCourses  = new ArrayList<Course>(new HashSet<Course>(unavaCourses));
+		avaCourses  = new ArrayList<Course>(new HashSet<Course>(avaCourses));
+		
 		mav.addObject("courses", courses);
+		mav.addObject("avaCourses", avaCourses);
+		mav.addObject("unavaCourses", unavaCourses);
 		return mav;
 	}
-	
-	//Select course
+
+	// Select course
 	@RequestMapping(value = "/coursedetails", method = RequestMethod.POST)
-	public ModelAndView selectCourse(@ModelAttribute StudentCourseRegisterDto studentCourseRegisterDto) {		
+	public ModelAndView selectCourse(@ModelAttribute StudentCourseRegisterDto studentCourseRegisterDto) {
 		ModelAndView mav = new ModelAndView();
-		//get form data
+		// get form data
 		System.out.println(studentCourseRegisterDto.getStudentId());
 		System.out.println(String.join(", ", studentCourseRegisterDto.getCourseIndexes()));
-		
-		//prepare new page model data
-		//UserSession us = (UserSession) session.getAttribute("USERSESSION");
+
+		// prepare new page model data
+		// UserSession us = (UserSession) session.getAttribute("USERSESSION");
 		Studentcourse sc = new Studentcourse();
 		Student student = sService.findByStudentID(studentCourseRegisterDto.getStudentId());
 		String[] selectedCourses = studentCourseRegisterDto.getCourseIndexes();
@@ -143,10 +163,10 @@ public class StudentController {
 		for (String courseIndex : selectedCourses) {
 			StudentcoursePK spk = scService.findStudentcoursePK("S1800001", courseIndex);
 			Course course = null;
-			//sc.setCourse(course);		
-			//sc.setStudent(student);
+			// sc.setCourse(course);
+			// sc.setStudent(student);
 			sc.setId(spk);
-			sc.setCAGrade(-1);		
+			sc.setCAGrade(-1);
 			sc.setExamGrade(-1);
 			sc.setEnrollTime(Calendar.getInstance().getTime());
 			sc.setStatus("OnPlan");
@@ -154,32 +174,30 @@ public class StudentController {
 			scService.createStudentCourse(sc);
 		}
 		mav.setViewName("redirect:/student/preview");
-		return mav;		
+		return mav;
 	}
-	
-	//Submit selection
+
+	// Submit selection
 	@RequestMapping(value = "/preview", method = RequestMethod.POST)
 	public ModelAndView submitSelection(@ModelAttribute Studentcourse studentcourse) {
-		
+
 		ArrayList<Studentcourse> sc_OnPlan = sService.findAllStudentCourseByStatus("OnPlan", "S1800001");
-		for (Studentcourse sc: sc_OnPlan)
-		{
+		for (Studentcourse sc : sc_OnPlan) {
 			if (scService.getStudentCount(sc.getCourse().getCourseIndex()) >= sc.getCourse().getClassSize()) {
-			sc.setId(sc.getId());
-			sc.setStatus("Pending");
-			sc.setEnrollTime(Calendar.getInstance().getTime());
-			}
-			else {
+				sc.setId(sc.getId());
+				sc.setStatus("Pending");
+				sc.setEnrollTime(Calendar.getInstance().getTime());
+			} else {
 				sc.setId(sc.getId());
 				sc.setStatus("Enrolled");
 				sc.setEnrollTime(Calendar.getInstance().getTime());
 			}
 			scService.updateStudentCourse(sc);
 		}
-		
+
 		ModelAndView mav = new ModelAndView("redirect:/student/selectedcourse");
 		return mav;
-		
+
 	}
 
 	// List selected course
@@ -188,11 +206,12 @@ public class StudentController {
 		ModelAndView mav = new ModelAndView("SelectedCourseView");
 		ArrayList<Studentcourse> studentcourse_enrolled = sService.findAllStudentCourseByStatus("Enrolled", "S1800001");
 		ArrayList<Studentcourse> studentcourse_pending = sService.findAllStudentCourseByStatus("Pending", "S1800001");
-		ArrayList<Studentcourse> studentcourse_cancelled = sService.findAllStudentCourseByStatus("Cancelled", "S1800001");
+		ArrayList<Studentcourse> studentcourse_cancelled = sService.findAllStudentCourseByStatus("Cancelled",
+				"S1800001");
 		ArrayList<Studentcourse> studentcourse = new ArrayList<Studentcourse>();
 		studentcourse.addAll(studentcourse_enrolled);
 		studentcourse.addAll(studentcourse_pending);
-		studentcourse.addAll(studentcourse_cancelled);		
+		studentcourse.addAll(studentcourse_cancelled);
 		mav.addObject("studentcourse", studentcourse);
 		return mav;
 	}
@@ -205,49 +224,52 @@ public class StudentController {
 		return mav;
 	}
 
-	
-	//Selected Course Preview
+	// Selected Course Preview
 	@RequestMapping(value = "/preview", method = RequestMethod.GET)
 	public ModelAndView selectedCoursePreview() {
 		ModelAndView mav = new ModelAndView("SelectedCoursePreview");
-		ArrayList<Studentcourse> studentcourse = sService.findAllStudentCourseByStatus("OnPlan", "S1800001");
+		ArrayList<Studentcourse> studentcourse_onPlan = sService.findAllStudentCourseByStatus("OnPlan", "S1800001");
+		ArrayList<Studentcourse> studentcourse_enrolled = sService.findAllStudentCourseByStatus("Enrolled", "S1800001");
+		ArrayList<Studentcourse> studentcourse = new ArrayList<Studentcourse>();
+		studentcourse.addAll(studentcourse_onPlan);
+		studentcourse.addAll(studentcourse_enrolled);
 		Map<String, Boolean> collisions = findCourseCollisions(studentcourse);
 		mav.addObject("studentcourse", studentcourse);
 		mav.addObject("collisions", collisions);
 		return mav;
 	}
-	
+
 	private Map<String, Boolean> findCourseCollisions(ArrayList<Studentcourse> studentCourses) {
 		Map<String, Integer> courseSchedule = new HashMap<String, Integer>();
 		Map<String, Boolean> collisions = new HashMap<String, Boolean>();
-		if(studentCourses != null) {
-			for(Studentcourse st: studentCourses) {
+		if (studentCourses != null) {
+			for (Studentcourse st : studentCourses) {
 				String[] courseTimeSlots = st.getCourse().getLectureSchedule().split(",");
-				for (String slot: courseTimeSlots) {
-					if(!courseSchedule.containsKey(slot)) {
+				for (String slot : courseTimeSlots) {
+					if (!courseSchedule.containsKey(slot)) {
 						courseSchedule.put(slot, 1);
-						
-					}else {
-						int totalCourseAtSameSlot = courseSchedule.get(slot)+1;
+
+					} else {
+						int totalCourseAtSameSlot = courseSchedule.get(slot) + 1;
 						courseSchedule.put(slot, totalCourseAtSameSlot);
 					}
 				}
 			}
 			Set<String> keys = courseSchedule.keySet();
 			String[] allSlots = keys.toArray(new String[keys.size()]);
-			for(String slot: allSlots) {
-				if(courseSchedule.get(slot) > 1) {
+			for (String slot : allSlots) {
+				if (courseSchedule.get(slot) > 1) {
 					collisions.put(slot, true);
-					System.out.print("Collission: "+slot);
-				}else {
+					System.out.print("Collission: " + slot);
+				} else {
 					collisions.put(slot, false);
-					System.out.print("Not Collission: "+slot);
+					System.out.print("Not Collission: " + slot);
 				}
 			}
 		}
 		return collisions;
 	}
-	
+
 	// View Grade
 	@RequestMapping(value = "/grade", method = RequestMethod.GET)
 	public ModelAndView studentViewGrade() {
@@ -256,7 +278,7 @@ public class StudentController {
 		StudentGrade sg = new StudentGrade();
 		sg.setGPA(scService.calculateStudentGPA("S1800001"));
 		sg.setCGPA(scService.calculateStudentCGPA("S1800001"));
-		
+
 		String gpa = Double.toString(sg.getGPA());
 		String cgpa = Double.toString(sg.getCGPA());
 		mav.addObject("studentcourse", studentcourse);

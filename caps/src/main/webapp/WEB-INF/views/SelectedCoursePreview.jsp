@@ -86,6 +86,7 @@
 						</c:forEach>
 					</tbody>
 				</table>
+				<input class="btn button-primary pull-left" type="submit" value="Return">
 				<input class="btn button-primary pull-right" type="submit" value="Submit">
 				</form>
 			</c:if>

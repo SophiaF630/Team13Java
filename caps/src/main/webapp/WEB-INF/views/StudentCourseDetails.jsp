@@ -26,24 +26,47 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="course" items="${courses}" varStatus="status">
+						<c:forEach var="avaCourses" items="${avaCourses}" varStatus="status">
 							<tr class="${status.index%2==0?'even':'odd'}">
-								<td class="nowrap">${course.courseIndex}</td>
-								<td class="nowrap">${course.courseID}</td>
-								<td class="nowrap">${course.courseName}</td>
-								<td class="nowrap">${course.faculty}</td>
-								<td class="nowrap">${course.credits}</td>
+								<td class="nowrap">${avaCourses.courseIndex}</td>
+								<td class="nowrap">${avaCourses.courseID}</td>
+								<td class="nowrap">${avaCourses.courseName}</td>
+								<td class="nowrap">${avaCourses.faculty}</td>
+								<td class="nowrap">${avaCourses.credits}</td>
 								<td>
-									<c:choose>
-										<c:when test="false">
-											<input name="courseIndexes" disabled type="checkbox"
-												value="${course.courseID}">
-										</c:when> 
+									<%-- <c:choose>										
+										<c:when test="true"> --%>
+											<input name="courseIndexes" type="checkbox"
+												value="${avaCourses.courseIndex}">
+									<%-- 	</c:when> 
 										<c:otherwise>
-										<input name="courseIndexes" type="checkbox"
+										<input name="courseIndexes" disabled type="checkbox"
 												value="${course.courseIndex}">
-										</c:otherwise>
+										</c:otherwise>										
 									</c:choose>
+ --%>
+								</td>
+							</tr>
+						</c:forEach>
+						<c:forEach var="unavaCourses" items="${unavaCourses}" varStatus="status">
+							<tr class="${status.index%2==0?'even':'odd'}">
+								<td class="nowrap">${unavaCourses.courseIndex}</td>
+								<td class="nowrap">${unavaCourses.courseID}</td>
+								<td class="nowrap">${unavaCourses.courseName}</td>
+								<td class="nowrap">${unavaCourses.faculty}</td>
+								<td class="nowrap">${unavaCourses.credits}</td>
+								<td>
+									<%-- <c:choose>										
+										<c:when test="true"> --%>
+											<input name="courseIndexes" disabled type="checkbox"
+												value="${unavaCourses.courseIndex}">
+								<%-- 		</c:when> 
+										<c:otherwise>
+										<input name="courseIndexes" disabled type="checkbox"
+												value="${unavaCourses.courseIndex}">
+										</c:otherwise>										
+									</c:choose> --%>
+
 								</td>
 							</tr>
 						</c:forEach>

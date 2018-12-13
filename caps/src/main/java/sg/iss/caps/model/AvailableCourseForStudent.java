@@ -7,11 +7,11 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SelectedCourse {
+public class AvailableCourseForStudent {
 	
 	private ArrayList<Course> selectedCourse;
 
-	public SelectedCourse() {
+	public AvailableCourseForStudent() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
