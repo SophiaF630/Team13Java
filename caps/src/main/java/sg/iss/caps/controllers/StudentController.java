@@ -65,7 +65,7 @@ public class StudentController {
 	// Student Info Part
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView listAll() {
-		ModelAndView mav = new ModelAndView("StudentCRUD");
+		ModelAndView mav = new ModelAndView("StudentList");
 		ArrayList<Student> students = sService.findAllStudents();
 		mav.addObject("students", students);
 		return mav;
