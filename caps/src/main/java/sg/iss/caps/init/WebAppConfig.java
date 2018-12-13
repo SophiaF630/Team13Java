@@ -29,6 +29,8 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import sg.iss.caps.services.EmailServiceImpl;
+
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
@@ -149,5 +151,9 @@ public class WebAppConfig implements WebMvcConfigurer {
 		cookieLocaleResolver.setDefaultLocale(StringUtils
 				.parseLocaleString("en"));
 		return cookieLocaleResolver;
+	}
+	@Bean
+	public EmailServiceImpl emailService() {
+		return new EmailServiceImpl();
 	}
 }

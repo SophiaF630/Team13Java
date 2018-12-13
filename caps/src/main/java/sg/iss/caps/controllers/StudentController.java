@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,8 @@ import sg.iss.caps.model.StudentGrade;
 import sg.iss.caps.model.Studentcourse;
 import sg.iss.caps.model.StudentcoursePK;
 
+import sg.iss.caps.services.EmailServiceImpl;
+
 @RequestMapping(value = "/student")
 @RestController
 @Controller
@@ -47,6 +51,8 @@ public class StudentController {
 	StudentService sService;
 	@Autowired
 	StudentcourseService scService;
+	@Autowired
+	EmailServiceImpl emailService;
 
 	// @Autowired
 	// private StudentValidator sValidator;
@@ -181,7 +187,14 @@ public class StudentController {
 	@RequestMapping(value = "/preview", method = RequestMethod.POST)
 	public ModelAndView submitSelection(@ModelAttribute Studentcourse studentcourse) {
 
-		ArrayList<Studentcourse> sc_OnPlan = sService.findAllStudentCourseByStatus("OnPlan", "S1800001");
+		String studentId = "S1800001";
+		//get to emails
+		String[] to = {"feng.yuxi@u.nus.edu", "e0338082@u.nus.edu", "chenguowei1991@gmail.com"};
+		String subject = "Enrollment Confirmation";
+		String body = "Hi Applicant Name! Congratulations! Your registration is confirmed! You have successfully completed "
+				+ "registration. Below is a list of the details of the course you have registered : If you have further queries or need clarification, "
+				+ "you may reach us at our official email at SA47Team13@gmail.com or call us at 62314231. Thank you";
+		ArrayList<Studentcourse> sc_OnPlan = sService.findAllStudentCourseByStatus("OnPlan", studentId);
 		for (Studentcourse sc : sc_OnPlan) {
 			if (scService.getStudentCount(sc.getCourse().getCourseIndex()) >= sc.getCourse().getClassSize()) {
 				sc.setId(sc.getId());
@@ -194,7 +207,17 @@ public class StudentController {
 			}
 			scService.updateStudentCourse(sc);
 		}
-
+		try {
+			emailService.setMailServerProperties();
+			emailService.createEmailMessage(to, subject, body);
+			emailService.sendEmail();
+		} catch (AddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		ModelAndView mav = new ModelAndView("redirect:/student/selectedcourse");
 		return mav;
 
@@ -203,6 +226,7 @@ public class StudentController {
 	// List selected course
 	@RequestMapping(value = "/selectedcourse", method = RequestMethod.GET)
 	public ModelAndView listAllSelectedCourse() {
+		String studentId = "S1800001";
 		ModelAndView mav = new ModelAndView("SelectedCourseView");
 		ArrayList<Studentcourse> studentcourse_enrolled = sService.findAllStudentCourseByStatus("Enrolled", "S1800001");
 		ArrayList<Studentcourse> studentcourse_pending = sService.findAllStudentCourseByStatus("Pending", "S1800001");

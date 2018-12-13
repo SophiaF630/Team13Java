@@ -72,7 +72,7 @@
 						</c:forEach>
 					</tbody>
 				</table>
-				<input class="btn button-primary pull-right" type="submit" value="Preview">
+				<input class="btn button-primary pull-right" type="submit" value="Add to Course Planner">
 				</form>
 			</c:if>
 		</div>

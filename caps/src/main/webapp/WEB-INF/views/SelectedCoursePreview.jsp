@@ -13,7 +13,7 @@
 <div class="container">
 	<div class="row" style="color: black;">
 		<div class="col-xs-12">
-			<h1>Selected Courses Preview</h1>
+			<h1>Courses Planner Preview</h1>
 		</div>
 	</div>
 	<div class="row">
