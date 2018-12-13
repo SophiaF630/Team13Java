@@ -14,7 +14,7 @@ public interface StudentCourseRepository extends JpaRepository<Studentcourse, St
 	@Query(value = "select * from Studentcourse  where Student_StudentID = ?1",nativeQuery = true)
 	public ArrayList<Studentcourse> findByStudentID(String studentID);
 	
-	@Query(value = "select * from studentcourse  where CourseIndex = ?1",nativeQuery = true)
+	@Query(value = "select * from Studentcourse  where CourseIndex = ?1",nativeQuery = true)
 	public ArrayList<Studentcourse> findByCourseIndex(String courseIndex);
 	@Query(value = "select * from Studentcourse sc where Student_StudentID = ?1 and Status = ?2", nativeQuery = true)
 	public ArrayList<Studentcourse> studentViewGrade(String studentID, String status);
@@ -25,6 +25,7 @@ public interface StudentCourseRepository extends JpaRepository<Studentcourse, St
 	@Query(value = "select * from Studentcourse where CourseIndex = ?1", nativeQuery = true)
 	public ArrayList<Studentcourse> findAllStudentCourseByCourseIndexs(String courseIndex);
 	
-	@Query(value = "select * from studentcourse  where studentcourse.CourseIndex= ?1", nativeQuery = true)
+	@Query(value = "select * from Studentcourse  where Studentcourse.CourseIndex= ?1", nativeQuery = true)
 	public ArrayList<Studentcourse> Viewcoursebycourseindex(String CourseIndex);
+	
 }

@@ -34,7 +34,13 @@
                     <a href="/caps/student/coursedetails">Select Course</a>
                 </li>
                 <li>
+                    <a href="/caps/student/preview">Course Planner</a>
+                </li>
+                <li>
                     <a href="/caps/student/selectedcourse">Enrolled Courses</a>
+                </li>
+                <li>
+                    <a href="/caps/student/grade">My Grades</a>
                 </li>
                 <li>
                     <a href="#">Otheres</a>
