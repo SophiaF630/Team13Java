@@ -41,7 +41,7 @@ public class AdminControllerCommon {
 	CourseService cService;
 	@Autowired
 	UserService uService;
-	@RequestMapping(value = "/home")
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public ModelAndView home() {
 		ModelAndView mav = new ModelAndView("AdminHome");
 		return mav;

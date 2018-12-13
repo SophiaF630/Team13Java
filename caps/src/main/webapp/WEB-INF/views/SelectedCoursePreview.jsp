@@ -13,7 +13,7 @@
 <div class="container">
 	<div class="row" style="color: black;">
 		<div class="col-xs-12">
-			<h1>Courses Planner Preview</h1>
+			<h2>Courses Added to Planner</h2>
 		</div>
 	</div>
 	<div class="row">
@@ -28,6 +28,7 @@
 							<th><s:message code="label.course.courseName" /></th>
 							<th><s:message code="label.course.faculty" /></th>
 							<th align="center"><s:message code="label.course.credits" /></th>
+							<th align="center"><s:message code="Action" /></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -39,10 +40,15 @@
 								<td class="nowrap">${studentcourse.course.courseName}</td>
 								<td class="nowrap">${studentcourse.course.faculty}</td>
 								<td class="nowrap">${studentcourse.course.credits}</td>
+								<td class="nowrap">
+									<a href="/caps/student/delete/S1800001/${studentcourse.course.courseIndex}" class="btn btn-default">Remove</a>
+								</td>
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
+				<hr>
+				<h2>Course Planning</h2>
 				<table class="table table-striped table-bordered"
 					style="width: 100%" id="Timetable">
 					<thead>
@@ -86,8 +92,16 @@
 						</c:forEach>
 					</tbody>
 				</table>
-				<input class="btn button-primary pull-left" type="submit" value="Return">
-				<input class="btn button-primary pull-right" type="submit" value="Submit">
+				<div class="text-right">
+					<a href="/caps/student/coursedetails" class="btn button-primary text-right">Cancel</a>
+					<c:if test="${hasCollision}">
+						<input class="btn button-primary text-right" type="submit" disabled value="Submit">
+					</c:if>
+					<c:if test="${not hasCollision}">
+						<input class="btn button-primary text-right" type="submit" value="Submit">
+					</c:if>
+				
+				</div>
 				</form>
 			</c:if>
 		</div>

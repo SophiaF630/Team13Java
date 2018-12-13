@@ -23,4 +23,9 @@ public interface StudentcourseService {
 	double calculateStudentCGPA(String sid);
 
 	ArrayList<Studentcourse> Viewcoursebycourseindex(String CourseIndex);
+	
+	void deleteStudentCourse(Studentcourse sc);
+	
+	ArrayList<Studentcourse> findStudentCourseByStudentId(String sid);
+	
 }
