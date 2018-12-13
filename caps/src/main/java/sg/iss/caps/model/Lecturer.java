@@ -32,10 +32,10 @@ public class Lecturer implements Serializable {
 	@JoinTable(
 		name="lecturercourse"
 		, joinColumns={
-			@JoinColumn(name="LecturerID")
+			@JoinColumn(name="LecturerID",insertable=false, updatable=false)
 			}
 		, inverseJoinColumns={
-			@JoinColumn(name="CourseIndex")
+			@JoinColumn(name="CourseIndex",insertable=false, updatable=false)
 			}
 		)
 	private Set<Course> courses = new HashSet<Course>();

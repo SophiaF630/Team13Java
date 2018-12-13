@@ -78,47 +78,41 @@ public class AdminControllerCommon {
 
 	@RequestMapping(value = "/student/create", method = RequestMethod.GET)
 	public ModelAndView newStudentPage() {
-		ModelAndView mav = new ModelAndView("StudentFormNew", "student", new Student());
-		// Auto generate StudentID
-		Student newStudent = new Student();
-		/*ArrayList<Student> students = sService.findAllStudents();
-		Student lastStudent = students.get(students.size() - 1);
-		String lastStudentID = lastStudent.getStudentID();
-		int lastStudentID_digit = Integer.parseInt(lastStudentID.substring(3, 8));
-		String newStudentID_digit = String.format("%5s", Integer.toString(lastStudentID_digit + 1)).replace(' ', '0');
-		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-		String newStudentID = "S" + Integer.toString(currentYear).substring(2, 4) + newStudentID_digit;
-		newStudent.setStudentID(newStudentID);*/
-
-		newStudent.setStudentID(newStudentID("Student"));
-		mav.addObject("newStudent", newStudent);
+		ModelAndView mav = new ModelAndView("StudentFormNew");
+		//Auto generate StudentID
+		Student student = new Student();
+		student.setStudentID(newStudentID("Student"));
+		mav.addObject("student", student);
 		
 		return mav;
 	}// we need to update the view
 		// this part need to fix(fix failed;cannot add record)
 
 	@RequestMapping(value = "/student/create", method = RequestMethod.POST)
-	public ModelAndView createNewStudent(@ModelAttribute("student") Student student,
-			@ModelAttribute("user") User user, /* BindingResult result, */
-			final RedirectAttributes redirectAttributes) {
-		User u = new User();
-		Student s = new Student();
+	public ModelAndView createNewStudent(@ModelAttribute Student student,
+			@ModelAttribute User user, /*BindingResult result,*/ final RedirectAttributes redirectAttributes) {
+
 		user.setUserID(newStudentID("Student"));
 		user.setUserType("Student");
+		
 		/*
 		 * if (result.hasErrors()) {
 		 * 
 		 * return new ModelAndView("StudentFormNew");}
 		 */
-		ModelAndView mav = new ModelAndView();		
-		student.setStudentID(newStudentID("Student"));
+		ModelAndView mav = new ModelAndView();				
 		uService.createUser(user);
-		//sService.createStudent(student);
+		Student s = new Student();
+		s.setStudentID(newStudentID("Student"));
+		s.setEnrollmentDate(student.getEnrollmentDate());
+		sService.createStudent(s);
 		// String message = "New student " + student.getNric() + " was successfully
 		// created.";
 		mav.setViewName("redirect:/admin/student/list");
 		return mav;
 	}
+	
+	
 
 	// Generate UserID, use userType as input parameter
 	public String newStudentID(String userType) {
@@ -204,14 +198,14 @@ public class AdminControllerCommon {
 
 	// Course Info Part
 	// List all course details
-	@RequestMapping(value = "/coursedetails", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/coursedetails", method = RequestMethod.GET)
 	public ModelAndView listAllStudentsCourseDetails() {
 		ModelAndView mav = new ModelAndView("StudentCourseDetails");
 		ArrayList<Course> courses = sService.findAllStudentsCourseDetails();
 		mav.addObject("courses", courses);
 		return mav;
 	}
-
+*/
 	/*
 	 * //List selected course
 	 * 
@@ -222,6 +216,7 @@ public class AdminControllerCommon {
 	 * return mav; }
 	 */
 
+	//Show student current enrollment
 	@RequestMapping(value = "/student/courses/{sid}", method = RequestMethod.GET)
 	public ModelAndView listStudentsCourses(@PathVariable String sid) {
 		ModelAndView mav = new ModelAndView("StudentCourseList");
@@ -232,7 +227,7 @@ public class AdminControllerCommon {
 		mav.addObject("sid", sid);
 		return mav;
 	}
-
+	//Show student historical enrollment
 	@RequestMapping(value = "/student/history/{sid}", method = RequestMethod.GET)
 	public ModelAndView listStudentsHistoryCourses(@PathVariable String sid) {
 		ModelAndView mav = new ModelAndView("StudentCourseList");
@@ -243,6 +238,25 @@ public class AdminControllerCommon {
 		mav.addObject("sid", sid);
 		return mav;
 	}
+	
+	//Remove student from course
+	@RequestMapping(value = "/student/removecourse/{cIn}&{sid}", method = RequestMethod.GET)
+	public ModelAndView removeStudentFromCourse(@PathVariable String sid, @PathVariable String cIn, final RedirectAttributes redirectAttributes) {
+		ModelAndView mav = new ModelAndView();
+		ArrayList<Studentcourse> studentcourseList = scService.findStudentCourseByStudentId(sid);
+		Studentcourse studentcourse = new Studentcourse();
+		for (Studentcourse sc:studentcourseList) {
+			if (sc.getCourse().getCourseIndex() == cIn) {
+				sc.setStatus("Cancelled");
+				scService.updateStudentCourse(sc);
+			}
+		}	
+		
+		mav = new ModelAndView("redirect:/admin/student/courses/{sid}");
+		return mav;
+	}
+	
+	
 
 	// this part starts course
 	@RequestMapping(value = "/course/list", method = RequestMethod.GET)

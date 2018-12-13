@@ -37,7 +37,7 @@
 										</tr>
 										<tr>
 											<td><s:message code="label.student.enrollmentDate" /></td>
-											<td><form:input path="enrollmentDate" /></td>
+											<td><form:input type="date" path="enrollmentDate" /></td>
 										</tr>
 									</table>
 								</form:form></td>

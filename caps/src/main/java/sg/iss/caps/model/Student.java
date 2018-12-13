@@ -38,7 +38,7 @@ public class Student implements Serializable {
 
 	//bi-directional one-to-one association to User
 	@OneToOne(cascade = {CascadeType.ALL})
-	@JoinColumn(name="StudentID")
+	@JoinColumn(name="StudentID",insertable=false, updatable=false)
 	private User user;
 
 	//bi-directional many-to-one association to Studentcourse
