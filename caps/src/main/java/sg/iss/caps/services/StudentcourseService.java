@@ -1,10 +1,14 @@
 package sg.iss.caps.services;
 
+import java.util.ArrayList;
+import java.util.Optional;
+
 import sg.iss.caps.model.StudentGrade;
 import sg.iss.caps.model.Studentcourse;
 import sg.iss.caps.model.StudentcoursePK;
 
 public interface StudentcourseService {
+	Optional<Studentcourse> findStudentCourse(StudentcoursePK scPK);
 	
 	Studentcourse createStudentCourse(Studentcourse sc);
 
@@ -18,4 +22,5 @@ public interface StudentcourseService {
 
 	double calculateStudentCGPA(String sid);
 
+	ArrayList<Studentcourse> Viewcoursebycourseindex(String CourseIndex);
 }
