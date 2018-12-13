@@ -1,5 +1,7 @@
 package sg.iss.caps.services;
 
+import java.util.Optional;
+
 import sg.iss.caps.model.User;
 
 public interface UserService {
@@ -10,4 +12,6 @@ public interface UserService {
 	User updateStudent(User user);
 
 	void removeUser(User user);
+	
+	User authenticate(String userID, String password);
 }
