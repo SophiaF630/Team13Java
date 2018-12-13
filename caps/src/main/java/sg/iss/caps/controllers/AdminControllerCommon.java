@@ -142,14 +142,14 @@ public class AdminControllerCommon {
 		return mav;
 	}
 		
-	//List selected course
+/*	//List selected course
 	@RequestMapping(value = "/selectedcourse", method = RequestMethod.GET)
 	public ModelAndView listAllSelectedCourse() {
 		ModelAndView mav = new ModelAndView("SelectCourse");
 		ArrayList<Course> courses = sService.findAllSelectedCourse("ISS");		
 		mav.addObject("courses", courses);
 		return mav;
-	}
+	}*/
 	
 	@RequestMapping(value = "/student/courses/{sid}", method = RequestMethod.GET)
 	public ModelAndView listStudentsCourses(@PathVariable String sid) {
