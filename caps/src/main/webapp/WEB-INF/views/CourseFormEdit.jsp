@@ -9,8 +9,8 @@
 </head>
 <body>
 
-<form:form method="POST" modelAttribute="student,user"
-	action="${pageContext.request.contextPath}/admin/student/edit/${student.studentID}.html">
+<form:form method="POST" modelAttribute="course"
+	action="${pageContext.request.contextPath}/admin/course/edit/${course.courseIndex}.html">
 		<center>
 			<table cellpadding=4 cellspacing=2 border=0>
 				<tr>
@@ -19,11 +19,11 @@
 				</tr>
 				<tr>
 				   <td><s:message code="label.student.studentID" /> *Readonly</td>
-				   <td><form:input path="studentID" readonly="readonly"/></td>
+				   <td><form:input path="studentID" readonly="true"/></td>
 				 </tr>
 				<tr>
 				   <td><s:message code="label.student.enrollmentDate" /></td>
-				   <td><form:input type = "date" path="enrollmentDate"/></td>
+				   <td><form:input path="enrollmentDate"/></td>
 				 </tr>
 				 <tr>
 				 <td><input type="submit" value="Submit"> </td>
