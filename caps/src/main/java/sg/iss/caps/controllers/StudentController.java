@@ -121,7 +121,7 @@ public class StudentController {
 	@RequestMapping(value = "/coursedetails", method = RequestMethod.GET)
 	public ModelAndView listAllStudentsCourseDetails() {
 		ModelAndView mav = new ModelAndView("StudentCourseDetails");
-		ArrayList<Course> courses = sService.findAllStudentsCourseDetails();
+		ArrayList<Course> courses = sService.findAllCurrentSemesterCourse(Calendar.getInstance().getTime());
 		mav.addObject("courses", courses);
 		return mav;
 	}

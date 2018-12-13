@@ -1,6 +1,7 @@
 package sg.iss.caps.services;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import sg.iss.caps.model.Course;
 import sg.iss.caps.model.Student;
@@ -30,7 +31,7 @@ public interface StudentService {
 	ArrayList<Course> findHistoryCoursesByStudentID(String studentID);
 	//this part is to query the history class for student
 
-	ArrayList<Course> findAllSelectedCourse(String faculty);
+	ArrayList<Course> findAllCurrentSemesterCourse(Date ed);
 	
 	ArrayList<Studentcourse> studentViewGrade(String studentID, String status);
 	

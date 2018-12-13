@@ -1,6 +1,7 @@
 package sg.iss.caps.services;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
@@ -85,8 +86,8 @@ public class StudentServicesImpl implements StudentService {
 	}
 	
 	@Override	
-	public ArrayList<Course> findAllSelectedCourse(String faculty) {
-		return (ArrayList<Course>) crepo.findAllSelectedCourse(faculty);
+	public ArrayList<Course> findAllCurrentSemesterCourse(Date ed) {
+		return (ArrayList<Course>) crepo.findAllCurrentSemesterCourse(ed);
 	}
 	
 	@Override	
