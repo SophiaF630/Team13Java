@@ -34,11 +34,12 @@ public class Studentcourse implements Serializable {
 
 	//bi-directional many-to-one association to Course
 	@ManyToOne
-	@JoinColumn(name="CourseIndex")
+	@JoinColumn(name="CourseIndex",insertable=false, updatable=false)
 	private Course course;
 
 	//bi-directional many-to-one association to Student
 	@ManyToOne
+	@JoinColumn(name="Student_StudentID",insertable=false, updatable=false)
 	private Student student;
 
 	public Studentcourse() {

@@ -7,19 +7,19 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SelectedCourse {
+public class AvailableCourseForStudent {
 	
 	private ArrayList<Course> selectedCourse;
 
-	public SelectedCourse() {
+	public AvailableCourseForStudent() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public SelectedCourse(ArrayList<Course> selectedCourse) {
-		super();
-		this.selectedCourse = selectedCourse;
-	}
+//	public SelectedCourse(ArrayList<Course> selectedCourse) {
+//		super();
+//		this.selectedCourse = selectedCourse;
+//	}
 
 	public ArrayList<Course> getSelectedCourse() {
 		return selectedCourse;

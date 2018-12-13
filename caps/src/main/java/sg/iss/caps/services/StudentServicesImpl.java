@@ -1,6 +1,7 @@
 package sg.iss.caps.services;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
@@ -39,6 +40,12 @@ public class StudentServicesImpl implements StudentService {
 		
 		Student student = srepo.findById(sid).get();
 		System.out.println(student.toString());
+		return student;
+	}	
+	
+	@Override
+	public Student findByStudentID(String sid) {
+		Student student = srepo.findByStudentID(sid);
 		return student;
 	}
 
@@ -79,8 +86,13 @@ public class StudentServicesImpl implements StudentService {
 	}
 	
 	@Override	
-	public ArrayList<Course> findAllSelectedCourse(String faculty) {
-		return (ArrayList<Course>) crepo.findAllSelectedCourse(faculty);
+	public ArrayList<Course> findAllCurrentSemesterCourse(Date ed) {
+		return (ArrayList<Course>) crepo.findAllCurrentSemesterCourse(ed);
+	}
+	
+	@Override	
+	public ArrayList<Studentcourse> findAllStudentCourseByStatus(String status, String sid) {
+		return (ArrayList<Studentcourse>) screpo.findAllStudentCourseByStatus(status, sid);
 	}
 
 	@Override
@@ -94,18 +106,9 @@ public class StudentServicesImpl implements StudentService {
 	}
 	
 	
+	@Override	
+	public ArrayList<Studentcourse> studentViewGrade(String studentID, String status) {		
+		return (ArrayList<Studentcourse>) screpo.studentViewGrade(studentID, status);
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 }
