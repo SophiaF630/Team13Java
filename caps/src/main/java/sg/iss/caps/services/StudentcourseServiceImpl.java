@@ -1,6 +1,7 @@
 package sg.iss.caps.services;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
@@ -131,6 +132,18 @@ public class StudentcourseServiceImpl implements StudentcourseService {
 	public int getStudentCount(String courseIndex) {
 		ArrayList<Studentcourse> sc = screpo.findAllStudentCourseByCourseIndexs(courseIndex);
 		return sc.size();
+	}
+
+	@Override
+	public ArrayList<Studentcourse> Viewcoursebycourseindex(String CourseIndex) {
+		// TODO Auto-generated method stub
+		return (ArrayList<Studentcourse>) screpo.Viewcoursebycourseindex(CourseIndex);
+	}
+
+	@Override
+	public Optional<Studentcourse> findStudentCourse(StudentcoursePK scPK) {
+		// TODO Auto-generated method stub
+		return screpo.findById(scPK);
 	}
 	
 	
