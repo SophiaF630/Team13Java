@@ -12,7 +12,8 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<c:if test="${fn:length(courses) gt 0}">
-			<form method="POST" action="/caps/student/coursedetails">
+			<form:form method="POST" modelAttribute="studentCourseRegisterDto"
+					action="${pageContext.request.contextPath}/student/coursedetails/${studentID}">
 				<input type="hidden" value="student-id-01" name="studentId">
 				<table class="table table-striped table-bordered" style="width: 100%" id="courseDetails">
 					<thead>
@@ -74,7 +75,7 @@
 				</table>
 				<br>
 				<input class="btn button-primary pull-right" type="submit" value="Add to Course Planner">
-				</form>
+				</form:form>
 			</c:if>
 		</div>
 	</div>
