@@ -1,8 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <header onload='document.loginForm.username.focus();'>
-    <h1>Spring Security 5 - Login Form</h1>
- 
+    <h1>CAP - COURSE MANAGEMENT SYSTEM </h1>
+ 	<h2>Login here!</h2>
     <c:if test="${not empty errorMessage}"><div style="color:red; font-weight: bold; margin: 30px 0px;">${errorMessge}</div></c:if>
  
     

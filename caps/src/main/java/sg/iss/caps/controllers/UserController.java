@@ -28,7 +28,7 @@ public class UserController {
             errorMessage = "You have been successfully logged out !!";
         }
         model.addAttribute("errorMessage", errorMessage);
-        return "welcome";
+        return "Login";
     }
   
     @RequestMapping(value="/logout", method = RequestMethod.GET)
