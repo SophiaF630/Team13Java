@@ -14,31 +14,26 @@
 	<div class="container">
 		<div class="row" style="color: black;">
 			<div class="col-xs-12">
-				<h1>Class Details</h1>
+				<h1>Lecturer Course Details</h1>
 			</div>
 		</div>
 		<table class="cell-border" style="width: 100%" id="courseDetails">
 			<thead>
 				<tr>
-					<th><s:message code="courseIndex" /></th>
-					<th><s:message code="StudentID" /></th>
-					<th><s:message code="CAGrade" /></th>
-					<th><s:message code="ExamGrade" /></th>
-					<th><s:message code="status" /></th>
+				<th><s:message code="No" /></th>
+					<th><s:message code="CourseID" /></th>
+					<th><s:message code="Class" /></th>
 				</tr>
 			<thead>
 			<tbody>
-						<c:forEach var="sc" items="${studentcourse}"
-							varStatus="status">
+						<c:forEach var="Lecturercourse" items="${Lecturercourse}"
+							varStatus="index">
 							<tr class="${status.index%2==0?'even':'odd'}">
-								<td class="nowrap">${sc.id.getCourseIndex()}</td>
-								<td class="nowrap">${sc.id.getStudent_StudentID()}</td>
-								<td class="nowrap">${sc.CAGrade}</td>
-								<td class="nowrap">${sc.examGrade}</td>
-								<td class="nowrap">${sc.status}</td>
-								<td align="center"><a
-									href="${pageContext.request.contextPath}/lecturer/course/edit/${sc.id.getCourseIndex()}/${sc.id.getStudent_StudentID()}.html">
-									<s:message code="Edit" /></a></td>
+							<td>${index.index+1}</td>
+								<td class="nowrap">${Lecturercourse.id.getCourseIndex()}</td>
+								<td ><a
+									href="${pageContext.request.contextPath}/lecturer/course/${Lecturercourse.id.getCourseIndex()}.html">
+									<s:message code="View" /></a></td>
 							</tr>
 						</c:forEach>
 					</tbody>

@@ -10,7 +10,7 @@
 <body>
 
 <form:form method="POST" modelAttribute="studentcoursedetails"
-	action="${pageContext.request.contextPath}/lecturer/edit/${studentcourse.id.getStudent_StudentID()}/${studentcourse.id.getCourseIndex()}.html">
+	action="${pageContext.request.contextPath}/lecturer/course/edit/${sc.id.getCourseIndex()}.html">
 		<center>
 			<table cellpadding=4 cellspacing=2 border=0>
 				<tr>
@@ -23,7 +23,7 @@
 				 </tr>
 				<tr>
 				   <td><s:message code="StudentID" /></td>
-				   <td><form:input path="id.courseIndex" readonly="true"/></td>
+				   <td><form:input path="id.Student_StudentID" readonly="true"/></td>
 				 </tr>
 				<tr>
 				   <td><s:message code="CAGrade" /> </td>
@@ -44,7 +44,7 @@
 				 </tr>
 				 <tr>
 				 <td><input type="submit" value="Submit"> </td>
-				 <td><input type="reset" value="Reset"></td>
+				 <td><input type="reset" value="Cancel"></td>
 				 </tr>
 		</table>
 		</center>
