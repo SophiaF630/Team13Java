@@ -63,7 +63,6 @@ public class StudentController {
 	// binder.addValidators(sValidator);
 	// }
 
-<<<<<<< HEAD
 	// Student Info Part
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView listAll() {
@@ -92,15 +91,6 @@ public class StudentController {
 		mav.setViewName("redirect:/student/list");
 		return mav;
 	}
-
-	@RequestMapping(value = "/edit/{sid}", method = RequestMethod.GET)
-	public ModelAndView editStudentPage(@PathVariable String sid) {
-		ModelAndView mav = new ModelAndView("StudentFormEdit");
-		mav.addObject("student", sService.findStudent(sid));
-		return mav;
-	}
-=======
->>>>>>> testing
 
 	
 

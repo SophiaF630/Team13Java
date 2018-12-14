@@ -1,12 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<<<<<<< HEAD
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-=======
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
->>>>>>> d014e94f4fb5581d3c98598a9fba1dd21a847248
 <html>
 
 <header onload='document.loginForm.username.focus();'>

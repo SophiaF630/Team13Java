@@ -1,10 +1,7 @@
 package sg.iss.caps.services;
 
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.Optional;
-=======
->>>>>>> testing
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
@@ -54,11 +51,8 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User authenticate(String userID, String password) {
-		User u = uRepo.findUserByNamePwd(userID, password);
+		User u = urepo.findUserByNamePwd(userID, password);
 		return u;
 	}
-	@Override
-	public ArrayList<User> findAllUserByType(String type) {
-		return (ArrayList<User>) uRepo.findAllUserByType(type);
-	}
+
 }

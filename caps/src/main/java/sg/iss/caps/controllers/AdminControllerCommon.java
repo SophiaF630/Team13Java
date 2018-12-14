@@ -46,7 +46,9 @@ public class AdminControllerCommon {
 	CourseService cService;
 	@Autowired
 	UserService uService;
-<<<<<<< HEAD
+	@Autowired
+	StudentcourseService scService;
+
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public ModelAndView home(HttpSession session) {
 		UserSession us = (UserSession) session.getAttribute("USERSESSION");
@@ -55,23 +57,9 @@ public class AdminControllerCommon {
 			return new ModelAndView("redirect:/login/fail");
 		}
 		return us.checkUserType("Admin", mav);
-	}//we need to update the view
-	
-	
-	
-	//this part is acadamicmanage
-=======
-	@Autowired
-	StudentcourseService scService;
-
-	@RequestMapping(value = "/home")
-	public ModelAndView home() {
-		ModelAndView mav = new ModelAndView("AdminHome");
-		return mav;
 	}// we need to update the view
 
 	// this part is acadamicmanage
->>>>>>> testing
 	@RequestMapping(value = "/academictime", method = RequestMethod.GET)
 	public ModelAndView academicmanage() {
 		ModelAndView mav = new ModelAndView("AcademicManage");
@@ -357,7 +345,6 @@ public class AdminControllerCommon {
 		mav.addObject("courses", courses);
 		return mav;
 	}
-<<<<<<< HEAD
 	@RequestMapping(value = "/course/listshow/{cid}", method = RequestMethod.GET)
 	public ModelAndView listALLCoursesWithTime(@PathVariable String cid) {
 		ModelAndView mav = new ModelAndView("CourseList");
@@ -369,9 +356,6 @@ public class AdminControllerCommon {
 		mav.addObject("studentcourse",courses2);
 		return mav;
 	}
-=======
-
->>>>>>> testing
 	@RequestMapping(value = "/course/create", method = RequestMethod.GET)
 	public ModelAndView newCoursePage() {
 		ModelAndView mav = new ModelAndView("CourseFormNew", "course", new Course());
