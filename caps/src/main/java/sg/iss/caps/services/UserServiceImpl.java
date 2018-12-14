@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User authenticate(String userID, String password) {
-		User u = uRepo.findUserByNamePwd(userID, password);
+		User u = urepo.findUserByNamePwd(userID, password);
 		return u;
 	}
 
