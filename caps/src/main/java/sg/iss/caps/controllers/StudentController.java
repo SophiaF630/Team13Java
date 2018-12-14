@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,45 +63,16 @@ public class StudentController {
 	// private void initDepartmentBinder(WebDataBinder binder) {
 	// binder.addValidators(sValidator);
 	// }
-
-	// Student Info Part
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView listAll() {
-		ModelAndView mav = new ModelAndView("StudentList");
-		ArrayList<Student> students = sService.findAllStudents();
-		mav.addObject("students", students);
-		return mav;
-	}
-
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView newStudentPage() {
-		ModelAndView mav = new ModelAndView("StudentFormNew", "student", new Student());
-		return mav;
-	}
-
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public ModelAndView createNewStudent(@ModelAttribute @Valid Student student, BindingResult result,
-			final RedirectAttributes redirectAttributes) {
-		if (result.hasErrors())
-			return new ModelAndView("StudentFormNew");
-		ModelAndView mav = new ModelAndView();
-
-		sService.createStudent(student);
-		// String message = "New student " + student.getNric() + " was successfully
-		// created.";
-		mav.setViewName("redirect:/student/list");
-		return mav;
-	}
-
 	
 
-	// Course Info Part
 	// List all course details
-	@RequestMapping(value = "/coursedetails", method = RequestMethod.GET)
-	public ModelAndView listAllStudentsCourseDetails() {
+	@RequestMapping(value = "/coursedetails/{sid}", method = RequestMethod.GET)
+	public ModelAndView listAllStudentsCourseDetails(@PathVariable String sid, HttpSession session) {
 		ModelAndView mav = new ModelAndView("StudentCourseDetails");
+		UserSession us = (UserSession) session.getAttribute("USERSESSION");
+		String studentID = sid;
 		ArrayList<Course> courses = sService.findAllCurrentSemesterCourse(Calendar.getInstance().getTime());
-		ArrayList<Course> selectedcourse_history = sService.findHistoryCoursesByStudentID("S1800001");
+		ArrayList<Course> selectedcourse_history = sService.findHistoryCoursesByStudentID(sid);
 		ArrayList<Course> unavaCourses = new ArrayList<Course>();
 		//ArrayList<Course> avaCourses = sService.findAllCurrentSemesterCourse(Calendar.getInstance().getTime());
 		ArrayList<Course> avaCourses = new ArrayList<Course>();
@@ -118,16 +90,23 @@ public class StudentController {
 		unavaCourses  = new ArrayList<Course>(new HashSet<Course>(unavaCourses));
 		avaCourses  = new ArrayList<Course>(new HashSet<Course>(avaCourses));
 		
+		mav.addObject("studentID", studentID);
 		mav.addObject("courses", courses);
 		mav.addObject("avaCourses", avaCourses);
 		mav.addObject("unavaCourses", unavaCourses);
-		return mav;
+		
+		if (us==null) {
+			return new ModelAndView("redirect:/login/fail");
+		}
+		return us.checkUserType("Student", mav);
 	}
 
 	// Select course
-	@RequestMapping(value = "/coursedetails", method = RequestMethod.POST)
-	public ModelAndView selectCourse(@ModelAttribute StudentCourseRegisterDto studentCourseRegisterDto) {
+	@RequestMapping(value = "/coursedetails/{sid}", method = RequestMethod.POST)
+	public ModelAndView selectCourse(@ModelAttribute StudentCourseRegisterDto studentCourseRegisterDto, @PathVariable String sid, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+		String studentID = sid;
+		UserSession us = (UserSession) session.getAttribute("USERSESSION");
 		// get form data
 		System.out.println(studentCourseRegisterDto.getStudentId());
 		System.out.println(String.join(", ", studentCourseRegisterDto.getCourseIndexes()));
@@ -137,9 +116,8 @@ public class StudentController {
 		Studentcourse sc = new Studentcourse();
 		Student student = sService.findByStudentID(studentCourseRegisterDto.getStudentId());
 		String[] selectedCourses = studentCourseRegisterDto.getCourseIndexes();
-
 		for (String courseIndex : selectedCourses) {
-			StudentcoursePK spk = scService.findStudentcoursePK("S1800001", courseIndex);
+			StudentcoursePK spk = scService.findStudentcoursePK(sid, courseIndex);
 			Course course = null;
 			// sc.setCourse(course);
 			// sc.setStudent(student);
@@ -151,17 +129,23 @@ public class StudentController {
 
 			scService.createStudentCourse(sc);
 		}
-		mav.setViewName("redirect:/student/preview");
-		return mav;
+		mav.setViewName("redirect:/student/preview/{sid}");
+		mav.addObject("studentID", studentID);
+		if (us==null) {
+			return new ModelAndView("redirect:/login/fail");
+		}
+		return us.checkUserType("Student", mav);
+
 	}
 	
 	// Selected Course Preview
-		@RequestMapping(value = "/preview", method = RequestMethod.GET)
-		public ModelAndView selectedCoursePreview() {
+		@RequestMapping(value = "/preview/{sid}", method = RequestMethod.GET)
+		public ModelAndView selectedCoursePreview(@PathVariable String sid, HttpSession session) {
 			ModelAndView mav = new ModelAndView("SelectedCoursePreview");
-			
-			ArrayList<Studentcourse> studentcourse_onPlan = sService.findAllStudentCourseByStatus("OnPlan", "S1800001");
-			ArrayList<Studentcourse> studentcourse_enrolled = sService.findAllStudentCourseByStatus("Enrolled", "S1800001");
+			String studentID = sid;
+			UserSession us = (UserSession) session.getAttribute("USERSESSION");
+			ArrayList<Studentcourse> studentcourse_onPlan = sService.findAllStudentCourseByStatus("OnPlan", sid);
+			ArrayList<Studentcourse> studentcourse_enrolled = sService.findAllStudentCourseByStatus("Enrolled", sid);
 			ArrayList<Studentcourse> studentcourse = new ArrayList<Studentcourse>();
 			Boolean hasCollision = false;
 			studentcourse.addAll(studentcourse_onPlan);
@@ -172,9 +156,15 @@ public class StudentController {
 				hasCollision = true;
 			}
 			mav.addObject("studentcourse", studentcourse);
+			mav.addObject("studentID", studentID);
 			mav.addObject("collisions", collisions);
 			mav.addObject("hasCollision", hasCollision);
-			return mav;
+			
+			if (us==null) {
+				return new ModelAndView("redirect:/login/fail");
+			}
+			return us.checkUserType("Student", mav);
+
 		}
 
 		private Map<String, Boolean> findCourseCollisions(ArrayList<Studentcourse> studentCourses) {
@@ -211,9 +201,11 @@ public class StudentController {
 	
 	//Delete course from preview
 	@RequestMapping(value = "/delete/{sid}/{courseIndex}", method = RequestMethod.GET)
-	public ModelAndView deleteStudentCourse(@PathVariable String sid, @PathVariable String courseIndex, final RedirectAttributes redirectAttributes)
+	public ModelAndView deleteStudentCourse(@PathVariable String sid, @PathVariable String courseIndex, final RedirectAttributes redirectAttributes, HttpSession session)
 			throws StudentNotFound {
- 		ArrayList<Studentcourse> studentCourses = scService.findStudentCourseByStudentId(sid);
+		UserSession us = (UserSession) session.getAttribute("USERSESSION");
+		String studentID = sid;
+		ArrayList<Studentcourse> studentCourses = scService.findStudentCourseByStudentId(sid);
  		System.out.println(sid);
  		System.out.println(studentCourses.size());
  		for (Studentcourse sc : studentCourses) {
@@ -224,24 +216,28 @@ public class StudentController {
  			}
  			System.out.println(sc.getCourse().getCourseIndex());
  		}
-		ModelAndView mav = new ModelAndView("redirect:/student/preview");
+		ModelAndView mav = new ModelAndView("redirect:/student/preview/{sid}");
+		mav.addObject("studentID", studentID);
 		String message = "The course: " + courseIndex + " was successfully deleted.";
 		redirectAttributes.addFlashAttribute("message", message);
-		return mav;
+		if (us==null) {
+			return new ModelAndView("redirect:/login/fail");
+		}
+		return us.checkUserType("Student", mav);
 	}
 
 	// Submit selection
-	@RequestMapping(value = "/preview", method = RequestMethod.POST)
-	public ModelAndView submitSelection(@ModelAttribute Studentcourse studentcourse) {
-
-		String studentId = "S1800001";
+	@RequestMapping(value = "/preview/{sid}", method = RequestMethod.POST)
+	public ModelAndView submitSelection(@ModelAttribute Studentcourse studentcourse, @PathVariable String sid, HttpSession session) {
+		UserSession us = (UserSession) session.getAttribute("USERSESSION");
+		String studentID = sid;
 		//get to emails
 		String[] to = {"feng.yuxi@u.nus.edu", "e0338082@u.nus.edu", "chenguowei1991@gmail.com"};
 		String subject = "Enrollment Confirmation";
 		String body = "Hi Applicant Name! Congratulations! Your registration is confirmed! You have successfully completed "
 				+ "registration. Below is a list of the details of the course you have registered : If you have further queries or need clarification, "
 				+ "you may reach us at our official email at SA47Team13@gmail.com or call us at 62314231. Thank you";
-		ArrayList<Studentcourse> sc_OnPlan = sService.findAllStudentCourseByStatus("OnPlan", studentId);
+		ArrayList<Studentcourse> sc_OnPlan = sService.findAllStudentCourseByStatus("OnPlan", sid);
 		for (Studentcourse sc : sc_OnPlan) {
 			if (scService.getStudentCount(sc.getCourse().getCourseIndex()) >= sc.getCourse().getClassSize()) {
 				sc.setId(sc.getId());
@@ -265,8 +261,13 @@ public class StudentController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		ModelAndView mav = new ModelAndView("redirect:/student/selectedcourse");
-		return mav;
+		ModelAndView mav = new ModelAndView("redirect:/student/selectedcourse/{sid}");
+		mav.addObject("studentID", studentID);
+		
+		if (us==null) {
+			return new ModelAndView("redirect:/login/fail");
+		}
+		return us.checkUserType("Student", mav);
 
 	}
 
@@ -274,47 +275,65 @@ public class StudentController {
 
 	
 	// List selected course
-		@RequestMapping(value = "/selectedcourse", method = RequestMethod.GET)
-		public ModelAndView listAllSelectedCourse() {
-			String studentId = "S1800001";
+		@RequestMapping(value = "/selectedcourse/{sid}", method = RequestMethod.GET)
+		public ModelAndView listAllSelectedCourse(@PathVariable String sid, HttpSession session) {		
+			String studentID = sid;
 			ModelAndView mav = new ModelAndView("SelectedCourseView");
-			ArrayList<Studentcourse> studentcourse_enrolled = sService.findAllStudentCourseByStatus("Enrolled", "S1800001");
-			ArrayList<Studentcourse> studentcourse_pending = sService.findAllStudentCourseByStatus("Pending", "S1800001");
+			UserSession us = (UserSession) session.getAttribute("USERSESSION");
+			ArrayList<Studentcourse> studentcourse_enrolled = sService.findAllStudentCourseByStatus("Enrolled", sid);
+			ArrayList<Studentcourse> studentcourse_pending = sService.findAllStudentCourseByStatus("Pending", sid);
 			ArrayList<Studentcourse> studentcourse_cancelled = sService.findAllStudentCourseByStatus("Cancelled",
-					"S1800001");
+					sid);
 			ArrayList<Studentcourse> studentcourse = new ArrayList<Studentcourse>();
 			studentcourse.addAll(studentcourse_enrolled);
 			studentcourse.addAll(studentcourse_pending);
 			studentcourse.addAll(studentcourse_cancelled);
 			mav.addObject("studentcourse", studentcourse);
-			return mav;
+			mav.addObject("studentID", studentID);
+			
+			if (us==null) {
+				return new ModelAndView("redirect:/login/fail");
+			}
+			return us.checkUserType("Student", mav);
 		}
 
 		@RequestMapping(value = "/courses/{sid}", method = RequestMethod.GET)
-		public ModelAndView listStudentsCourses(@PathVariable String sid) {
+		public ModelAndView listStudentsCourses(@PathVariable String sid, HttpSession session) {
 			ModelAndView mav = new ModelAndView("StudentCourseList");
+			String studentID = sid;
+			UserSession us = (UserSession) session.getAttribute("USERSESSION");
 			ArrayList<Course> courses = sService.findCurrentCoursesByStudentID(sid);
 			mav.addObject("courses", courses);
 			String names = "Current Class";
 			mav.addObject("name" ,names);
-			return mav;
+			mav.addObject("studentID", studentID);
+			if (us==null) {
+				return new ModelAndView("redirect:/login/fail");
+			}
+			return us.checkUserType("Student", mav);
 		}
 
 	// View Grade
-	@RequestMapping(value = "/grade", method = RequestMethod.GET)
-	public ModelAndView studentViewGrade() {
+	@RequestMapping(value = "/grade/{sid}", method = RequestMethod.GET)
+	public ModelAndView studentViewGrade(@PathVariable String sid, HttpSession session) {
 		ModelAndView mav = new ModelAndView("StudentViewGrade");
-		ArrayList<Studentcourse> studentcourse = sService.studentViewGrade("S1800001", "Finished");
+		String studentID = sid;
+		UserSession us = (UserSession) session.getAttribute("USERSESSION");
+		ArrayList<Studentcourse> studentcourse = sService.studentViewGrade(sid, "Finished");
 		StudentGrade sg = new StudentGrade();
-		sg.setGPA(scService.calculateStudentGPA("S1800001"));
-		sg.setCGPA(scService.calculateStudentCGPA("S1800001"));
+		sg.setGPA(scService.calculateStudentGPA(sid));
+		sg.setCGPA(scService.calculateStudentCGPA(sid));
 
 		String gpa = Double.toString(sg.getGPA());
 		String cgpa = Double.toString(sg.getCGPA());
 		mav.addObject("studentcourse", studentcourse);
 		mav.addObject("gpa", gpa);
 		mav.addObject("cgpa", cgpa);
-		return mav;
+		mav.addObject("studentID", studentID);
+		if (us==null) {
+			return new ModelAndView("redirect:/login/fail");
+		}
+		return us.checkUserType("Student", mav);
 	}
 
 }
