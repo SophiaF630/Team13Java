@@ -1,5 +1,8 @@
 package sg.iss.caps.services;
 
+import java.util.ArrayList;
+import java.util.Optional;
+
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
@@ -38,4 +41,13 @@ public class UserServiceImpl implements UserService{
 		uRepo.delete(user);
 	}
 
+	@Override
+	public User authenticate(String userID, String password) {
+		User u = uRepo.findUserByNamePwd(userID, password);
+		return u;
+	}
+	@Override
+	public ArrayList<User> findAllUserByType(String type) {
+		return (ArrayList<User>) uRepo.findAllUserByType(type);
+	}
 }
