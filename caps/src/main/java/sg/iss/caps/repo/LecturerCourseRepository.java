@@ -15,6 +15,6 @@ public interface LecturerCourseRepository extends JpaRepository<Lecturercourse, 
 	//@Query(value = "select * form lecturercourse where LectureID_LecturerID = ?1",nativeQuery = true)
 	//public ArrayList<Course> findByStudentID(String lecturerID);
 	
-	@Query(value = "SELECT * FROM lecturercourse where lecturercourse.Lecturer_LecturerID = ?1",nativeQuery = true)
+	@Query(value = "SELECT * FROM Lecturercourse where lecturercourse.Lecturer_LecturerID = ?1",nativeQuery = true)
 	ArrayList<Lecturercourse> ViewcoursebylectureID(String lid);
 }
