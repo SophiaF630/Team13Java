@@ -61,7 +61,7 @@ public class UserController {
 			case "Lecturer":
 				us.setUserType("Lecturer");
 				session.setAttribute("USERSESSION", us);
-				return new ModelAndView("redirect:/student/list");
+				return new ModelAndView("redirect:/lecturer/index");
 			case "Student":
 				us.setUserType("Student");
 				session.setAttribute("USERSESSION", us);
@@ -77,6 +77,14 @@ public class UserController {
 	@RequestMapping(value = "/fail")
 	public ModelAndView loginFail() {
 		ModelAndView mav = new ModelAndView("LoginError");
+		return mav;
+	}
+	@RequestMapping(value = "/exit")
+	public ModelAndView logout(HttpSession session) {
+		ModelAndView mav = new ModelAndView("Logout");
+		UserSession us = (UserSession) session.getAttribute("USERSESSION");
+		us = null;
+		session.setAttribute("USERSESSION", us);
 		return mav;
 	}
 /*	 

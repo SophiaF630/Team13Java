@@ -9,7 +9,7 @@
 <header onload='document.loginForm.username.focus();'>
 <div class="container">
 	<h1 class="text-center">CAP - COURSE MANAGEMENT SYSTEM</h1>
-	<h2 class="text-center">Login here!</h2>
+	<h2 class="text-center">Logout successfully!</h2>
 	<c:if test="${not empty errorMessage}">
 		<div style="color: red; font-weight: bold; margin: 30px 0px;">${errorMessge}</div>
 	</c:if>

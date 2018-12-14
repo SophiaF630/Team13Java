@@ -2,6 +2,7 @@ package sg.iss.caps.controllers;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,13 @@ public class LecturerController {
 	
 	@Autowired
 	LecturerCourseService lservice;
-	
+	@RequestMapping(value = "/coursesjump", method = RequestMethod.GET)
+	public ModelAndView listlecturercoursejump(HttpSession session) {
+		UserSession us = (UserSession) session.getAttribute("USERSESSION");
+		String lid = us.getUser().getUserID();
+		String url = "redirect:/lecturer/courses/"+lid;
+		return new ModelAndView(url);
+	}
 	@RequestMapping(value = "/courses/{lid}", method = RequestMethod.GET)
 	public ModelAndView listlecturercourse(@PathVariable String lid) {
 		ModelAndView mav = new ModelAndView("LecturerCourseDetails");
@@ -51,8 +58,6 @@ public class LecturerController {
 		mav.addObject("studentcourse", scservice.Viewcoursebycourseindex(courseindex));
 		return mav;
 	}
-	
-	
 	@RequestMapping(value = "/course/edit/{courseindex}/{studentid}", method = RequestMethod.GET)
 	public ModelAndView editstudentgradePage(@PathVariable String studentid, @PathVariable String courseindex ) {
 		Optional<Studentcourse> studentcoursedetails = scservice.findStudentCourse(scservice.findStudentcoursePK(studentid, courseindex));

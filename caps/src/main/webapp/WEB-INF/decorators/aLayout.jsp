@@ -30,20 +30,15 @@
             <ul class="list-unstyled components">
                 <p>Menu</p>
                 <li>
-                    <a href="/caps/student/coursedetailsjump">Select Course</a>
+                    <a href="/caps/admin/student/list">View Students</a>
                 </li>
                 <li>
-                    <a href="/caps/student/previewjump">Course Planner</a>
+                    <a href="/caps/admin/course/list">View Courses</a>
                 </li>
                 <li>
-                    <a href="/caps/student/selectedcoursejump">Enrolled Courses</a>
+                    <a href="/caps/admin/lecturer/list">View Lecturer</a>
                 </li>
-                <li>
-                    <a href="/caps/student/gradejump">My Grades</a>
-                </li>
-                <li>
-                    <a href="#">Others</a>
-                </li>
+                
             </ul>
         </nav>
 
@@ -64,7 +59,6 @@
 			<div>
 				<dec:body />
 			</div>
-
 		
 			<!-- ======== Footer ======== -->
 			<div id="footer" align="center">

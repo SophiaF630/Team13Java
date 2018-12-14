@@ -19,7 +19,7 @@ Invalid credentials!
 		method="POST" ModelAttribute="user">
 		</form:form>
 		<h1>hello well done</h1> --%>	
-		
-		
+<h1>login failed,please try again</h1>		
+		<button onclick="window.location = '${pageContext.request.contextPath}/login/index'">try again</button>
 </body>
 </html>

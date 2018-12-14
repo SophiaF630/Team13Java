@@ -7,12 +7,13 @@
 <link
 	href="<c:url value='/js/DataTables/Bootstrap-3.3.7/css/bootstrap.min.css'/>"
 	rel="stylesheet" type="text/css" />
-<link href="<c:url value='/js/DataTables/Bootstrap-3.3.7/css/bootstrap-theme.min.css'/>"
+<link
+	href="<c:url value='/js/DataTables/Bootstrap-3.3.7/css/bootstrap-theme.min.css'/>"
 	rel="stylesheet" type="text/css" />
 <link href="<c:url value='/js/DataTables/datatables.min.css'/>"
 	rel="stylesheet" type="text/css" />
-<link href="<c:url value='/css/style.css'/>"
-	rel="stylesheet" type="text/css" />
+<link href="<c:url value='/css/style.css'/>" rel="stylesheet"
+	type="text/css" />
 <script
 	src="<c:url value='/js/DataTables/jQuery-3.3.1/jquery-3.3.1.min.js'/>"
 	type="text/javascript"></script>
@@ -23,31 +24,21 @@
 
 <body>
 	<div class="wrapper">
-        <nav id="sidebar">
-            <div class="sidebar-header">
-                <h3>ISS-Caps</h3>
-            </div>
-            <ul class="list-unstyled components">
-                <p>Menu</p>
-                <li>
-                    <a href="/caps/student/coursedetailsjump">Select Course</a>
-                </li>
-                <li>
-                    <a href="/caps/student/previewjump">Course Planner</a>
-                </li>
-                <li>
-                    <a href="/caps/student/selectedcoursejump">Enrolled Courses</a>
-                </li>
-                <li>
-                    <a href="/caps/student/gradejump">My Grades</a>
-                </li>
-                <li>
-                    <a href="#">Others</a>
-                </li>
-            </ul>
-        </nav>
+		<nav id="sidebar">
+			<div class="sidebar-header">
+				<h3>ISS-Caps</h3>
+			</div>
+			<ul class="list-unstyled components">
+				<p>Menu</p>
 
-        <!-- Page Content  -->
+				<li><a href="/caps/lecturer/coursesjump">View Lecturer Details</a></li>
+<!-- 				<li><a href="/caps/student/preview">Student By Course Index</a></li>
+				<li><a href="/caps/student/selectedcourse">Student Grade Edit</a></li> -->
+
+			</ul>
+		</nav>
+
+		<!-- Page Content  -->
 <div id="content">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
@@ -65,7 +56,6 @@
 				<dec:body />
 			</div>
 
-		
 			<!-- ======== Footer ======== -->
 			<div id="footer" align="center">
 				<hr>
