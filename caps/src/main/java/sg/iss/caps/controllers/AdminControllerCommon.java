@@ -3,6 +3,7 @@ package sg.iss.caps.controllers;
 import java.util.ArrayList;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +43,13 @@ public class AdminControllerCommon {
 	@Autowired
 	UserService uService;
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public ModelAndView home() {
+	public ModelAndView home(HttpSession session) {
+		UserSession us = (UserSession) session.getAttribute("USERSESSION");
 		ModelAndView mav = new ModelAndView("AdminHome");
-		return mav;
+		if (us==null) {
+			return new ModelAndView("redirect:/login/fail");
+		}
+		return us.checkUserType("Admin", mav);
 	}//we need to update the view
 	
 	
@@ -188,6 +193,17 @@ public class AdminControllerCommon {
 		ArrayList<Course> courses = cService.findAllCourse();
 		courses = cService.selectCurrentCourse(courses);
 		mav.addObject("courses", courses);
+		return mav;
+	}
+	@RequestMapping(value = "/course/listshow/{cid}", method = RequestMethod.GET)
+	public ModelAndView listALLCoursesWithTime(@PathVariable String cid) {
+		ModelAndView mav = new ModelAndView("CourseList");
+		ArrayList<Course> courses = cService.findAllCourse();
+		courses = cService.selectCurrentCourse(courses);
+		ArrayList<Course> courses2 = new ArrayList<Course>();
+		courses2.add(cService.findCourseByID(cid));
+		mav.addObject("courses", courses);
+		mav.addObject("studentcourse",courses2);
 		return mav;
 	}
 	@RequestMapping(value = "/course/create", method = RequestMethod.GET)

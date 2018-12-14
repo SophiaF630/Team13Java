@@ -48,20 +48,28 @@ public class UserController {
 		if (username != null && password != null) {
 			User u = uService.authenticate(username, password);
 			if(u == null)
-				return new ModelAndView("redirect:/student/index");
+				return new ModelAndView("redirect:/login/fail");
 			us.setUser(u);
 			// PUT CODE FOR SETTING SESSION ID
 			us.setSessionId(session.getId());
-			mav = new ModelAndView("redirect:/login/index");
+			mav = new ModelAndView("redirect:/login/fail");
 			switch(u.getUserType()) {
 			case "Admin":
+				us.setUserType("Admin");
+				session.setAttribute("USERSESSION", us);
 				return new ModelAndView("redirect:/admin/home");
 			case "Lecturer":
+				us.setUserType("Lecturer");
+				session.setAttribute("USERSESSION", us);
 				return new ModelAndView("redirect:/student/list");
 			case "Student":
+				us.setUserType("Student");
+				session.setAttribute("USERSESSION", us);
 				return new ModelAndView("redirect:/student/index");
 			default:
-				return new ModelAndView("redirect:/lecture/index");
+				us = null;
+				session.setAttribute("USERSESSION", us);
+				return new ModelAndView("redirect:/login/fail");
 			}
 		}
 		return mav;
