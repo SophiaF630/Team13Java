@@ -65,7 +65,7 @@ public class UserController {
 			case "Student":
 				us.setUserType("Student");
 				session.setAttribute("USERSESSION", us);
-				return new ModelAndView("redirect:/student/index");
+				return new ModelAndView("redirect:/student/coursedetails/"+us.getUser().getUserID());
 			default:
 				us = null;
 				session.setAttribute("USERSESSION", us);
