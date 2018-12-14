@@ -50,7 +50,7 @@ public class StudentcourseServiceImpl implements StudentcourseService {
 	@Override
 	public ArrayList<Studentcourse> findStudentCourseByStudentId(String sid){
 		return screpo.findByStudentID(sid);
-	}
+	}	
 
 	@Override
 	public double calculateStudentGPA(String sid) {

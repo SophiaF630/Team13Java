@@ -27,9 +27,59 @@
             <div class="sidebar-header">
                 <h3>ISS-Caps</h3>
             </div>
-
             <ul class="list-unstyled components">
                 <p>Menu</p>
+                <%-- <c:when test="${userType.equals(Student) }">
+                	<li>
+                    <a href="/caps/student/coursedetails">Select Course</a>
+                </li>
+                <li>
+                    <a href="/caps/student/preview">Course Planner</a>
+                </li>
+                <li>
+                    <a href="/caps/student/selectedcourse">Enrolled Courses</a>
+                </li>
+                <li>
+                    <a href="/caps/student/grade">My Grades</a>
+                </li>
+                <li>
+                    <a href="#">Others</a>
+                </li>
+                </c:when>
+                <c:when test="${userType.equals(Admin) }">
+                <li>
+                    <a href="/caps/admin/student/list">Manage Students</a>
+                </li>
+                <li>
+                    <a href="/caps/student/preview">Manage Lecturers</a>
+                </li>
+                <li>
+                    <a href="/caps/student/selectedcourse">Manage Courses</a>
+                </li>
+                <li>
+                    <a href="/caps/student/grade">My Grades</a>
+                </li>
+                <li>
+                    <a href="#">Others</a>
+                </li>
+                </c:when>
+                <c:when test="${userType.equals(Lecturer) }">
+                <li>
+                    <a href="/caps/admin/student/list">View Courses</a>
+                </li>
+                <li>
+                    <a href="/caps/student/preview"></a>
+                </li>
+                <li>
+                    <a href="/caps/student/selectedcourse">Manage Courses</a>
+                </li>
+                <li>
+                    <a href="/caps/student/grade">My Grades</a>
+                </li>
+                <li>
+                    <a href="#">Others</a>
+                </li>
+                </c:when> --%>
                 <li>
                     <a href="/caps/student/coursedetails">Select Course</a>
                 </li>
@@ -43,7 +93,7 @@
                     <a href="/caps/student/grade">My Grades</a>
                 </li>
                 <li>
-                    <a href="#">Otheres</a>
+                    <a href="#">Others</a>
                 </li>
             </ul>
         </nav>

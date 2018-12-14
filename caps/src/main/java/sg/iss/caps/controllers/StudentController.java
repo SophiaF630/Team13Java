@@ -63,6 +63,7 @@ public class StudentController {
 	// binder.addValidators(sValidator);
 	// }
 
+<<<<<<< HEAD
 	// Student Info Part
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView listAll() {
@@ -98,50 +99,10 @@ public class StudentController {
 		mav.addObject("student", sService.findStudent(sid));
 		return mav;
 	}
+=======
+>>>>>>> testing
 
-	@RequestMapping(value = "/edit/{sid}", method = RequestMethod.POST)
-	public ModelAndView editStudent(@ModelAttribute @Valid Student student, @PathVariable String sid,
-			BindingResult result, final RedirectAttributes redirectAttributes) throws StudentNotFound {
-		System.out.println("student" + student.toString());
-		if (result.hasErrors())
-			return new ModelAndView("StudentFormEdit");
-		sService.updateStudent(student);
-		ModelAndView mav = new ModelAndView("redirect:/student/list");
-		String message = "Student" + student.getStudentID() + " was successfully updated.";
-		redirectAttributes.addFlashAttribute("message", message);
-		return mav;
-	}
-
-	@RequestMapping(value = "/delete/{sid}", method = RequestMethod.GET)
-	public ModelAndView deleteStudent(@PathVariable String sid, final RedirectAttributes redirectAttributes)
-			throws StudentNotFound {
-		Student student = sService.findStudent(sid);
-		sService.removeStudent(student);
-		ModelAndView mav = new ModelAndView("redirect:/student/list");
-		String message = "The student " + student.getStudentID() + " was successfully deleted.";
-		redirectAttributes.addFlashAttribute("message", message);
-		return mav;
-	}
 	
-	@RequestMapping(value = "/delete/{sid}/{courseIndex}", method = RequestMethod.GET)
-	public ModelAndView deleteStudent(@PathVariable String sid, @PathVariable String courseIndex, final RedirectAttributes redirectAttributes)
-			throws StudentNotFound {
- 		ArrayList<Studentcourse> studentCourses = scService.findStudentCourseByStudentId(sid);
- 		System.out.println(sid);
- 		System.out.println(studentCourses.size());
- 		for (Studentcourse sc : studentCourses) {
- 			if(sc.getCourse().getCourseIndex().equals(courseIndex)) {
- 				System.out.println("TRY DELETING: " + sc.getCourse().getCourseIndex());
- 				scService.deleteStudentCourse(sc);
- 				break;
- 			}
- 			System.out.println(sc.getCourse().getCourseIndex());
- 		}
-		ModelAndView mav = new ModelAndView("redirect:/student/preview");
-		String message = "The course: " + courseIndex + " was successfully deleted.";
-		redirectAttributes.addFlashAttribute("message", message);
-		return mav;
-	}
 
 	// Course Info Part
 	// List all course details
@@ -203,6 +164,81 @@ public class StudentController {
 		mav.setViewName("redirect:/student/preview");
 		return mav;
 	}
+	
+	// Selected Course Preview
+		@RequestMapping(value = "/preview", method = RequestMethod.GET)
+		public ModelAndView selectedCoursePreview() {
+			ModelAndView mav = new ModelAndView("SelectedCoursePreview");
+			
+			ArrayList<Studentcourse> studentcourse_onPlan = sService.findAllStudentCourseByStatus("OnPlan", "S1800001");
+			ArrayList<Studentcourse> studentcourse_enrolled = sService.findAllStudentCourseByStatus("Enrolled", "S1800001");
+			ArrayList<Studentcourse> studentcourse = new ArrayList<Studentcourse>();
+			Boolean hasCollision = false;
+			studentcourse.addAll(studentcourse_onPlan);
+			studentcourse.addAll(studentcourse_enrolled);
+			
+			Map<String, Boolean> collisions = findCourseCollisions(studentcourse);
+			if(collisions.keySet().size()>0) {
+				hasCollision = true;
+			}
+			mav.addObject("studentcourse", studentcourse);
+			mav.addObject("collisions", collisions);
+			mav.addObject("hasCollision", hasCollision);
+			return mav;
+		}
+
+		private Map<String, Boolean> findCourseCollisions(ArrayList<Studentcourse> studentCourses) {
+			Map<String, Integer> courseSchedule = new HashMap<String, Integer>();
+			Map<String, Boolean> collisions = new HashMap<String, Boolean>();
+			if (studentCourses != null) {
+				for (Studentcourse st : studentCourses) {
+					String[] courseTimeSlots = st.getCourse().getLectureSchedule().split(",");
+					for (String slot : courseTimeSlots) {
+						if (!courseSchedule.containsKey(slot)) {
+							courseSchedule.put(slot, 1);
+
+						} else {
+							int totalCourseAtSameSlot = courseSchedule.get(slot) + 1;
+							courseSchedule.put(slot, totalCourseAtSameSlot);
+						}
+					}
+				}
+				Set<String> keys = courseSchedule.keySet();
+				String[] allSlots = keys.toArray(new String[keys.size()]);
+				for (String slot : allSlots) {
+					if (courseSchedule.get(slot) > 1) {
+						collisions.put(slot, true);
+						System.out.print("Collission: " + slot);
+					} else {
+						collisions.put(slot, false);
+						System.out.print("Not Collission: " + slot);
+					}
+				}
+			}
+			return collisions;
+		}
+		
+	
+	//Delete course from preview
+	@RequestMapping(value = "/delete/{sid}/{courseIndex}", method = RequestMethod.GET)
+	public ModelAndView deleteStudentCourse(@PathVariable String sid, @PathVariable String courseIndex, final RedirectAttributes redirectAttributes)
+			throws StudentNotFound {
+ 		ArrayList<Studentcourse> studentCourses = scService.findStudentCourseByStudentId(sid);
+ 		System.out.println(sid);
+ 		System.out.println(studentCourses.size());
+ 		for (Studentcourse sc : studentCourses) {
+ 			if(sc.getCourse().getCourseIndex().equals(courseIndex)) {
+ 				System.out.println("TRY DELETING: " + sc.getCourse().getCourseIndex());
+ 				scService.deleteStudentCourse(sc);
+ 				break;
+ 			}
+ 			System.out.println(sc.getCourse().getCourseIndex());
+ 		}
+		ModelAndView mav = new ModelAndView("redirect:/student/preview");
+		String message = "The course: " + courseIndex + " was successfully deleted.";
+		redirectAttributes.addFlashAttribute("message", message);
+		return mav;
+	}
 
 	// Submit selection
 	@RequestMapping(value = "/preview", method = RequestMethod.POST)
@@ -244,85 +280,35 @@ public class StudentController {
 
 	}
 
+	
+
+	
 	// List selected course
-	@RequestMapping(value = "/selectedcourse", method = RequestMethod.GET)
-	public ModelAndView listAllSelectedCourse() {
-		String studentId = "S1800001";
-		ModelAndView mav = new ModelAndView("SelectedCourseView");
-		ArrayList<Studentcourse> studentcourse_enrolled = sService.findAllStudentCourseByStatus("Enrolled", "S1800001");
-		ArrayList<Studentcourse> studentcourse_pending = sService.findAllStudentCourseByStatus("Pending", "S1800001");
-		ArrayList<Studentcourse> studentcourse_cancelled = sService.findAllStudentCourseByStatus("Cancelled",
-				"S1800001");
-		ArrayList<Studentcourse> studentcourse = new ArrayList<Studentcourse>();
-		studentcourse.addAll(studentcourse_enrolled);
-		studentcourse.addAll(studentcourse_pending);
-		studentcourse.addAll(studentcourse_cancelled);
-		mav.addObject("studentcourse", studentcourse);
-		return mav;
-	}
-
-	@RequestMapping(value = "/courses/{sid}", method = RequestMethod.GET)
-	public ModelAndView listStudentsCourses(@PathVariable String sid) {
-		ModelAndView mav = new ModelAndView("StudentCourseList");
-		ArrayList<Course> courses = sService.findCurrentCoursesByStudentID(sid);
-		mav.addObject("courses", courses);
-		String names = "Current Class";
-		mav.addObject("name" ,names);
-		return mav;
-	}
-
-	// Selected Course Preview
-	@RequestMapping(value = "/preview", method = RequestMethod.GET)
-	public ModelAndView selectedCoursePreview() {
-		ModelAndView mav = new ModelAndView("SelectedCoursePreview");
-		
-		ArrayList<Studentcourse> studentcourse_onPlan = sService.findAllStudentCourseByStatus("OnPlan", "S1800001");
-		ArrayList<Studentcourse> studentcourse_enrolled = sService.findAllStudentCourseByStatus("Enrolled", "S1800001");
-		ArrayList<Studentcourse> studentcourse = new ArrayList<Studentcourse>();
-		Boolean hasCollision = false;
-		studentcourse.addAll(studentcourse_onPlan);
-		studentcourse.addAll(studentcourse_enrolled);
-		
-		Map<String, Boolean> collisions = findCourseCollisions(studentcourse);
-		if(collisions.keySet().size()>0) {
-			hasCollision = true;
+		@RequestMapping(value = "/selectedcourse", method = RequestMethod.GET)
+		public ModelAndView listAllSelectedCourse() {
+			String studentId = "S1800001";
+			ModelAndView mav = new ModelAndView("SelectedCourseView");
+			ArrayList<Studentcourse> studentcourse_enrolled = sService.findAllStudentCourseByStatus("Enrolled", "S1800001");
+			ArrayList<Studentcourse> studentcourse_pending = sService.findAllStudentCourseByStatus("Pending", "S1800001");
+			ArrayList<Studentcourse> studentcourse_cancelled = sService.findAllStudentCourseByStatus("Cancelled",
+					"S1800001");
+			ArrayList<Studentcourse> studentcourse = new ArrayList<Studentcourse>();
+			studentcourse.addAll(studentcourse_enrolled);
+			studentcourse.addAll(studentcourse_pending);
+			studentcourse.addAll(studentcourse_cancelled);
+			mav.addObject("studentcourse", studentcourse);
+			return mav;
 		}
-		mav.addObject("studentcourse", studentcourse);
-		mav.addObject("collisions", collisions);
-		mav.addObject("hasCollision", hasCollision);
-		return mav;
-	}
 
-	private Map<String, Boolean> findCourseCollisions(ArrayList<Studentcourse> studentCourses) {
-		Map<String, Integer> courseSchedule = new HashMap<String, Integer>();
-		Map<String, Boolean> collisions = new HashMap<String, Boolean>();
-		if (studentCourses != null) {
-			for (Studentcourse st : studentCourses) {
-				String[] courseTimeSlots = st.getCourse().getLectureSchedule().split(",");
-				for (String slot : courseTimeSlots) {
-					if (!courseSchedule.containsKey(slot)) {
-						courseSchedule.put(slot, 1);
-
-					} else {
-						int totalCourseAtSameSlot = courseSchedule.get(slot) + 1;
-						courseSchedule.put(slot, totalCourseAtSameSlot);
-					}
-				}
-			}
-			Set<String> keys = courseSchedule.keySet();
-			String[] allSlots = keys.toArray(new String[keys.size()]);
-			for (String slot : allSlots) {
-				if (courseSchedule.get(slot) > 1) {
-					collisions.put(slot, true);
-					System.out.print("Collission: " + slot);
-				} else {
-					collisions.put(slot, false);
-					System.out.print("Not Collission: " + slot);
-				}
-			}
+		@RequestMapping(value = "/courses/{sid}", method = RequestMethod.GET)
+		public ModelAndView listStudentsCourses(@PathVariable String sid) {
+			ModelAndView mav = new ModelAndView("StudentCourseList");
+			ArrayList<Course> courses = sService.findCurrentCoursesByStudentID(sid);
+			mav.addObject("courses", courses);
+			String names = "Current Class";
+			mav.addObject("name" ,names);
+			return mav;
 		}
-		return collisions;
-	}
 
 	// View Grade
 	@RequestMapping(value = "/grade", method = RequestMethod.GET)

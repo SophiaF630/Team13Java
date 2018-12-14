@@ -24,10 +24,12 @@ import java.util.Set;
 @NamedQuery(name="Student.findAll", query="SELECT s FROM Student s")
 @Data
 @AllArgsConstructor
+
 public class Student implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+//	@GeneratedValue(strategy=GenerationType.AUTO)
 	private String studentID;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -35,8 +37,8 @@ public class Student implements Serializable {
 	private Date enrollmentDate;
 
 	//bi-directional one-to-one association to User
-	@OneToOne
-	@JoinColumn(name="StudentID")
+	@OneToOne(cascade = {CascadeType.ALL})
+	@JoinColumn(name="StudentID",insertable=false, updatable=false)
 	private User user;
 
 	//bi-directional many-to-one association to Studentcourse
