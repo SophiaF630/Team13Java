@@ -101,6 +101,15 @@ public class StudentController {
 		return us.checkUserType("Student", mav);
 	}
 
+	@RequestMapping(value = "/coursedetailsjump", method = RequestMethod.GET)
+	public ModelAndView coursedetailsjump(HttpSession session) {
+		UserSession us = (UserSession) session.getAttribute("USERSESSION");
+		if(us==null) {String url = "redirect:/student/coursedetails/"+"S1800001";}
+		String sid = us.getUser().getUserID();
+		String url = "redirect:/student/coursedetails/"+sid;
+		return new ModelAndView(url);
+	}
+	
 	// Select course
 	@RequestMapping(value = "/coursedetails/{sid}", method = RequestMethod.POST)
 	public ModelAndView selectCourse(@ModelAttribute StudentCourseRegisterDto studentCourseRegisterDto, @PathVariable String sid, HttpSession session) {
@@ -138,6 +147,13 @@ public class StudentController {
 
 	}
 	
+	@RequestMapping(value = "/previewjump", method = RequestMethod.GET)
+	public ModelAndView previewjump(HttpSession session) {
+		UserSession us = (UserSession) session.getAttribute("USERSESSION");
+		String sid = us.getUser().getUserID();
+		String url = "redirect:/student/preview/"+sid;
+		return new ModelAndView(url);
+	}
 	// Selected Course Preview
 		@RequestMapping(value = "/preview/{sid}", method = RequestMethod.GET)
 		public ModelAndView selectedCoursePreview(@PathVariable String sid, HttpSession session) {
@@ -225,7 +241,7 @@ public class StudentController {
 		}
 		return us.checkUserType("Student", mav);
 	}
-
+	
 	// Submit selection
 	@RequestMapping(value = "/preview/{sid}", method = RequestMethod.POST)
 	public ModelAndView submitSelection(@ModelAttribute Studentcourse studentcourse, @PathVariable String sid, HttpSession session) {
@@ -273,7 +289,13 @@ public class StudentController {
 
 	
 
-	
+	@RequestMapping(value = "/selectedcoursejump", method = RequestMethod.GET)
+	public ModelAndView selectedcoursejump(HttpSession session) {
+		UserSession us = (UserSession) session.getAttribute("USERSESSION");
+		String sid = us.getUser().getUserID();
+		String url = "redirect:/student/selectedcourse/"+sid;
+		return new ModelAndView(url);
+	}
 	// List selected course
 		@RequestMapping(value = "/selectedcourse/{sid}", method = RequestMethod.GET)
 		public ModelAndView listAllSelectedCourse(@PathVariable String sid, HttpSession session) {		
@@ -313,6 +335,13 @@ public class StudentController {
 			return us.checkUserType("Student", mav);
 		}
 
+		@RequestMapping(value = "/gradejump", method = RequestMethod.GET)
+		public ModelAndView gradejump(HttpSession session) {
+			UserSession us = (UserSession) session.getAttribute("USERSESSION");
+			String sid = us.getUser().getUserID();
+			String url = "redirect:/student/grade/"+sid;
+			return new ModelAndView(url);
+		}
 	// View Grade
 	@RequestMapping(value = "/grade/{sid}", method = RequestMethod.GET)
 	public ModelAndView studentViewGrade(@PathVariable String sid, HttpSession session) {
