@@ -19,8 +19,7 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<c:if test="${fn:length(studentcourse) gt 0}">
-				<form:form method="POST" modelAttribute="studentcourse"
-					action="${pageContext.request.contextPath}/student/preview/${studentID}">
+				<form method="POST" action="${pageContext.request.contextPath}/student/preview/${studentID}">
 					<table class="table table-striped table-bordered"
 						style="width: 100%" id="selectedCoursePreview">
 						<thead>
@@ -111,7 +110,7 @@
 						</c:if>
 
 					</div>
-				</form:form>
+				</form>
 			</c:if>
 		</div>
 	</div>

@@ -168,9 +168,15 @@ public class StudentController {
 			studentcourse.addAll(studentcourse_enrolled);
 			
 			Map<String, Boolean> collisions = findCourseCollisions(studentcourse);
-			if(collisions.keySet().size()>0) {
-				hasCollision = true;
+			
+			for(String key : collisions.keySet()) {
+				if(collisions.get(key)) {
+					hasCollision = true;
+					System.out.println("HAS COLLISION!");
+					break;
+				}
 			}
+			
 			mav.addObject("studentcourse", studentcourse);
 			mav.addObject("studentID", studentID);
 			mav.addObject("collisions", collisions);
@@ -244,11 +250,11 @@ public class StudentController {
 	
 	// Submit selection
 	@RequestMapping(value = "/preview/{sid}", method = RequestMethod.POST)
-	public ModelAndView submitSelection(@ModelAttribute Studentcourse studentcourse, @PathVariable String sid, HttpSession session) {
+	public ModelAndView submitSelection(@PathVariable String sid, HttpSession session) {
 		UserSession us = (UserSession) session.getAttribute("USERSESSION");
 		String studentID = sid;
 		//get to emails
-		String[] to = {"feng.yuxi@u.nus.edu", "e0338082@u.nus.edu", "chenguowei1991@gmail.com"};
+		String[] to = {"feng.yuxi@u.nus.edu", "e0338082@u.nus.edu"};
 		String subject = "Enrollment Confirmation";
 		String body = "Hi Applicant Name! Congratulations! Your registration is confirmed! You have successfully completed "
 				+ "registration. Below is a list of the details of the course you have registered : If you have further queries or need clarification, "
