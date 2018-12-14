@@ -28,16 +28,16 @@
 				</tr>
 			<thead>
 			<tbody>
-						<c:forEach var="studentcourse" items="${studentcourse}"
+						<c:forEach var="sc" items="${studentcourse}"
 							varStatus="status">
 							<tr class="${status.index%2==0?'even':'odd'}">
-								<td class="nowrap">${studentcourse.id.getCourseIndex()}</td>
-								<td class="nowrap">${studentcourse.id.getStudent_StudentID()}</td>
-								<td class="nowrap">${studentcourse.CAGrade}</td>
-								<td class="nowrap">${studentcourse.examGrade}</td>
-								<td class="nowrap">${studentcourse.status}</td>
+								<td class="nowrap">${sc.id.getCourseIndex()}</td>
+								<td class="nowrap">${sc.id.getStudent_StudentID()}</td>
+								<td class="nowrap">${sc.CAGrade}</td>
+								<td class="nowrap">${sc.examGrade}</td>
+								<td class="nowrap">${sc.status}</td>
 								<td align="center"><a
-									href="${pageContext.request.contextPath}/lecturer/course/edit/${studentcourse.id.getStudent_StudentID()}/${studentcourse.id.getCourseIndex()}.html">
+									href="${pageContext.request.contextPath}/lecturer/course/edit/${sc.id.getCourseIndex()}/${sc.id.getStudent_StudentID()}.html">
 									<s:message code="Edit" /></a></td>
 							</tr>
 						</c:forEach>

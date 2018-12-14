@@ -23,7 +23,7 @@
 				 </tr>
 				<tr>
 				   <td><s:message code="StudentID" /></td>
-				   <td><form:input path="id.courseIndex" readonly="true"/></td>
+				   <td><form:input path="id.Student_StudentID" readonly="true"/></td>
 				 </tr>
 				<tr>
 				   <td><s:message code="CAGrade" /> </td>
@@ -44,7 +44,7 @@
 				 </tr>
 				 <tr>
 				 <td><input type="submit" value="Submit"> </td>
-				 <td><input type="reset" value="Reset"></td>
+				 <td><input type="cancel" value="Cancel"></td>
 				 </tr>
 		</table>
 		</center>
