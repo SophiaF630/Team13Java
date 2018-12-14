@@ -43,7 +43,7 @@
 									<td class="nowrap">${studentcourse.course.faculty}</td>
 									<td class="nowrap">${studentcourse.course.credits}</td>
 									<td class="nowrap"><a
-										href="/caps/student/delete/{studentID}/${studentcourse.course.courseIndex}"
+										href="/caps/student/delete/${studentID}/${studentcourse.course.courseIndex}"
 										class="btn btn-default">Remove</a></td>
 								</tr>
 							</c:forEach>
