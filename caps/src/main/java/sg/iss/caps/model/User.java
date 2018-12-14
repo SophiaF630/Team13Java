@@ -18,6 +18,7 @@ import lombok.Data;
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 @Data
 @AllArgsConstructor
+@Table(name = "user")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 

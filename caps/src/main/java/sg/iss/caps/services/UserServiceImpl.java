@@ -1,5 +1,7 @@
 package sg.iss.caps.services;
 
+import java.util.Optional;
+
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
@@ -36,6 +38,12 @@ public class UserServiceImpl implements UserService{
 	public void removeUser(User user) {
 		// TODO Auto-generated method stub
 		uRepo.delete(user);
+	}
+
+	@Override
+	public User authenticate(String userID, String password) {
+		User u = uRepo.findUserByNamePwd(userID, password);
+		return u;
 	}
 
 }

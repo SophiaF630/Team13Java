@@ -1,18 +1,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <html>
 <header onload='document.loginForm.username.focus();'>
     <h1>CAP - COURSE MANAGEMENT SYSTEM </h1>
  	<h2>Login here!</h2>
     <c:if test="${not empty errorMessage}"><div style="color:red; font-weight: bold; margin: 30px 0px;">${errorMessge}</div></c:if>
  
-    
-	<form action="${pageContext.request.contextPath}/admin/home.html"
-		method="POST"  ModelAttribute="user">
+	<form action="${pageContext.request.contextPath}/login/authenticate"
+		method="POST">
 	
         <table>
             <tr>
-                <td>UserName:</td>
-                <td><input type='text' name='username' value=''></td>
+                <td>Username:</td>
+                <td><input type='text' name='username'></td>
             </tr>
             <tr>
                 <td>Password:</td>
@@ -24,6 +25,7 @@
         </table>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     </form>
+    <a href="${pageContext.request.contextPath}/admin/home.html">test</a>
 </header>
 </html>
 
