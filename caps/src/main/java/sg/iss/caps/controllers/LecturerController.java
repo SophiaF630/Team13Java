@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import sg.iss.caps.exception.StudentNotFound;
+
 import sg.iss.caps.model.Studentcourse;
 import sg.iss.caps.model.StudentcoursePK;
+import sg.iss.caps.services.LecturerCourseService;
 import sg.iss.caps.services.StudentcourseService;
 
 @RequestMapping(value = "/lecturer")
@@ -33,6 +34,16 @@ public class LecturerController {
 	
 	@Autowired
 	StudentcourseService scservice;
+	
+	@Autowired
+	LecturerCourseService lservice;
+	
+	@RequestMapping(value = "/courses/{lid}", method = RequestMethod.GET)
+	public ModelAndView listlecturercourse(@PathVariable String lid) {
+		ModelAndView mav = new ModelAndView("LecturerCourseDetails");
+		mav.addObject("Lecturercourse", lservice.ViewcoursebylectureID(lid));
+		return mav;
+	}
 	
 	@RequestMapping(value = "/course/{courseindex}", method = RequestMethod.GET)
 	public ModelAndView viewscbyindexpg(@PathVariable String courseindex) {
@@ -50,15 +61,13 @@ public class LecturerController {
 	}
 	
 	@RequestMapping(value = "/course/edit/{courseindex}/{studentid}", method = RequestMethod.POST)
-	public ModelAndView editStudent(@ModelAttribute @Valid Studentcourse studentcoursedetails, @PathVariable String studentid,@PathVariable String courseindex,
-			BindingResult result, final RedirectAttributes redirectAttributes) throws StudentNotFound {
-		if (result.hasErrors())
-			return new ModelAndView("redirect lecturer/course/edit/{courseindex}");
+	public ModelAndView editStudent(@ModelAttribute @Valid Studentcourse studentcoursedetails, @ModelAttribute String studentid,@ModelAttribute String courseindex,
+			BindingResult result, final RedirectAttributes redirectAttributes)  {
 		
 		scservice.updateStudentCourse(studentcoursedetails);
-		ModelAndView mav = new ModelAndView("redirect lecturer/course/edit/{courseindex}");
-		String message = "Student grade was successfully updated.";
-		redirectAttributes.addFlashAttribute("message", message);
+		ModelAndView mav = new ModelAndView("StudentbyCourseIndex");
+		mav.addObject("studentcourse", scservice.Viewcoursebycourseindex(courseindex));
+		
 		return mav;
 	}
 	
