@@ -5,29 +5,32 @@
 <html>
 
 <header onload='document.loginForm.username.focus();'>
-    <h1>CAP - COURSE MANAGEMENT SYSTEM </h1>
- 	<h2>Login here!</h2>
-    <c:if test="${not empty errorMessage}"><div style="color:red; font-weight: bold; margin: 30px 0px;">${errorMessge}</div></c:if>
- 
+<div class="container">
+	<h1 class="text-center">CAP - COURSE MANAGEMENT SYSTEM</h1>
+	<h2 class="text-center">Login here!</h2>
+	<c:if test="${not empty errorMessage}">
+		<div style="color: red; font-weight: bold; margin: 30px 0px;">${errorMessge}</div>
+	</c:if>
 	<form action="${pageContext.request.contextPath}/login/authenticate"
 		method="POST">
-	
-        <table>
-            <tr>
-                <td>Username:</td>
-                <td><input type='text' name='username'></td>
-            </tr>
-            <tr>
-                <td>Password:</td>
-                <td><input type='password' name='password' /></td>
-            </tr>
-            <tr>
-                <td colspan='2'><input name="submit" type="submit" value="submit" /></td>
-            </tr>
-        </table>
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-    </form>
-    <a href="${pageContext.request.contextPath}/admin/home.html">test</a>
+		<input type="hidden" name="${_csrf.parameterName}"
+			value="${_csrf.token}" />
+		<div class="form-group">
+			<label for="username">Username</label> <input type="text"
+				class="form-control" id="username" name="username"
+				aria-describedby="emailHelp" placeholder="User name">
+		</div>
+
+		<div class="form-group">
+			<label for="password">Password</label> <input type="password"
+				class="form-control" name="password" aria-describedby="emailHelp"
+				placeholder="User name">
+		</div>
+		<button type="submit" class="btn btn-primary">Submit</button>
+
+	</form>
+	<a href="${pageContext.request.contextPath}/admin/home.html">admin/home</a>
+	</div>
 </header>
 </html>
 
