@@ -220,14 +220,86 @@ public class AdminControllerCommon {
 	@RequestMapping(value = "/student/courses/{sid}", method = RequestMethod.GET)
 	public ModelAndView listStudentsCourses(@PathVariable String sid) {
 		ModelAndView mav = new ModelAndView("StudentCourseList");
-		ArrayList<Course> courses = sService.findCurrentCoursesByStudentID(sid);
-		mav.addObject("courses", courses);
+		ArrayList<Studentcourse> studentcourse_enrolled = sService.findAllStudentCourseByStatus("Enrolled", sid);
+		ArrayList<Studentcourse> studentcourse_pending = sService.findAllStudentCourseByStatus("Pending", sid);
+		ArrayList<Studentcourse> allstudentcourse = new ArrayList<Studentcourse>();
+		allstudentcourse.addAll(studentcourse_enrolled);
+		allstudentcourse.addAll(studentcourse_pending);
+		ArrayList<Studentcourse> studentcourse = new ArrayList<Studentcourse>();
+		for (Studentcourse sc: allstudentcourse) {
+			if(sc.getCourse().getEndDate().after(Calendar.getInstance().getTime()))
+				studentcourse.add(sc);			
+		}
+		mav.addObject("studentcourse", studentcourse);
 		int status = 1;
 		mav.addObject("status", status);
 		mav.addObject("sid", sid);
 		return mav;
 	}
+	
 	//Show student historical enrollment
+	@RequestMapping(value = "/student/history/{sid}", method = RequestMethod.GET)
+	public ModelAndView listStudentsHistoryCourses(@PathVariable String sid) {
+		ModelAndView mav = new ModelAndView("StudentCourseList");
+
+		ArrayList<Studentcourse> studentcourse_enrolled = sService.findAllStudentCourseByStatus("Enrolled", sid);
+		ArrayList<Studentcourse> studentcourse_pending = sService.findAllStudentCourseByStatus("Pending", sid);
+		ArrayList<Studentcourse> studentcourse_finished = sService.findAllStudentCourseByStatus("Finished", sid);
+		ArrayList<Studentcourse> studentcourse_cancelled = sService.findAllStudentCourseByStatus("Cancelled", sid);
+		ArrayList<Studentcourse> studentcourse_rejected = sService.findAllStudentCourseByStatus("Rejected", sid);
+		ArrayList<Studentcourse> studentcourse = new ArrayList<Studentcourse>();
+		studentcourse.addAll(studentcourse_enrolled);
+		studentcourse.addAll(studentcourse_pending);
+		studentcourse.addAll(studentcourse_finished);
+		studentcourse.addAll(studentcourse_cancelled);
+		studentcourse.addAll(studentcourse_rejected);
+		mav.addObject("studentcourse", studentcourse);
+		int status = 2;
+		mav.addObject("status", status);
+		mav.addObject("sid", sid);
+		return mav;
+	}
+	
+	//Reject student from course
+	@RequestMapping(value = "/student/rejectcourse/{cIn}&{sid}", method = RequestMethod.GET)
+	public ModelAndView rejectStudentCourse(@PathVariable String sid, @PathVariable String cIn, final RedirectAttributes redirectAttributes) {
+		ModelAndView mav = new ModelAndView();
+		ArrayList<Studentcourse> studentcourseList = scService.findStudentCourseByStudentId(sid);
+		Studentcourse studentcourse = new Studentcourse();
+		for (Studentcourse sc:studentcourseList) {
+			if (sc.getCourse().getCourseIndex().equals(cIn)) {
+				sc.setId(sc.getId());
+				sc.setStatus("Rejected");
+				sc.setEnrollTime(Calendar.getInstance().getTime());
+				scService.updateStudentCourse(sc);
+			}
+		}	
+		
+		mav = new ModelAndView("redirect:/admin/student/courses/{sid}");
+		return mav;
+	}
+	
+	//Approve student to course
+		@RequestMapping(value = "/student/approvecourse/{cIn}&{sid}", method = RequestMethod.GET)
+		public ModelAndView approveStudentCourse(@PathVariable String sid, @PathVariable String cIn, final RedirectAttributes redirectAttributes) {
+			ModelAndView mav = new ModelAndView();
+			ArrayList<Studentcourse> studentcourseList = scService.findStudentCourseByStudentId(sid);
+			Studentcourse studentcourse = new Studentcourse();
+			for (Studentcourse sc:studentcourseList) {
+				if (sc.getCourse().getCourseIndex().equals(cIn)) {
+					sc.setId(sc.getId());
+					sc.setStatus("Enrolled");
+					sc.setEnrollTime(Calendar.getInstance().getTime());
+					scService.updateStudentCourse(sc);
+				}
+			}	
+			
+			mav = new ModelAndView("redirect:/admin/student/courses/{sid}");
+			return mav;
+		}
+		
+	
+	/*//Show student historical enrollment
 	@RequestMapping(value = "/student/history/{sid}", method = RequestMethod.GET)
 	public ModelAndView listStudentsHistoryCourses(@PathVariable String sid) {
 		ModelAndView mav = new ModelAndView("StudentCourseList");
@@ -255,10 +327,11 @@ public class AdminControllerCommon {
 		mav = new ModelAndView("redirect:/admin/student/courses/{sid}");
 		return mav;
 	}
-	
+	*/
 	
 
 	// this part starts course
+	
 	@RequestMapping(value = "/course/list", method = RequestMethod.GET)
 	public ModelAndView listALLCourses() {
 		ModelAndView mav = new ModelAndView("CourseList");
