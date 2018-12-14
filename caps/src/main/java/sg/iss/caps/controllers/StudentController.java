@@ -63,6 +63,34 @@ public class StudentController {
 	// binder.addValidators(sValidator);
 	// }
 
+	// Student Info Part
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView listAll() {
+		ModelAndView mav = new ModelAndView("StudentList");
+		ArrayList<Student> students = sService.findAllStudents();
+		mav.addObject("students", students);
+		return mav;
+	}
+
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView newStudentPage() {
+		ModelAndView mav = new ModelAndView("StudentFormNew", "student", new Student());
+		return mav;
+	}
+
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	public ModelAndView createNewStudent(@ModelAttribute @Valid Student student, BindingResult result,
+			final RedirectAttributes redirectAttributes) {
+		if (result.hasErrors())
+			return new ModelAndView("StudentFormNew");
+		ModelAndView mav = new ModelAndView();
+
+		sService.createStudent(student);
+		// String message = "New student " + student.getNric() + " was successfully
+		// created.";
+		mav.setViewName("redirect:/student/list");
+		return mav;
+	}
 
 	
 

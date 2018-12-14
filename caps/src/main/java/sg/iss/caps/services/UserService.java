@@ -1,7 +1,8 @@
 package sg.iss.caps.services;
 
-import java.util.Optional;
 import java.util.ArrayList;
+import java.util.Optional;
+
 import sg.iss.caps.model.User;
 
 public interface UserService {
