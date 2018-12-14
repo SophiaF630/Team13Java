@@ -15,7 +15,7 @@ public class LecturerValidator implements Validator {
 	@Override
 	public boolean supports(Class<?> clazz) {
 		// TODO Auto-generated method stub
-		return false;
+		return Lecturer.class.isAssignableFrom(clazz);
 	}
 
 	@Override

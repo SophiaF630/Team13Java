@@ -22,10 +22,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import sg.iss.caps.exception.CourseNotFound;
 import sg.iss.caps.exception.StudentNotFound;
 import sg.iss.caps.model.Course;
+import sg.iss.caps.model.Lecturercourse;
 import sg.iss.caps.model.Student;
 import sg.iss.caps.model.Studentcourse;
 import sg.iss.caps.model.User;
 import sg.iss.caps.services.CourseService;
+import sg.iss.caps.services.LecturerCourseService;
 import sg.iss.caps.services.StudentService;
 import sg.iss.caps.services.StudentcourseService;
 import sg.iss.caps.services.UserService;
@@ -48,6 +50,8 @@ public class AdminControllerCommon {
 	UserService uService;
 	@Autowired
 	StudentcourseService scService;
+	@Autowired
+	LecturerCourseService lcService;
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public ModelAndView home(HttpSession session) {
@@ -416,6 +420,77 @@ public class AdminControllerCommon {
 		mav.addObject("name", names);
 		String cID = cid;
 		mav.addObject(cID);
+		return mav;
+	}
+	
+	
+	
+	
+	
+	
+	//here starts lecturer
+	@RequestMapping(value = "/lecturer/list", method = RequestMethod.GET)
+	public ModelAndView listAllLecturer() {
+		ModelAndView mavL = new ModelAndView("LecturerCRUD");
+		ArrayList<Lecturercourse> lecturers = lcService.findAllLecturer();
+		ArrayList<User> users = new ArrayList<User>();
+		for (Lecturercourse lecturer1 : lecturers) {
+			users.add(uService.findUserByID(lecturer1.getId().getLecturerID()));
+		}
+		mavL.addObject("lecturers", lecturers);
+		mavL.addObject("Users",users);
+	
+		return mavL;
+	}
+	
+	
+	//edit lecturer  -------Did not finished.
+	@RequestMapping(value = "/lecturer/edit/{lid}", method = RequestMethod.GET)
+	public ModelAndView editLecturerPage(@PathVariable String lid) {
+		ModelAndView mav = new ModelAndView("LecturerEditForm");
+		mav.addObject("Lecturercourse", lcService.ViewcoursebylectureID(lid));
+		mav.addObject("user", uService.findUserByID(lid));
+		return mav;
+	}// we need to update the view
+
+	/*@RequestMapping(value = "/lecturer/edit/{lid}", method = RequestMethod.POST)
+	public ModelAndView editStudent(@ModelAttribute @Valid LecturercoursePK lecturercoursePK, @ModelAttribute @Valid User user,
+			@PathVariable String lid, BindingResult result, final RedirectAttributes redirectAttributes)
+			throws StudentNotFound {
+		System.out.println("lecturercourse" + lecturercoursePK.toString());
+		if (result.hasErrors())
+			return new ModelAndView("LecturerEditForm");
+		Lecturercourse lc = new Lecturercourse();
+		User u = new User();
+		lc.getId().setLecturerID(lid);
+		//user.setLecturerID(lid);
+		user.setUserType("Lecturer");
+		uService.updateUser(user);
+		ModelAndView mav = new ModelAndView("redirect:/admin/lecturer/list");
+		String message = "Lecturercourse" + lecturercoursePK.getLecturerID() + " was successfully updated.";
+		redirectAttributes.addFlashAttribute("message", message);
+		return mav;
+	}*/
+	
+	//submit
+	@RequestMapping(value = "/lecturer/edit/{lid}", method = RequestMethod.POST)
+	public ModelAndView Submit( @ModelAttribute @Valid User user,
+			@PathVariable String lid, BindingResult result, final RedirectAttributes redirectAttributes)
+	{
+		user.setUserID(lid);
+		user.setUserType("Lecturer");
+		
+		uService.updateUser(user);
+		ModelAndView mav = new ModelAndView("redirect:/admin/lecturer/list");
+//		ArrayList<Lecturercourse> lecturers = lcService.findAllLecturer();
+//		ArrayList<User> users = new ArrayList<USser>();
+//		for (Lecturercourse lecturer1 : lecturers) 
+//		{
+//			users.add(uService.findUserByID(lecturer1.getId().getLecturerID()));
+//		}
+//		mav.addObject("lecturers", lecturers);
+//		mav.addObject("users",users);
+//	
 		return mav;
 	}
 }

@@ -3,6 +3,7 @@ package sg.iss.caps.validator;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 
+import sg.iss.caps.model.Lecturer;
 import sg.iss.caps.model.User;
 
 public class UserValidator implements org.springframework.validation.Validator {
@@ -14,7 +15,7 @@ public class UserValidator implements org.springframework.validation.Validator {
 	@Override
 	public boolean supports(Class<?> clazz) {
 		// TODO Auto-generated method stub
-		return false;
+		return User.class.isAssignableFrom(clazz);
 	}
 
 	@Override

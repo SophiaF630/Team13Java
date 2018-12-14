@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import sg.iss.caps.model.Lecturercourse;
 
 public interface LecturerCourseService {
+	ArrayList<Lecturercourse> findAllLecturer();
 
 	ArrayList<Lecturercourse> ViewcoursebylectureID(String lid);
 }
