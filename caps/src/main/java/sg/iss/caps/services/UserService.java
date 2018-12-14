@@ -15,6 +15,6 @@ public interface UserService {
 	void removeUser(User user);
 	
 	User authenticate(String userID, String password);
-	
+
 	ArrayList<User> findAllUserByType(String type);
 }
